@@ -1,0 +1,23 @@
+repos:
+  - repo: local
+    hooks:
+      - id: validate-native
+        name: Validate native spec coverage
+        entry: python3 scripts/validate_surface.py
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: validate-compat
+        name: Validate compat spec coverage
+        entry: python3 scripts/validate_openai_compat.py
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: check-generated-files
+        name: Check generated files are current
+        entry: git diff --exit-code -- openapi/ reports/
+        language: system
+        pass_filenames: false
+        always_run: true
