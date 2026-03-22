@@ -1,0 +1,47 @@
+{
+  "doc_operation_count": 44,
+  "documented_guide_only_aliases": [
+    {
+      "docs_sources": [
+        "https://ai.google.dev/gemini-api/docs/files"
+      ],
+      "guide_evidence": "/upload/v1beta/files",
+      "operation": "POST /upload/v1beta/files",
+      "reason": "The official Gemini Files guide documents this upload alias, but the all-methods index does not list it as a standalone operation."
+    }
+  ],
+  "documented_guide_only_operations": [
+    {
+      "docs_sources": [
+        "https://ai.google.dev/gemini-api/docs/batch-api"
+      ],
+      "guide_evidence": "/download/v1beta/$responses_file_name:download?alt=media",
+      "operation": "GET /download/v1beta/files/{file}:download",
+      "reason": "This operation is documented in an official Gemini guide, but it does not appear in the all-methods index."
+    }
+  ],
+  "documented_reference_only_aliases": [
+    {
+      "docs_sources": [
+        "https://ai.google.dev/api/file-search/file-search-stores"
+      ],
+      "guide_evidence": "/api/rest/v1beta/media/uploadToFileSearchStore",
+      "operation": "POST /upload/v1beta/fileSearchStores/{fileSearchStore}:uploadToFileSearchStore",
+      "reason": "This upload alias is documented in the official File Search Stores reference, but it does not appear in the all-methods index."
+    }
+  ],
+  "guide_documented_missing_from_native_spec": [],
+  "invalid_guide_backed_operations": [],
+  "invalid_streaming_operations": [],
+  "missing_from_spec": [],
+  "native_generic_operation_count": 0,
+  "native_generic_operations": [],
+  "spec_operation_count": 47,
+  "unconcretized_selected_operations": [],
+  "undocumented_in_docs": [
+    "GET /download/v1beta/files/{file}:download",
+    "POST /upload/v1beta/fileSearchStores/{fileSearchStore}:uploadToFileSearchStore",
+    "POST /upload/v1beta/files"
+  ],
+  "undocumented_in_docs_unclassified": []
+}

@@ -1,0 +1,31 @@
+{
+  "documented_operations": [
+    {
+      "evidence": "/download/v1beta/$responses_file_name:download?alt=media",
+      "method": "GET",
+      "normalized_path": "/download/v1beta/files/{file}:download",
+      "notes": "Batch results download for generated response files. The guide uses `$responses_file_name`, whose value is a file resource name.",
+      "query_parameters": [
+        {
+          "name": "alt",
+          "required": true,
+          "schema": {
+            "enum": [
+              "media"
+            ],
+            "type": "string"
+          }
+        }
+      ],
+      "response_content_type": "application/octet-stream"
+    }
+  ],
+  "questionable_examples": [
+    {
+      "evidence": "/v1beta/$BATCH_NAME:delete",
+      "kind": "batch_delete_alias",
+      "notes": "The Batch guide shows a `:delete` REST example, while the API reference lists `DELETE /v1beta/batches/{batch}`."
+    }
+  ],
+  "source": "https://ai.google.dev/gemini-api/docs/batch-api"
+}

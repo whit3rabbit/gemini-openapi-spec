@@ -1,0 +1,13 @@
+{
+  "documented_aliases": [
+    {
+      "evidence": "/upload/v1beta/files",
+      "path": "/upload/v1beta/files"
+    }
+  ],
+  "download_policy": {
+    "download_allowed": false,
+    "evidence": "You can use the Files API to upload and interact with media files. The Files API\nlets you store up to 20\u00a0GB of files per project, with a per-file maximum\nsize of 2\u00a0GB. Files are stored for 48 hours. During that time, you can\nuse the API to get metadata about the files, but you can't download the files.\nThe Files API is available at no cost in all regions where the Gemini API is\navailable."
+  },
+  "source": "https://ai.google.dev/gemini-api/docs/files"
+}

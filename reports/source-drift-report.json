@@ -1,0 +1,496 @@
+{
+  "compat_vs_upstream": {
+    "compat_generic_operation_count": 0,
+    "compat_watchlist": [
+      {
+        "operation": "GET /batches",
+        "reason": "Google documents batch create and retrieve through SDK examples, so this adjacent batch-management operation is plausible but still undocumented.",
+        "watch_reason": "Batch create and retrieve are already present in Google's compatibility story, so this adjacent operation is worth rechecking against future docs."
+      },
+      {
+        "operation": "POST /batches/{batch_id}/cancel",
+        "reason": "Google documents batch create and retrieve through SDK examples, so this adjacent batch-management operation is plausible but still undocumented.",
+        "watch_reason": "Batch create and retrieve are already present in Google's compatibility story, so this adjacent operation is worth rechecking against future docs."
+      }
+    ],
+    "copied_from_upstream": [
+      "POST /chat/completions",
+      "POST /images/generations",
+      "POST /embeddings",
+      "GET /models",
+      "GET /models/{model}",
+      "POST /batches",
+      "GET /batches/{batch_id}"
+    ],
+    "gemini_only_paths": [
+      "POST /videos",
+      "GET /videos/{video_id}"
+    ],
+    "gemini_sdk_extra_body_operations": [
+      "POST /chat/completions",
+      "POST /images/generations",
+      "POST /videos"
+    ],
+    "google_documented_operation_count": 9,
+    "missing_from_upstream": [
+      "GET /videos/{video_id}",
+      "POST /videos"
+    ],
+    "upstream_only_classification_counts": {
+      "documented_family_subset_gap": 10,
+      "legacy_openai_generation_surface": 2,
+      "openai_admin_surface": 51,
+      "openai_assistants_surface": 39,
+      "openai_audio_surface": 3,
+      "openai_evals_surface": 12,
+      "openai_files_uploads_surface": 9,
+      "openai_fine_tuning_surface": 9,
+      "openai_realtime_surface": 2,
+      "openai_responses_surface": 4
+    },
+    "upstream_only_family_counts": {
+      "assistants": 5,
+      "audio": 3,
+      "batches": 2,
+      "chat": 5,
+      "completions": 1,
+      "evals": 12,
+      "files": 5,
+      "fine_tuning": 9,
+      "images": 2,
+      "models": 1,
+      "moderations": 1,
+      "organization": 51,
+      "realtime": 2,
+      "responses": 4,
+      "threads": 18,
+      "uploads": 4,
+      "vector_stores": 16
+    },
+    "upstream_only_paths": [
+      "DELETE /assistants/{assistant_id}",
+      "DELETE /chat/completions/{completion_id}",
+      "DELETE /evals/{eval_id}",
+      "DELETE /evals/{eval_id}/runs/{run_id}",
+      "DELETE /files/{file_id}",
+      "DELETE /fine_tuning/checkpoints/{fine_tuned_model_checkpoint}/permissions/{permission_id}",
+      "DELETE /models/{model}",
+      "DELETE /organization/admin_api_keys/{key_id}",
+      "DELETE /organization/certificates/{certificate_id}",
+      "DELETE /organization/invites/{invite_id}",
+      "DELETE /organization/projects/{project_id}/api_keys/{key_id}",
+      "DELETE /organization/projects/{project_id}/service_accounts/{service_account_id}",
+      "DELETE /organization/projects/{project_id}/users/{user_id}",
+      "DELETE /organization/users/{user_id}",
+      "DELETE /responses/{response_id}",
+      "DELETE /threads/{thread_id}",
+      "DELETE /threads/{thread_id}/messages/{message_id}",
+      "DELETE /vector_stores/{vector_store_id}",
+      "DELETE /vector_stores/{vector_store_id}/files/{file_id}",
+      "GET /assistants",
+      "GET /assistants/{assistant_id}",
+      "GET /batches",
+      "GET /chat/completions",
+      "GET /chat/completions/{completion_id}",
+      "GET /chat/completions/{completion_id}/messages",
+      "GET /evals",
+      "GET /evals/{eval_id}",
+      "GET /evals/{eval_id}/runs",
+      "GET /evals/{eval_id}/runs/{run_id}",
+      "GET /evals/{eval_id}/runs/{run_id}/output_items",
+      "GET /evals/{eval_id}/runs/{run_id}/output_items/{output_item_id}",
+      "GET /files",
+      "GET /files/{file_id}",
+      "GET /files/{file_id}/content",
+      "GET /fine_tuning/checkpoints/{fine_tuned_model_checkpoint}/permissions",
+      "GET /fine_tuning/jobs",
+      "GET /fine_tuning/jobs/{fine_tuning_job_id}",
+      "GET /fine_tuning/jobs/{fine_tuning_job_id}/checkpoints",
+      "GET /fine_tuning/jobs/{fine_tuning_job_id}/events",
+      "GET /organization/admin_api_keys",
+      "GET /organization/admin_api_keys/{key_id}",
+      "GET /organization/audit_logs",
+      "GET /organization/certificates",
+      "GET /organization/certificates/{certificate_id}",
+      "GET /organization/costs",
+      "GET /organization/invites",
+      "GET /organization/invites/{invite_id}",
+      "GET /organization/projects",
+      "GET /organization/projects/{project_id}",
+      "GET /organization/projects/{project_id}/api_keys",
+      "GET /organization/projects/{project_id}/api_keys/{key_id}",
+      "GET /organization/projects/{project_id}/certificates",
+      "GET /organization/projects/{project_id}/rate_limits",
+      "GET /organization/projects/{project_id}/service_accounts",
+      "GET /organization/projects/{project_id}/service_accounts/{service_account_id}",
+      "GET /organization/projects/{project_id}/users",
+      "GET /organization/projects/{project_id}/users/{user_id}",
+      "GET /organization/usage/audio_speeches",
+      "GET /organization/usage/audio_transcriptions",
+      "GET /organization/usage/code_interpreter_sessions",
+      "GET /organization/usage/completions",
+      "GET /organization/usage/embeddings",
+      "GET /organization/usage/images",
+      "GET /organization/usage/moderations",
+      "GET /organization/usage/vector_stores",
+      "GET /organization/users",
+      "GET /organization/users/{user_id}",
+      "GET /responses/{response_id}",
+      "GET /responses/{response_id}/input_items",
+      "GET /threads/{thread_id}",
+      "GET /threads/{thread_id}/messages",
+      "GET /threads/{thread_id}/messages/{message_id}",
+      "GET /threads/{thread_id}/runs",
+      "GET /threads/{thread_id}/runs/{run_id}",
+      "GET /threads/{thread_id}/runs/{run_id}/steps",
+      "GET /threads/{thread_id}/runs/{run_id}/steps/{step_id}",
+      "GET /vector_stores",
+      "GET /vector_stores/{vector_store_id}",
+      "GET /vector_stores/{vector_store_id}/file_batches/{batch_id}",
+      "GET /vector_stores/{vector_store_id}/file_batches/{batch_id}/files",
+      "GET /vector_stores/{vector_store_id}/files",
+      "GET /vector_stores/{vector_store_id}/files/{file_id}",
+      "GET /vector_stores/{vector_store_id}/files/{file_id}/content",
+      "POST /assistants",
+      "POST /assistants/{assistant_id}",
+      "POST /audio/speech",
+      "POST /audio/transcriptions",
+      "POST /audio/translations",
+      "POST /batches/{batch_id}/cancel",
+      "POST /chat/completions/{completion_id}",
+      "POST /completions",
+      "POST /evals",
+      "POST /evals/{eval_id}",
+      "POST /evals/{eval_id}/runs",
+      "POST /evals/{eval_id}/runs/{run_id}",
+      "POST /files",
+      "POST /fine_tuning/checkpoints/{fine_tuned_model_checkpoint}/permissions",
+      "POST /fine_tuning/jobs",
+      "POST /fine_tuning/jobs/{fine_tuning_job_id}/cancel",
+      "POST /images/edits",
+      "POST /images/variations",
+      "POST /moderations",
+      "POST /organization/admin_api_keys",
+      "POST /organization/certificates",
+      "POST /organization/certificates/activate",
+      "POST /organization/certificates/deactivate",
+      "POST /organization/certificates/{certificate_id}",
+      "POST /organization/invites",
+      "POST /organization/projects",
+      "POST /organization/projects/{project_id}",
+      "POST /organization/projects/{project_id}/archive",
+      "POST /organization/projects/{project_id}/certificates/activate",
+      "POST /organization/projects/{project_id}/certificates/deactivate",
+      "POST /organization/projects/{project_id}/rate_limits/{rate_limit_id}",
+      "POST /organization/projects/{project_id}/service_accounts",
+      "POST /organization/projects/{project_id}/users",
+      "POST /organization/projects/{project_id}/users/{user_id}",
+      "POST /organization/users/{user_id}",
+      "POST /realtime/sessions",
+      "POST /realtime/transcription_sessions",
+      "POST /responses",
+      "POST /threads",
+      "POST /threads/runs",
+      "POST /threads/{thread_id}",
+      "POST /threads/{thread_id}/messages",
+      "POST /threads/{thread_id}/messages/{message_id}",
+      "POST /threads/{thread_id}/runs",
+      "POST /threads/{thread_id}/runs/{run_id}",
+      "POST /threads/{thread_id}/runs/{run_id}/cancel",
+      "POST /threads/{thread_id}/runs/{run_id}/submit_tool_outputs",
+      "POST /uploads",
+      "POST /uploads/{upload_id}/cancel",
+      "POST /uploads/{upload_id}/complete",
+      "POST /uploads/{upload_id}/parts",
+      "POST /vector_stores",
+      "POST /vector_stores/{vector_store_id}",
+      "POST /vector_stores/{vector_store_id}/file_batches",
+      "POST /vector_stores/{vector_store_id}/file_batches/{batch_id}/cancel",
+      "POST /vector_stores/{vector_store_id}/files",
+      "POST /vector_stores/{vector_store_id}/files/{file_id}",
+      "POST /vector_stores/{vector_store_id}/search"
+    ],
+    "upstream_only_subset_classification_counts": {
+      "likely_intentionally_unsupported_subset_gap": 8,
+      "not_applicable": 131,
+      "sdk_adjacent_undocumented_subset_gap": 2
+    },
+    "upstream_operation_count": 148
+  },
+  "docs_vs_discovery": {
+    "discovery_exact_operation_count": 25,
+    "discovery_revision": "20260320",
+    "discovery_version": "v1beta3",
+    "discovery_version_normalized_operation_count": 25,
+    "doc_operation_count": 44,
+    "extra_in_discovery_after_version_normalization": [
+      "DELETE /v1beta/corpora/{corpus}/permissions/{permission}",
+      "DELETE /v1beta/tunedModels/{tunedModel}",
+      "DELETE /v1beta/tunedModels/{tunedModel}/permissions/{permission}",
+      "GET /v1beta/corpora/{corpus}/permissions",
+      "GET /v1beta/corpora/{corpus}/permissions/{permission}",
+      "GET /v1beta/tunedModels",
+      "GET /v1beta/tunedModels/{tunedModel}",
+      "GET /v1beta/tunedModels/{tunedModel}/permissions",
+      "GET /v1beta/tunedModels/{tunedModel}/permissions/{permission}",
+      "PATCH /v1beta/corpora/{corpus}/permissions/{permission}",
+      "PATCH /v1beta/tunedModels/{tunedModel}",
+      "PATCH /v1beta/tunedModels/{tunedModel}/permissions/{permission}",
+      "POST /v1beta/corpora/{corpus}/permissions",
+      "POST /v1beta/tunedModels",
+      "POST /v1beta/tunedModels/{tunedModel}/permissions",
+      "POST /v1beta/tunedModels/{tunedModel}:generateText",
+      "POST /v1beta/tunedModels/{tunedModel}:transferOwnership"
+    ],
+    "missing_from_discovery_after_version_normalization": [
+      "DELETE /v1beta/batches/{batch}",
+      "DELETE /v1beta/cachedContents/{cachedContent}",
+      "DELETE /v1beta/fileSearchStores/{fileSearchStore}",
+      "DELETE /v1beta/fileSearchStores/{fileSearchStore}/documents/{document}",
+      "DELETE /v1beta/files/{file}",
+      "GET /v1beta/batches",
+      "GET /v1beta/batches/{batch}",
+      "GET /v1beta/cachedContents",
+      "GET /v1beta/cachedContents/{cachedContent}",
+      "GET /v1beta/fileSearchStores",
+      "GET /v1beta/fileSearchStores/{fileSearchStore}",
+      "GET /v1beta/fileSearchStores/{fileSearchStore}/documents",
+      "GET /v1beta/fileSearchStores/{fileSearchStore}/documents/{document}",
+      "GET /v1beta/fileSearchStores/{fileSearchStore}/operations/{operation}",
+      "GET /v1beta/fileSearchStores/{fileSearchStore}/upload/operations/{operation}",
+      "GET /v1beta/files",
+      "GET /v1beta/files/{file}",
+      "PATCH /v1beta/batches/{batch}:updateEmbedContentBatch",
+      "PATCH /v1beta/batches/{batch}:updateGenerateContentBatch",
+      "PATCH /v1beta/cachedContents/{cachedContent}",
+      "POST /v1beta/batches/{batch}:cancel",
+      "POST /v1beta/cachedContents",
+      "POST /v1beta/fileSearchStores",
+      "POST /v1beta/fileSearchStores/{fileSearchStore}:importFile",
+      "POST /v1beta/fileSearchStores/{fileSearchStore}:uploadToFileSearchStore",
+      "POST /v1beta/files",
+      "POST /v1beta/files:register",
+      "POST /v1beta/models/{model}:asyncBatchEmbedContent",
+      "POST /v1beta/models/{model}:batchEmbedContents",
+      "POST /v1beta/models/{model}:batchGenerateContent",
+      "POST /v1beta/models/{model}:countTokens",
+      "POST /v1beta/models/{model}:embedContent",
+      "POST /v1beta/models/{model}:generateContent",
+      "POST /v1beta/models/{model}:predict",
+      "POST /v1beta/models/{model}:predictLongRunning",
+      "POST /v1beta/models/{model}:streamGenerateContent"
+    ]
+  },
+  "generated_at_utc": "2026-03-22T20:30:16.939750+00:00",
+  "guides_vs_native": {
+    "guide_documented_missing_from_native_spec": [],
+    "guide_documented_not_in_all_methods": [
+      "GET /download/v1beta/files/{file}:download",
+      "POST /upload/v1beta/files"
+    ],
+    "guide_documented_operations": [
+      "GET /download/v1beta/files/{file}:download",
+      "POST /upload/v1beta/files"
+    ],
+    "questionable_examples": [
+      {
+        "evidence": "/v1beta/$BATCH_NAME:delete",
+        "kind": "batch_delete_alias",
+        "notes": "The Batch guide shows a `:delete` REST example, while the API reference lists `DELETE /v1beta/batches/{batch}`."
+      }
+    ]
+  },
+  "sdk_vs_native": {
+    "developer_api_only_modules": [
+      "documents.py",
+      "file_search_stores.py",
+      "tokens.py"
+    ],
+    "docs_paths_missing_from_sdk_high_confidence": [
+      "/v1beta/batches/{batch}:updateEmbedContentBatch",
+      "/v1beta/batches/{batch}:updateGenerateContentBatch",
+      "/v1beta/fileSearchStores/{fileSearchStore}/documents",
+      "/v1beta/fileSearchStores/{fileSearchStore}/documents/{document}",
+      "/v1beta/fileSearchStores/{fileSearchStore}/operations/{operation}",
+      "/v1beta/fileSearchStores/{fileSearchStore}/upload/operations/{operation}",
+      "/v1beta/fileSearchStores/{fileSearchStore}:uploadToFileSearchStore",
+      "/v1beta/models/{model}:batchEmbedText",
+      "/v1beta/models/{model}:countMessageTokens",
+      "/v1beta/models/{model}:countTextTokens",
+      "/v1beta/models/{model}:embedContent",
+      "/v1beta/models/{model}:embedText",
+      "/v1beta/models/{model}:generateMessage",
+      "/v1beta/models/{model}:generateText"
+    ],
+    "documented_guide_only_aliases": [
+      {
+        "docs_sources": [
+          "https://ai.google.dev/gemini-api/docs/files"
+        ],
+        "guide_evidence": "/upload/v1beta/files",
+        "path": "/upload/v1beta/files",
+        "reason": "This upload alias is documented in the official Gemini Files guide, but it does not appear as a standalone operation in the all-methods index."
+      }
+    ],
+    "high_confidence_path_count": 23,
+    "intentional_docs_first_exclusions": [
+      {
+        "docs_sources": [
+          "https://ai.google.dev/gemini-api/docs/files"
+        ],
+        "guide_evidence": "You can use the Files API to upload and interact with media files. The Files API\nlets you store up to 20\u00a0GB of files per project, with a per-file maximum\nsize of 2\u00a0GB. Files are stored for 48 hours. During that time, you can\nuse the API to get metadata about the files, but you can't download the files.\nThe Files API is available at no cost in all regions where the Gemini API is\navailable.",
+        "path": "/v1beta/files/{file}:download",
+        "reason": "The python-genai Gemini Developer client exposes this route, but the official Gemini Files guide says uploaded files cannot be downloaded."
+      }
+    ],
+    "medium_confidence_path_count": 4,
+    "mixed_surface_modules": [
+      "batches.py",
+      "caches.py",
+      "models.py",
+      "operations.py",
+      "tunings.py"
+    ],
+    "mixed_with_shared_helper_modules": [
+      "_test_api_client.py",
+      "files.py"
+    ],
+    "paths_missing_from_docs": [
+      "/upload/v1beta/files",
+      "/v1beta/files/{file}:download"
+    ],
+    "paths_missing_from_docs_unclassified": [],
+    "paths_missing_from_native_spec": [
+      "/v1beta/files/{file}:download"
+    ],
+    "paths_missing_from_native_spec_unclassified": [],
+    "skipped_fragments": [
+      {
+        "fragment": "test/path",
+        "module": "_test_api_client.py",
+        "reason": "test-only fragment"
+      },
+      {
+        "fragment": "batchPredictionJobs",
+        "module": "batches.py",
+        "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "batchPredictionJobs/{name}",
+        "module": "batches.py",
+        "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "batchPredictionJobs/{name}:cancel",
+        "module": "batches.py",
+        "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "cachedContents",
+        "module": "caches.py",
+        "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "{name}",
+        "module": "caches.py",
+        "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "{name}",
+        "module": "documents.py",
+        "reason": "ambiguous document placeholder"
+      },
+      {
+        "fragment": "{parent}/documents",
+        "module": "documents.py",
+        "reason": "ambiguous parent placeholder"
+      },
+      {
+        "fragment": "{models_url}",
+        "module": "models.py",
+        "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "{model}",
+        "module": "models.py",
+        "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "{model}:computeTokens",
+        "module": "models.py",
+        "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "{model}:countTokens",
+        "module": "models.py",
+        "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "{model}:generateContent",
+        "module": "models.py",
+        "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "{model}:predict",
+        "module": "models.py",
+        "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "{model}:predictLongRunning",
+        "module": "models.py",
+        "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "{model}:streamGenerateContent?alt=sse",
+        "module": "models.py",
+        "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "{name}",
+        "module": "models.py",
+        "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "operations/{operation_id}",
+        "module": "operations.py",
+        "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "{operationName}",
+        "module": "operations.py",
+        "reason": "vertex-only operations surface"
+      },
+      {
+        "fragment": "{operationName}",
+        "module": "operations.py",
+        "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "{resourceName}:fetchPredictOperation",
+        "module": "operations.py",
+        "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "tuningJobs",
+        "module": "tunings.py",
+        "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "{name}",
+        "module": "tunings.py",
+        "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "{name}:cancel",
+        "module": "tunings.py",
+        "reason": "no documented Gemini Developer cancel route for tunedModels"
+      },
+      {
+        "fragment": "{name}:cancel",
+        "module": "tunings.py",
+        "reason": "vertexai-only branch"
+      }
+    ],
+    "vertexai_only_modules": []
+  }
+}

@@ -1,0 +1,12 @@
+[project]
+name = "gemini-openapi-spec"
+version = "0.1.0"
+description = "OpenAPI workbench for the Gemini Developer API and its OpenAI-compatible surface."
+license = "MIT"
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

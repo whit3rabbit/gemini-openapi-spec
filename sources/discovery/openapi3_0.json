@@ -1,0 +1,2596 @@
+{
+  "components": {
+    "parameters": {
+      "_.xgafv": {
+        "description": "V1 error format.",
+        "in": "query",
+        "name": "$.xgafv",
+        "schema": {
+          "enum": [
+            "1",
+            "2"
+          ],
+          "type": "string",
+          "x-google-enum-descriptions": [
+            "v1 error format",
+            "v2 error format"
+          ]
+        }
+      },
+      "alt": {
+        "description": "Data format for response.",
+        "in": "query",
+        "name": "$alt",
+        "schema": {
+          "default": "json",
+          "enum": [
+            "json",
+            "media",
+            "proto"
+          ],
+          "type": "string",
+          "x-google-enum-descriptions": [
+            "Responses with Content-Type of application/json",
+            "Media download with context-dependent Content-Type",
+            "Responses with Content-Type of application/x-protobuf"
+          ]
+        }
+      },
+      "callback": {
+        "description": "JSONP",
+        "in": "query",
+        "name": "$callback",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "prettyPrint": {
+        "description": "Returns response with indentations and line breaks.",
+        "in": "query",
+        "name": "$prettyPrint",
+        "schema": {
+          "default": "true",
+          "type": "boolean"
+        }
+      }
+    },
+    "schemas": {
+      "BaseOperation": {
+        "description": "This resource represents a long-running operation that is the result of a\nnetwork API call.",
+        "properties": {
+          "done": {
+            "description": "If the value is `false`, it means the operation is still in progress.\nIf `true`, the operation is completed, and either `error` or `response` is\navailable.",
+            "type": "boolean"
+          },
+          "error": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Status"
+              }
+            ],
+            "description": "The error result of the operation in case of failure or cancellation."
+          },
+          "name": {
+            "description": "The server-assigned name, which is only unique within the same service that\noriginally returns it. If you use the default HTTP mapping, the\n`name` should be a resource name ending with `operations/{unique_id}`.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "BatchEmbedTextRequest": {
+        "description": "Batch request to get a text embedding from the model.",
+        "properties": {
+          "requests": {
+            "description": "Optional. Embed requests for the batch. Only one of `texts` or `requests` can be set.",
+            "items": {
+              "$ref": "#/components/schemas/EmbedTextRequest"
+            },
+            "type": "array"
+          },
+          "texts": {
+            "description": "Optional. The free-form input texts that the model will turn into an embedding. The\ncurrent limit is 100 texts, over which an error will be thrown.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "BatchEmbedTextResponse": {
+        "description": "The response to a EmbedTextRequest.",
+        "properties": {
+          "embeddings": {
+            "description": "Output only. The embeddings generated from the input text.",
+            "items": {
+              "$ref": "#/components/schemas/Embedding"
+            },
+            "readOnly": true,
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "CitationMetadata": {
+        "description": "A collection of source attributions for a piece of content.",
+        "properties": {
+          "citationSources": {
+            "description": "Citations to sources for a specific response.",
+            "items": {
+              "$ref": "#/components/schemas/CitationSource"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "CitationSource": {
+        "description": "A citation to a source for a portion of a specific response.",
+        "properties": {
+          "endIndex": {
+            "description": "Optional. End of the attributed segment, exclusive.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "license": {
+            "description": "Optional. License for the GitHub project that is attributed as a source for segment.\n\nLicense info is required for code citations.",
+            "type": "string"
+          },
+          "startIndex": {
+            "description": "Optional. Start of segment of the response that is attributed to this source.\n\nIndex indicates the start of the segment, measured in bytes.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "uri": {
+            "description": "Optional. URI that is attributed as a source for a portion of the text.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ContentFilter": {
+        "description": "Content filtering metadata associated with processing a single request.\n\nContentFilter contains a reason and an optional supporting string. The reason\nmay be unspecified.",
+        "properties": {
+          "message": {
+            "description": "A string that describes the filtering behavior in more detail.",
+            "type": "string"
+          },
+          "reason": {
+            "description": "The reason content was blocked during request processing.",
+            "enum": [
+              "BLOCKED_REASON_UNSPECIFIED",
+              "SAFETY",
+              "OTHER"
+            ],
+            "type": "string",
+            "x-google-enum-descriptions": [
+              "A blocked reason was not specified.",
+              "Content was blocked by safety settings.",
+              "Content was blocked, but the reason is uncategorized."
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "CountMessageTokensRequest": {
+        "description": "Counts the number of tokens in the `prompt` sent to a model.\n\nModels may tokenize text differently, so each model may return a different\n`token_count`.",
+        "properties": {
+          "prompt": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessagePrompt"
+              }
+            ],
+            "description": "Required. The prompt, whose token count is to be returned."
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "type": "object"
+      },
+      "CountMessageTokensResponse": {
+        "description": "A response from `CountMessageTokens`.\n\nIt returns the model's `token_count` for the `prompt`.",
+        "properties": {
+          "tokenCount": {
+            "description": "The number of tokens that the `model` tokenizes the `prompt` into.\n\nAlways non-negative.",
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "CountTextTokensRequest": {
+        "description": "Counts the number of tokens in the `prompt` sent to a model.\n\nModels may tokenize text differently, so each model may return a different\n`token_count`.",
+        "properties": {
+          "prompt": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TextPrompt"
+              }
+            ],
+            "description": "Required. The free-form input text given to the model as a prompt."
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "type": "object"
+      },
+      "CountTextTokensResponse": {
+        "description": "A response from `CountTextTokens`.\n\nIt returns the model's `token_count` for the `prompt`.",
+        "properties": {
+          "tokenCount": {
+            "description": "The number of tokens that the `model` tokenizes the `prompt` into.\n\nAlways non-negative.",
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "CreateTunedModelMetadata": {
+        "description": "Metadata about the state and progress of creating a tuned model returned from\nthe long-running operation",
+        "properties": {
+          "completedPercent": {
+            "description": "The completed percentage for the tuning operation.",
+            "format": "float",
+            "type": "number"
+          },
+          "completedSteps": {
+            "description": "The number of steps completed.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "snapshots": {
+            "description": "Metrics collected during tuning.",
+            "items": {
+              "$ref": "#/components/schemas/TuningSnapshot"
+            },
+            "type": "array"
+          },
+          "totalSteps": {
+            "description": "The total number of tuning steps.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "tunedModel": {
+            "description": "Name of the tuned model associated with the tuning operation.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "CreateTunedModelOperation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseOperation"
+          },
+          {
+            "properties": {
+              "metadata": {
+                "$ref": "#/components/schemas/CreateTunedModelMetadata"
+              },
+              "response": {
+                "$ref": "#/components/schemas/TunedModel"
+              }
+            },
+            "type": "object"
+          }
+        ],
+        "description": "This resource represents a long-running operation where metadata and response fields are strongly typed.",
+        "type": "object"
+      },
+      "Dataset": {
+        "description": "Dataset for training or validation.",
+        "properties": {
+          "examples": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TuningExamples"
+              }
+            ],
+            "description": "Optional. Inline examples with simple input/output text."
+          }
+        },
+        "type": "object"
+      },
+      "EmbedTextRequest": {
+        "description": "Request to get a text embedding from the model.",
+        "properties": {
+          "model": {
+            "description": "Required. The model name to use with the format model=models/{model}.",
+            "type": "string"
+          },
+          "text": {
+            "description": "Optional. The free-form input text that the model will turn into an embedding.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "model"
+        ],
+        "type": "object"
+      },
+      "EmbedTextResponse": {
+        "description": "The response to a EmbedTextRequest.",
+        "properties": {
+          "embedding": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Embedding"
+              }
+            ],
+            "description": "Output only. The embedding generated from the input text.",
+            "readOnly": true
+          }
+        },
+        "type": "object"
+      },
+      "Embedding": {
+        "description": "A list of floats representing the embedding.",
+        "properties": {
+          "value": {
+            "description": "The embedding values.",
+            "items": {
+              "format": "float",
+              "type": "number"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "Empty": {
+        "description": "A generic empty message that you can re-use to avoid defining duplicated\nempty messages in your APIs. A typical example is to use it as the request\nor the response type of an API method. For instance:\n\n    service Foo {\n      rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);\n    }",
+        "type": "object"
+      },
+      "Example": {
+        "description": "An input/output example used to instruct the Model.\n\nIt demonstrates how the model should respond or format its response.",
+        "properties": {
+          "input": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Message"
+              }
+            ],
+            "description": "Required. An example of an input `Message` from the user."
+          },
+          "output": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Message"
+              }
+            ],
+            "description": "Required. An example of what the model should output given the input."
+          }
+        },
+        "required": [
+          "input",
+          "output"
+        ],
+        "type": "object"
+      },
+      "GenerateMessageRequest": {
+        "description": "Request to generate a message response from the model.",
+        "properties": {
+          "candidateCount": {
+            "description": "Optional. The number of generated response messages to return.\n\nThis value must be between\n`[1, 8]`, inclusive. If unset, this will default to `1`.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "prompt": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessagePrompt"
+              }
+            ],
+            "description": "Required. The structured textual input given to the model as a prompt.\n\nGiven a\nprompt, the model will return what it predicts is the next message in the\ndiscussion."
+          },
+          "temperature": {
+            "description": "Optional. Controls the randomness of the output.\n\nValues can range over `[0.0,1.0]`,\ninclusive. A value closer to `1.0` will produce responses that are more\nvaried, while a value closer to `0.0` will typically result in\nless surprising responses from the model.",
+            "format": "float",
+            "type": "number"
+          },
+          "topK": {
+            "description": "Optional. The maximum number of tokens to consider when sampling.\n\nThe model uses combined Top-k and nucleus sampling.\n\nTop-k sampling considers the set of `top_k` most probable tokens.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "topP": {
+            "description": "Optional. The maximum cumulative probability of tokens to consider when sampling.\n\nThe model uses combined Top-k and nucleus sampling.\n\nNucleus sampling considers the smallest set of tokens whose probability\nsum is at least `top_p`.",
+            "format": "float",
+            "type": "number"
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "type": "object"
+      },
+      "GenerateMessageResponse": {
+        "description": "The response from the model.\n\nThis includes candidate messages and\nconversation history in the form of chronologically-ordered messages.",
+        "properties": {
+          "candidates": {
+            "description": "Candidate response messages from the model.",
+            "items": {
+              "$ref": "#/components/schemas/Message"
+            },
+            "type": "array"
+          },
+          "filters": {
+            "description": "A set of content filtering metadata for the prompt and response\ntext.\n\nThis indicates which `SafetyCategory`(s) blocked a\ncandidate from this response, the lowest `HarmProbability`\nthat triggered a block, and the HarmThreshold setting for that category.",
+            "items": {
+              "$ref": "#/components/schemas/ContentFilter"
+            },
+            "type": "array"
+          },
+          "messages": {
+            "description": "The conversation history used by the model.",
+            "items": {
+              "$ref": "#/components/schemas/Message"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "GenerateTextRequest": {
+        "description": "Request to generate a text completion response from the model.",
+        "properties": {
+          "candidateCount": {
+            "description": "Optional. Number of generated responses to return.\n\nThis value must be between [1, 8], inclusive. If unset, this will default\nto 1.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "maxOutputTokens": {
+            "description": "Optional. The maximum number of tokens to include in a candidate.\n\nIf unset, this will default to output_token_limit specified in the `Model`\nspecification.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "prompt": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TextPrompt"
+              }
+            ],
+            "description": "Required. The free-form input text given to the model as a prompt.\n\nGiven a prompt, the model will generate a TextCompletion response it\npredicts as the completion of the input text."
+          },
+          "safetySettings": {
+            "description": "Optional. A list of unique `SafetySetting` instances for blocking unsafe content.\n\nthat will be enforced on the `GenerateTextRequest.prompt` and\n`GenerateTextResponse.candidates`. There should not be more than one\nsetting for each `SafetyCategory` type. The API will block any prompts and\nresponses that fail to meet the thresholds set by these settings. This list\noverrides the default settings for each `SafetyCategory` specified in the\nsafety_settings. If there is no `SafetySetting` for a given\n`SafetyCategory` provided in the list, the API will use the default safety\nsetting for that category. Harm categories HARM_CATEGORY_DEROGATORY,\nHARM_CATEGORY_TOXICITY, HARM_CATEGORY_VIOLENCE, HARM_CATEGORY_SEXUAL,\nHARM_CATEGORY_MEDICAL, HARM_CATEGORY_DANGEROUS are supported in text\nservice.",
+            "items": {
+              "$ref": "#/components/schemas/SafetySetting"
+            },
+            "type": "array"
+          },
+          "stopSequences": {
+            "description": "The set of character sequences (up to 5) that will stop output generation.\nIf specified, the API will stop at the first appearance of a stop\nsequence. The stop sequence will not be included as part of the response.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "temperature": {
+            "description": "Optional. Controls the randomness of the output.\nNote: The default value varies by model, see the `Model.temperature`\nattribute of the `Model` returned the `getModel` function.\n\nValues can range from [0.0,1.0],\ninclusive. A value closer to 1.0 will produce responses that are more\nvaried and creative, while a value closer to 0.0 will typically result in\nmore straightforward responses from the model.",
+            "format": "float",
+            "type": "number"
+          },
+          "topK": {
+            "description": "Optional. The maximum number of tokens to consider when sampling.\n\nThe model uses combined Top-k and nucleus sampling.\n\nTop-k sampling considers the set of `top_k` most probable tokens.\nDefaults to 40.\n\nNote: The default value varies by model, see the `Model.top_k`\nattribute of the `Model` returned the `getModel` function.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "topP": {
+            "description": "Optional. The maximum cumulative probability of tokens to consider when sampling.\n\nThe model uses combined Top-k and nucleus sampling.\n\nTokens are sorted based on their assigned probabilities so that only the\nmost likely tokens are considered. Top-k sampling directly limits the\nmaximum number of tokens to consider, while Nucleus sampling limits number\nof tokens based on the cumulative probability.\n\nNote: The default value varies by model, see the `Model.top_p`\nattribute of the `Model` returned the `getModel` function.",
+            "format": "float",
+            "type": "number"
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "type": "object"
+      },
+      "GenerateTextResponse": {
+        "description": "The response from the model, including candidate completions.",
+        "properties": {
+          "candidates": {
+            "description": "Candidate responses from the model.",
+            "items": {
+              "$ref": "#/components/schemas/TextCompletion"
+            },
+            "type": "array"
+          },
+          "filters": {
+            "description": "A set of content filtering metadata for the prompt and response\ntext.\n\nThis indicates which `SafetyCategory`(s) blocked a\ncandidate from this response, the lowest `HarmProbability`\nthat triggered a block, and the HarmThreshold setting for that category.\nThis indicates the smallest change to the `SafetySettings` that would be\nnecessary to unblock at least 1 response.\n\nThe blocking is configured by the `SafetySettings` in the request (or the\ndefault `SafetySettings` of the API).",
+            "items": {
+              "$ref": "#/components/schemas/ContentFilter"
+            },
+            "type": "array"
+          },
+          "safetyFeedback": {
+            "description": "Returns any safety feedback related to content filtering.",
+            "items": {
+              "$ref": "#/components/schemas/SafetyFeedback"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "HarmCategory": {
+        "enum": [
+          "HARM_CATEGORY_UNSPECIFIED",
+          "HARM_CATEGORY_DEROGATORY",
+          "HARM_CATEGORY_TOXICITY",
+          "HARM_CATEGORY_VIOLENCE",
+          "HARM_CATEGORY_SEXUAL",
+          "HARM_CATEGORY_MEDICAL",
+          "HARM_CATEGORY_DANGEROUS",
+          "HARM_CATEGORY_HARASSMENT",
+          "HARM_CATEGORY_HATE_SPEECH",
+          "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+          "HARM_CATEGORY_DANGEROUS_CONTENT",
+          "HARM_CATEGORY_CIVIC_INTEGRITY"
+        ],
+        "type": "string",
+        "x-google-enum-deprecated": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true
+        ],
+        "x-google-enum-descriptions": [
+          "Category is unspecified.",
+          "**PaLM** - Negative or harmful comments targeting identity and/or protected\nattribute.",
+          "**PaLM** - Content that is rude, disrespectful, or profane.",
+          "**PaLM** - Describes scenarios depicting violence against an individual or\ngroup, or general descriptions of gore.",
+          "**PaLM** - Contains references to sexual acts or other lewd content.",
+          "**PaLM** - Promotes unchecked medical advice.",
+          "**PaLM** - Dangerous content that promotes, facilitates, or encourages\nharmful acts.",
+          "**Gemini** - Harassment content.",
+          "**Gemini** - Hate speech and content.",
+          "**Gemini** - Sexually explicit content.",
+          "**Gemini** - Dangerous content.",
+          "**Gemini** - Content that may be used to harm civic integrity.\nDEPRECATED: use enable_enhanced_civic_answers instead."
+        ]
+      },
+      "Hyperparameters": {
+        "description": "Hyperparameters controlling the tuning process. Read more at\nhttps://ai.google.dev/docs/model_tuning_guidance",
+        "properties": {
+          "batchSize": {
+            "description": "Immutable. The batch size hyperparameter for tuning.\nIf not set, a default of 4 or 16 will be used based on the number of\ntraining examples.",
+            "format": "int32",
+            "type": "integer",
+            "x-google-immutable": true
+          },
+          "epochCount": {
+            "description": "Immutable. The number of training epochs. An epoch is one pass through the training\ndata.\nIf not set, a default of 5 will be used.",
+            "format": "int32",
+            "type": "integer",
+            "x-google-immutable": true
+          },
+          "learningRate": {
+            "description": "Optional. Immutable. The learning rate hyperparameter for tuning.\nIf not set, a default of 0.001 or 0.0002 will be calculated based on the\nnumber of training examples.",
+            "format": "float",
+            "type": "number",
+            "x-google-immutable": true
+          },
+          "learningRateMultiplier": {
+            "description": "Optional. Immutable. The learning rate multiplier is used to calculate a final learning_rate\nbased on the default (recommended) value.\nActual learning rate := learning_rate_multiplier * default learning rate\nDefault learning rate is dependent on base model and dataset size.\nIf not set, a default of 1.0 will be used.",
+            "format": "float",
+            "type": "number",
+            "x-google-immutable": true
+          }
+        },
+        "type": "object"
+      },
+      "ListModelsResponse": {
+        "description": "Response from `ListModel` containing a paginated list of Models.",
+        "properties": {
+          "models": {
+            "description": "The returned Models.",
+            "items": {
+              "$ref": "#/components/schemas/Model"
+            },
+            "type": "array"
+          },
+          "nextPageToken": {
+            "description": "A token, which can be sent as `page_token` to retrieve the next page.\n\nIf this field is omitted, there are no more pages.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ListPermissionsResponse": {
+        "description": "Response from `ListPermissions` containing a paginated list of\npermissions.",
+        "properties": {
+          "nextPageToken": {
+            "description": "A token, which can be sent as `page_token` to retrieve the next page.\n\nIf this field is omitted, there are no more pages.",
+            "type": "string"
+          },
+          "permissions": {
+            "description": "Returned permissions.",
+            "items": {
+              "$ref": "#/components/schemas/Permission"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "ListTunedModelsResponse": {
+        "description": "Response from `ListTunedModels` containing a paginated list of Models.",
+        "properties": {
+          "nextPageToken": {
+            "description": "A token, which can be sent as `page_token` to retrieve the next page.\n\nIf this field is omitted, there are no more pages.",
+            "type": "string"
+          },
+          "tunedModels": {
+            "description": "The returned Models.",
+            "items": {
+              "$ref": "#/components/schemas/TunedModel"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "Message": {
+        "description": "The base unit of structured text.\n\nA `Message` includes an `author` and the `content` of\nthe `Message`.\n\nThe `author` is used to tag messages when they are fed to the\nmodel as text.",
+        "properties": {
+          "author": {
+            "description": "Optional. The author of this Message.\n\nThis serves as a key for tagging\nthe content of this Message when it is fed to the model as text.\n\nThe author can be any alphanumeric string.",
+            "type": "string"
+          },
+          "citationMetadata": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CitationMetadata"
+              }
+            ],
+            "description": "Output only. Citation information for model-generated `content` in this `Message`.\n\nIf this `Message` was generated as output from the model, this field may be\npopulated with attribution information for any text included in the\n`content`. This field is used only on output.",
+            "readOnly": true
+          },
+          "content": {
+            "description": "Required. The text content of the structured `Message`.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "content"
+        ],
+        "type": "object"
+      },
+      "MessagePrompt": {
+        "description": "All of the structured input text passed to the model as a prompt.\n\nA `MessagePrompt` contains a structured set of fields that provide context\nfor the conversation, examples of user input/model output message pairs that\nprime the model to respond in different ways, and the conversation history\nor list of messages representing the alternating turns of the conversation\nbetween the user and the model.",
+        "properties": {
+          "context": {
+            "description": "Optional. Text that should be provided to the model first to ground the response.\n\nIf not empty, this `context` will be given to the model first before the\n`examples` and `messages`. When using a `context` be sure to provide it\nwith every request to maintain continuity.\n\nThis field can be a description of your prompt to the model to help provide\ncontext and guide the responses. Examples: \"Translate the phrase from\nEnglish to French.\" or \"Given a statement, classify the sentiment as happy,\nsad or neutral.\"\n\nAnything included in this field will take precedence over message history\nif the total input size exceeds the model's `input_token_limit` and the\ninput request is truncated.",
+            "type": "string"
+          },
+          "examples": {
+            "description": "Optional. Examples of what the model should generate.\n\nThis includes both user input and the response that the model should\nemulate.\n\nThese `examples` are treated identically to conversation messages except\nthat they take precedence over the history in `messages`:\nIf the total input size exceeds the model's `input_token_limit` the input\nwill be truncated. Items will be dropped from `messages` before `examples`.",
+            "items": {
+              "$ref": "#/components/schemas/Example"
+            },
+            "type": "array"
+          },
+          "messages": {
+            "description": "Required. A snapshot of the recent conversation history sorted chronologically.\n\nTurns alternate between two authors.\n\nIf the total input size exceeds the model's `input_token_limit` the input\nwill be truncated: The oldest items will be dropped from `messages`.",
+            "items": {
+              "$ref": "#/components/schemas/Message"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "messages"
+        ],
+        "type": "object"
+      },
+      "Model": {
+        "description": "Information about a Generative Language Model.",
+        "properties": {
+          "baseModelId": {
+            "description": "Required. The name of the base model, pass this to the generation request.\n\nExamples:\n\n* `gemini-1.5-flash`",
+            "type": "string"
+          },
+          "description": {
+            "description": "A short description of the model.",
+            "type": "string"
+          },
+          "displayName": {
+            "description": "The human-readable name of the model. E.g. \"Gemini 1.5 Flash\".\n\nThe name can be up to 128 characters long and can consist of any UTF-8\ncharacters.",
+            "type": "string"
+          },
+          "inputTokenLimit": {
+            "description": "Maximum number of input tokens allowed for this model.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "maxTemperature": {
+            "description": "The maximum temperature this model can use.",
+            "format": "float",
+            "type": "number"
+          },
+          "name": {
+            "description": "Required. The resource name of the `Model`. Refer to [Model\nvariants](https://ai.google.dev/gemini-api/docs/models/gemini#model-variations)\nfor all allowed values.\n\nFormat: `models/{model}` with a `{model}` naming convention of:\n\n* \"{base_model_id}-{version}\"\n\nExamples:\n\n* `models/gemini-1.5-flash-001`",
+            "type": "string"
+          },
+          "outputTokenLimit": {
+            "description": "Maximum number of output tokens available for this model.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "supportedGenerationMethods": {
+            "description": "The model's supported generation methods.\n\nThe corresponding API method names are defined as Pascal case\nstrings, such as `generateMessage` and `generateContent`.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "temperature": {
+            "description": "Controls the randomness of the output.\n\nValues can range over `[0.0,max_temperature]`, inclusive. A higher value\nwill produce responses that are more varied, while a value closer to `0.0`\nwill typically result in less surprising responses from the model.\nThis value specifies default to be used by the backend while making the\ncall to the model.",
+            "format": "float",
+            "type": "number"
+          },
+          "thinking": {
+            "description": "Whether the model supports thinking.",
+            "type": "boolean"
+          },
+          "topK": {
+            "description": "For Top-k sampling.\n\nTop-k sampling considers the set of `top_k` most probable tokens.\nThis value specifies default to be used by the backend while making the\ncall to the model.\nIf empty, indicates the model doesn't use top-k sampling, and `top_k` isn't\nallowed as a generation parameter.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "topP": {
+            "description": "For [Nucleus\nsampling](https://ai.google.dev/gemini-api/docs/prompting-strategies#top-p).\n\nNucleus sampling considers the smallest set of tokens whose probability\nsum is at least `top_p`.\nThis value specifies default to be used by the backend while making the\ncall to the model.",
+            "format": "float",
+            "type": "number"
+          },
+          "version": {
+            "description": "Required. The version number of the model.\n\nThis represents the major version (`1.0` or `1.5`)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "baseModelId",
+          "version"
+        ],
+        "type": "object"
+      },
+      "Operation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseOperation"
+          },
+          {
+            "properties": {
+              "metadata": {
+                "additionalProperties": {
+                  "description": "Properties of the object. Contains field @type with type URL."
+                },
+                "description": "Service-specific metadata associated with the operation.  It typically\ncontains progress information and common metadata such as create time.\nSome services might not provide such metadata.  Any method that returns a\nlong-running operation should document the metadata type, if any.",
+                "type": "object"
+              },
+              "response": {
+                "additionalProperties": {
+                  "description": "Properties of the object. Contains field @type with type URL."
+                },
+                "description": "The normal, successful response of the operation.  If the original\nmethod returns no data on success, such as `Delete`, the response is\n`google.protobuf.Empty`.  If the original method is standard\n`Get`/`Create`/`Update`, the response should be the resource.  For other\nmethods, the response should have the type `XxxResponse`, where `Xxx`\nis the original method name.  For example, if the original method name\nis `TakeSnapshot()`, the inferred response type is\n`TakeSnapshotResponse`.",
+                "type": "object"
+              }
+            },
+            "type": "object"
+          }
+        ],
+        "description": "This resource represents a long-running operation that is the result of a\nnetwork API call.",
+        "type": "object"
+      },
+      "Permission": {
+        "description": "Permission resource grants user, group or the rest of the world access to the\nPaLM API resource (e.g. a tuned model, corpus).\n\nA role is a collection of permitted operations that allows users to perform\nspecific actions on PaLM API resources. To make them available to users,\ngroups, or service accounts, you assign roles. When you assign a role, you\ngrant permissions that the role contains.\n\nThere are three concentric roles. Each role is a superset of the previous\nrole's permitted operations:\n\n- reader can use the resource (e.g. tuned model, corpus) for inference\n- writer has reader's permissions and additionally can edit and share\n- owner has writer's permissions and additionally can delete",
+        "properties": {
+          "emailAddress": {
+            "description": "Optional. Immutable. The email address of the user of group which this permission refers.\nField is not set when permission's grantee type is EVERYONE.",
+            "type": "string",
+            "x-google-immutable": true
+          },
+          "granteeType": {
+            "description": "Optional. Immutable. The type of the grantee.",
+            "enum": [
+              "GRANTEE_TYPE_UNSPECIFIED",
+              "USER",
+              "GROUP",
+              "EVERYONE"
+            ],
+            "type": "string",
+            "x-google-enum-descriptions": [
+              "The default value. This value is unused.",
+              "Represents a user. When set, you must provide email_address for the user.",
+              "Represents a group. When set, you must provide email_address for the\ngroup.",
+              "Represents access to everyone. No extra information is required."
+            ],
+            "x-google-immutable": true
+          },
+          "name": {
+            "description": "Output only. Identifier. The permission name. A unique name will be generated on create.\nExamples:\n    tunedModels/{tuned_model}/permissions/{permission}\n    corpora/{corpus}/permissions/{permission}\nOutput only.",
+            "readOnly": true,
+            "type": "string",
+            "x-google-identifier": true
+          },
+          "role": {
+            "description": "Required. The role granted by this permission.",
+            "enum": [
+              "ROLE_UNSPECIFIED",
+              "OWNER",
+              "WRITER",
+              "READER"
+            ],
+            "type": "string",
+            "x-google-enum-descriptions": [
+              "The default value. This value is unused.",
+              "Owner can use, update, share and delete the resource.",
+              "Writer can use, update and share the resource.",
+              "Reader can use the resource."
+            ]
+          }
+        },
+        "required": [
+          "role"
+        ],
+        "type": "object"
+      },
+      "SafetyFeedback": {
+        "description": "Safety feedback for an entire request.\n\nThis field is populated if content in the input and/or response is blocked\ndue to safety settings. SafetyFeedback may not exist for every HarmCategory.\nEach SafetyFeedback will return the safety settings used by the request as\nwell as the lowest HarmProbability that should be allowed in order to return\na result.",
+        "properties": {
+          "rating": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SafetyRating"
+              }
+            ],
+            "description": "Safety rating evaluated from content."
+          },
+          "setting": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SafetySetting"
+              }
+            ],
+            "description": "Safety settings applied to the request."
+          }
+        },
+        "type": "object"
+      },
+      "SafetyRating": {
+        "description": "Safety rating for a piece of content.\n\nThe safety rating contains the category of harm and the\nharm probability level in that category for a piece of content.\nContent is classified for safety across a number of\nharm categories and the probability of the harm classification is included\nhere.",
+        "properties": {
+          "blocked": {
+            "description": "Was this content blocked because of this rating?",
+            "type": "boolean"
+          },
+          "category": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/HarmCategory"
+              }
+            ],
+            "description": "Required. The category for this rating."
+          },
+          "probability": {
+            "description": "Required. The probability of harm for this content.",
+            "enum": [
+              "HARM_PROBABILITY_UNSPECIFIED",
+              "NEGLIGIBLE",
+              "LOW",
+              "MEDIUM",
+              "HIGH"
+            ],
+            "type": "string",
+            "x-google-enum-descriptions": [
+              "Probability is unspecified.",
+              "Content has a negligible chance of being unsafe.",
+              "Content has a low chance of being unsafe.",
+              "Content has a medium chance of being unsafe.",
+              "Content has a high chance of being unsafe."
+            ]
+          }
+        },
+        "required": [
+          "category",
+          "probability"
+        ],
+        "type": "object"
+      },
+      "SafetySetting": {
+        "description": "Safety setting, affecting the safety-blocking behavior.\n\nPassing a safety setting for a category changes the allowed probability that\ncontent is blocked.",
+        "properties": {
+          "category": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/HarmCategory"
+              }
+            ],
+            "description": "Required. The category for this setting."
+          },
+          "threshold": {
+            "description": "Required. Controls the probability threshold at which harm is blocked.",
+            "enum": [
+              "HARM_BLOCK_THRESHOLD_UNSPECIFIED",
+              "BLOCK_LOW_AND_ABOVE",
+              "BLOCK_MEDIUM_AND_ABOVE",
+              "BLOCK_ONLY_HIGH",
+              "BLOCK_NONE",
+              "OFF"
+            ],
+            "type": "string",
+            "x-google-enum-descriptions": [
+              "Threshold is unspecified.",
+              "Content with NEGLIGIBLE will be allowed.",
+              "Content with NEGLIGIBLE and LOW will be allowed.",
+              "Content with NEGLIGIBLE, LOW, and MEDIUM will be allowed.",
+              "All content will be allowed.",
+              "Turn off the safety filter."
+            ]
+          }
+        },
+        "required": [
+          "category",
+          "threshold"
+        ],
+        "type": "object"
+      },
+      "Status": {
+        "description": "The `Status` type defines a logical error model that is suitable for\ndifferent programming environments, including REST APIs and RPC APIs. It is\nused by [gRPC](https://github.com/grpc). Each `Status` message contains\nthree pieces of data: error code, error message, and error details.\n\nYou can find out more about this error model and how to work with it in the\n[API Design Guide](https://cloud.google.com/apis/design/errors).",
+        "properties": {
+          "code": {
+            "description": "The status code, which should be an enum value of google.rpc.Code.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "details": {
+            "description": "A list of messages that carry the error details.  There is a common set of\nmessage types for APIs to use.",
+            "items": {
+              "additionalProperties": {
+                "description": "Properties of the object. Contains field @type with type URL."
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "message": {
+            "description": "A developer-facing error message, which should be in English. Any\nuser-facing error message should be localized and sent in the\ngoogle.rpc.Status.details field, or localized by the client.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "TextCompletion": {
+        "description": "Output text returned from a model.",
+        "properties": {
+          "citationMetadata": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CitationMetadata"
+              }
+            ],
+            "description": "Output only. Citation information for model-generated `output` in this\n`TextCompletion`.\n\nThis field may be populated with attribution information for any text\nincluded in the `output`.",
+            "readOnly": true
+          },
+          "output": {
+            "description": "Output only. The generated text returned from the model.",
+            "readOnly": true,
+            "type": "string"
+          },
+          "safetyRatings": {
+            "description": "Ratings for the safety of a response.\n\nThere is at most one rating per category.",
+            "items": {
+              "$ref": "#/components/schemas/SafetyRating"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "TextPrompt": {
+        "description": "Text given to the model as a prompt.\n\nThe Model will use this TextPrompt to Generate a text completion.",
+        "properties": {
+          "text": {
+            "description": "Required. The prompt text.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "type": "object"
+      },
+      "TransferOwnershipRequest": {
+        "description": "Request to transfer the ownership of the tuned model.",
+        "properties": {
+          "emailAddress": {
+            "description": "Required. The email address of the user to whom the tuned model is being transferred\nto.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "emailAddress"
+        ],
+        "type": "object"
+      },
+      "TransferOwnershipResponse": {
+        "description": "Response from `TransferOwnership`.",
+        "type": "object"
+      },
+      "TunedModel": {
+        "description": "A fine-tuned model created using ModelService.CreateTunedModel.",
+        "properties": {
+          "baseModel": {
+            "description": "Immutable. The name of the `Model` to tune.\nExample: `models/gemini-1.5-flash-001`",
+            "type": "string",
+            "x-google-immutable": true
+          },
+          "createTime": {
+            "description": "Output only. The timestamp when this model was created.",
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          },
+          "description": {
+            "description": "Optional. A short description of this model.",
+            "type": "string"
+          },
+          "displayName": {
+            "description": "Optional. The name to display for this model in user interfaces.\nThe display name must be up to 40 characters including spaces.",
+            "type": "string"
+          },
+          "name": {
+            "description": "Output only. The tuned model name. A unique name will be generated on create.\nExample: `tunedModels/az2mb0bpw6i`\nIf display_name is set on create, the id portion of the name will be set\nby concatenating the words of the display_name with hyphens and adding a\nrandom portion for uniqueness.\n\nExample:\n\n * display_name = `Sentence Translator`\n * name = `tunedModels/sentence-translator-u3b7m`",
+            "readOnly": true,
+            "type": "string"
+          },
+          "readerProjectNumbers": {
+            "description": "Optional. List of project numbers that have read access to the tuned model.",
+            "items": {
+              "format": "int64",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "state": {
+            "description": "Output only. The state of the tuned model.",
+            "enum": [
+              "STATE_UNSPECIFIED",
+              "CREATING",
+              "ACTIVE",
+              "FAILED"
+            ],
+            "readOnly": true,
+            "type": "string",
+            "x-google-enum-descriptions": [
+              "The default value. This value is unused.",
+              "The model is being created.",
+              "The model is ready to be used.",
+              "The model failed to be created."
+            ]
+          },
+          "temperature": {
+            "description": "Optional. Controls the randomness of the output.\n\nValues can range over `[0.0,1.0]`, inclusive. A value closer to `1.0` will\nproduce responses that are more varied, while a value closer to `0.0` will\ntypically result in less surprising responses from the model.\n\nThis value specifies default to be the one used by the base model while\ncreating the model.",
+            "format": "float",
+            "type": "number"
+          },
+          "topK": {
+            "description": "Optional. For Top-k sampling.\n\nTop-k sampling considers the set of `top_k` most probable tokens.\nThis value specifies default to be used by the backend while making the\ncall to the model.\n\nThis value specifies default to be the one used by the base model while\ncreating the model.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "topP": {
+            "description": "Optional. For Nucleus sampling.\n\nNucleus sampling considers the smallest set of tokens whose probability\nsum is at least `top_p`.\n\nThis value specifies default to be the one used by the base model while\ncreating the model.",
+            "format": "float",
+            "type": "number"
+          },
+          "tunedModelSource": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TunedModelSource"
+              }
+            ],
+            "description": "Optional. TunedModel to use as the starting point for training the new model."
+          },
+          "tuningTask": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TuningTask"
+              }
+            ],
+            "description": "Required. The tuning task that creates the tuned model."
+          },
+          "updateTime": {
+            "description": "Output only. The timestamp when this model was updated.",
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          }
+        },
+        "required": [
+          "tuningTask"
+        ],
+        "type": "object"
+      },
+      "TunedModelSource": {
+        "description": "Tuned model as a source for training a new model.",
+        "properties": {
+          "baseModel": {
+            "description": "Output only. The name of the base `Model` this `TunedModel` was tuned from.\nExample: `models/gemini-1.5-flash-001`",
+            "readOnly": true,
+            "type": "string"
+          },
+          "tunedModel": {
+            "description": "Immutable. The name of the `TunedModel` to use as the starting point for\ntraining the new model.\nExample: `tunedModels/my-tuned-model`",
+            "type": "string",
+            "x-google-immutable": true
+          }
+        },
+        "type": "object"
+      },
+      "TuningExample": {
+        "description": "A single example for tuning.",
+        "properties": {
+          "output": {
+            "description": "Required. The expected model output.",
+            "type": "string"
+          },
+          "textInput": {
+            "description": "Optional. Text model input.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "output"
+        ],
+        "type": "object"
+      },
+      "TuningExamples": {
+        "description": "A set of tuning examples. Can be training or validation data.",
+        "properties": {
+          "examples": {
+            "description": "The examples. Example input can be for text or discuss, but all examples\nin a set must be of the same type.",
+            "items": {
+              "$ref": "#/components/schemas/TuningExample"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "TuningSnapshot": {
+        "description": "Record for a single tuning step.",
+        "properties": {
+          "computeTime": {
+            "description": "Output only. The timestamp when this metric was computed.",
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          },
+          "epoch": {
+            "description": "Output only. The epoch this step was part of.",
+            "format": "int32",
+            "readOnly": true,
+            "type": "integer"
+          },
+          "meanLoss": {
+            "description": "Output only. The mean loss of the training examples for this step.",
+            "format": "float",
+            "readOnly": true,
+            "type": "number"
+          },
+          "step": {
+            "description": "Output only. The tuning step.",
+            "format": "int32",
+            "readOnly": true,
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "TuningTask": {
+        "description": "Tuning tasks that create tuned models.",
+        "properties": {
+          "completeTime": {
+            "description": "Output only. The timestamp when tuning this model completed.",
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          },
+          "hyperparameters": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Hyperparameters"
+              }
+            ],
+            "description": "Immutable. Hyperparameters controlling the tuning process. If not provided, default\nvalues will be used.",
+            "x-google-immutable": true
+          },
+          "snapshots": {
+            "description": "Output only. Metrics collected during tuning.",
+            "items": {
+              "$ref": "#/components/schemas/TuningSnapshot"
+            },
+            "readOnly": true,
+            "type": "array"
+          },
+          "startTime": {
+            "description": "Output only. The timestamp when tuning this model started.",
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          },
+          "trainingData": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Dataset"
+              }
+            ],
+            "description": "Required. Input only. Immutable. The model training data.",
+            "writeOnly": true,
+            "x-google-immutable": true
+          }
+        },
+        "required": [
+          "trainingData"
+        ],
+        "type": "object"
+      }
+    },
+    "securitySchemes": {}
+  },
+  "externalDocs": {
+    "description": "Find more info here.",
+    "url": "https://developers.generativeai.google/api"
+  },
+  "info": {
+    "description": "The Gemini API allows developers to build generative AI applications using Gemini models. Gemini is our most capable model, built from the ground up to be multimodal. It can generalize and seamlessly understand, operate across, and combine different types of information including language, images, audio, video, and code. You can use the Gemini API for use cases like reasoning across text and images, content generation, dialogue agents, summarization and classification systems, and more.",
+    "title": "Generative Language API",
+    "version": "v1beta3",
+    "x-google-revision": "20260320"
+  },
+  "openapi": "3.0.3",
+  "paths": {
+    "/v1beta3/corpora/{corpus}/permissions": {
+      "get": {
+        "description": "Lists permissions for the specific resource.",
+        "operationId": "ListPermissionsByCorpus",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "corpus",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. The maximum number of `Permission`s to return (per page).\nThe service may return fewer permissions.\n\nIf unspecified, at most 10 permissions will be returned.\nThis method returns at most 1000 permissions per page, even if you pass\nlarger page_size.",
+            "in": "query",
+            "name": "pageSize",
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Optional. A page token, received from a previous `ListPermissions` call.\n\nProvide the `page_token` returned by one request as an argument to the\nnext request to retrieve the next page.\n\nWhen paginating, all other parameters provided to `ListPermissions`\nmust match the call that provided the page token.",
+            "in": "query",
+            "name": "pageToken",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListPermissionsResponse"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ],
+        "x-google-operation-name": "ListPermissions"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/alt"
+        },
+        {
+          "$ref": "#/components/parameters/callback"
+        },
+        {
+          "$ref": "#/components/parameters/prettyPrint"
+        },
+        {
+          "$ref": "#/components/parameters/_.xgafv"
+        }
+      ],
+      "post": {
+        "description": "Create a permission to a specific resource.",
+        "operationId": "CreatePermissionByCorpus",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "corpus",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Permission"
+              }
+            }
+          },
+          "description": "Required. The permission to create."
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Permission"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ],
+        "x-google-operation-name": "CreatePermission"
+      }
+    },
+    "/v1beta3/corpora/{corpus}/permissions/{permission}": {
+      "delete": {
+        "description": "Deletes the permission.",
+        "operationId": "DeletePermissionByCorpusAndPermission",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "corpus",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "permission",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Empty"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ],
+        "x-google-operation-name": "DeletePermission"
+      },
+      "get": {
+        "description": "Gets information about a specific Permission.",
+        "operationId": "GetPermissionByCorpusAndPermission",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "corpus",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "permission",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Permission"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ],
+        "x-google-operation-name": "GetPermission"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/alt"
+        },
+        {
+          "$ref": "#/components/parameters/callback"
+        },
+        {
+          "$ref": "#/components/parameters/prettyPrint"
+        },
+        {
+          "$ref": "#/components/parameters/_.xgafv"
+        }
+      ],
+      "patch": {
+        "description": "Updates the permission.",
+        "operationId": "UpdatePermissionByCorpusAndPermission",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "corpus",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "permission",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Required. The list of fields to update. Accepted ones:\n - role (`Permission.role` field)",
+            "in": "query",
+            "name": "updateMask",
+            "required": true,
+            "schema": {
+              "format": "google-fieldmask",
+              "pattern": "^(\\s*[^,\\s.]+(\\s*[,.]\\s*[^,\\s.]+)*)?$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Permission"
+              }
+            }
+          },
+          "description": "Required. The permission to update.\n\nThe permission's `name` field is used to identify the permission to update."
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Permission"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ],
+        "x-google-operation-name": "UpdatePermission"
+      }
+    },
+    "/v1beta3/models": {
+      "get": {
+        "description": "Lists the [`Model`s](https://ai.google.dev/gemini-api/docs/models/gemini)\navailable through the Gemini API.",
+        "operationId": "ListModels",
+        "parameters": [
+          {
+            "description": "The maximum number of `Models` to return (per page).\n\nIf unspecified, 50 models will be returned per page.\nThis method returns at most 1000 models per page, even if you pass a larger\npage_size.",
+            "in": "query",
+            "name": "pageSize",
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "A page token, received from a previous `ListModels` call.\n\nProvide the `page_token` returned by one request as an argument to the next\nrequest to retrieve the next page.\n\nWhen paginating, all other parameters provided to `ListModels` must match\nthe call that provided the page token.",
+            "in": "query",
+            "name": "pageToken",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListModelsResponse"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/alt"
+        },
+        {
+          "$ref": "#/components/parameters/callback"
+        },
+        {
+          "$ref": "#/components/parameters/prettyPrint"
+        },
+        {
+          "$ref": "#/components/parameters/_.xgafv"
+        }
+      ]
+    },
+    "/v1beta3/models/{model}": {
+      "get": {
+        "description": "Gets information about a specific `Model` such as its version number, token\nlimits,\n[parameters](https://ai.google.dev/gemini-api/docs/models/generative-models#model-parameters)\nand other metadata. Refer to the [Gemini models\nguide](https://ai.google.dev/gemini-api/docs/models/gemini) for detailed\nmodel information.",
+        "operationId": "GetModel",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "model",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Model"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/alt"
+        },
+        {
+          "$ref": "#/components/parameters/callback"
+        },
+        {
+          "$ref": "#/components/parameters/prettyPrint"
+        },
+        {
+          "$ref": "#/components/parameters/_.xgafv"
+        }
+      ]
+    },
+    "/v1beta3/models/{model}:batchEmbedText": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/alt"
+        },
+        {
+          "$ref": "#/components/parameters/callback"
+        },
+        {
+          "$ref": "#/components/parameters/prettyPrint"
+        },
+        {
+          "$ref": "#/components/parameters/_.xgafv"
+        }
+      ],
+      "post": {
+        "description": "Generates multiple embeddings from the model given input text in a\nsynchronous call.",
+        "operationId": "BatchEmbedText",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "model",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchEmbedTextRequest"
+              }
+            }
+          },
+          "description": "The request body."
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchEmbedTextResponse"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ]
+      }
+    },
+    "/v1beta3/models/{model}:countMessageTokens": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/alt"
+        },
+        {
+          "$ref": "#/components/parameters/callback"
+        },
+        {
+          "$ref": "#/components/parameters/prettyPrint"
+        },
+        {
+          "$ref": "#/components/parameters/_.xgafv"
+        }
+      ],
+      "post": {
+        "description": "Runs a model's tokenizer on a string and returns the token count.",
+        "operationId": "CountMessageTokens",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "model",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CountMessageTokensRequest"
+              }
+            }
+          },
+          "description": "The request body."
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountMessageTokensResponse"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ]
+      }
+    },
+    "/v1beta3/models/{model}:countTextTokens": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/alt"
+        },
+        {
+          "$ref": "#/components/parameters/callback"
+        },
+        {
+          "$ref": "#/components/parameters/prettyPrint"
+        },
+        {
+          "$ref": "#/components/parameters/_.xgafv"
+        }
+      ],
+      "post": {
+        "description": "Runs a model's tokenizer on a text and returns the token count.",
+        "operationId": "CountTextTokens",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "model",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CountTextTokensRequest"
+              }
+            }
+          },
+          "description": "The request body."
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountTextTokensResponse"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ]
+      }
+    },
+    "/v1beta3/models/{model}:embedText": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/alt"
+        },
+        {
+          "$ref": "#/components/parameters/callback"
+        },
+        {
+          "$ref": "#/components/parameters/prettyPrint"
+        },
+        {
+          "$ref": "#/components/parameters/_.xgafv"
+        }
+      ],
+      "post": {
+        "description": "Generates an embedding from the model given an input message.",
+        "operationId": "EmbedText",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "model",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmbedTextRequest"
+              }
+            }
+          },
+          "description": "The request body."
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmbedTextResponse"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ]
+      }
+    },
+    "/v1beta3/models/{model}:generateMessage": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/alt"
+        },
+        {
+          "$ref": "#/components/parameters/callback"
+        },
+        {
+          "$ref": "#/components/parameters/prettyPrint"
+        },
+        {
+          "$ref": "#/components/parameters/_.xgafv"
+        }
+      ],
+      "post": {
+        "description": "Generates a response from the model given an input `MessagePrompt`.",
+        "operationId": "GenerateMessage",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "model",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateMessageRequest"
+              }
+            }
+          },
+          "description": "The request body."
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateMessageResponse"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ]
+      }
+    },
+    "/v1beta3/models/{model}:generateText": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/alt"
+        },
+        {
+          "$ref": "#/components/parameters/callback"
+        },
+        {
+          "$ref": "#/components/parameters/prettyPrint"
+        },
+        {
+          "$ref": "#/components/parameters/_.xgafv"
+        }
+      ],
+      "post": {
+        "description": "Generates a response from the model given an input message.",
+        "operationId": "GenerateText",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "model",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateTextRequest"
+              }
+            }
+          },
+          "description": "The request body."
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateTextResponse"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ]
+      }
+    },
+    "/v1beta3/tunedModels": {
+      "get": {
+        "description": "Lists created tuned models.",
+        "operationId": "ListTunedModels",
+        "parameters": [
+          {
+            "description": "Optional. The maximum number of `TunedModels` to return (per page).\nThe service may return fewer tuned models.\n\nIf unspecified, at most 10 tuned models will be returned.\nThis method returns at most 1000 models per page, even if you pass a larger\npage_size.",
+            "in": "query",
+            "name": "pageSize",
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Optional. A page token, received from a previous `ListTunedModels` call.\n\nProvide the `page_token` returned by one request as an argument to the next\nrequest to retrieve the next page.\n\nWhen paginating, all other parameters provided to `ListTunedModels`\nmust match the call that provided the page token.",
+            "in": "query",
+            "name": "pageToken",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. A filter is a full text search over the tuned model's description and\ndisplay name. By default, results will not include tuned models shared\nwith everyone.\n\nAdditional operators:\n  - owner:me\n  - writers:me\n  - readers:me\n  - readers:everyone\n\nExamples:\n  \"owner:me\" returns all tuned models to which caller has owner role\n  \"readers:me\" returns all tuned models to which caller has reader role\n  \"readers:everyone\" returns all tuned models that are shared with everyone",
+            "in": "query",
+            "name": "filter",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListTunedModelsResponse"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/alt"
+        },
+        {
+          "$ref": "#/components/parameters/callback"
+        },
+        {
+          "$ref": "#/components/parameters/prettyPrint"
+        },
+        {
+          "$ref": "#/components/parameters/_.xgafv"
+        }
+      ],
+      "post": {
+        "description": "Creates a tuned model.\nCheck intermediate tuning progress (if any) through the\n[google.longrunning.Operations] service.\n\nAccess status and results through the Operations service.\nExample:\n  GET /v1/tunedModels/az2mb0bpw6i/operations/000-111-222",
+        "operationId": "CreateTunedModel",
+        "parameters": [
+          {
+            "description": "Optional. The unique id for the tuned model if specified.\nThis value should be up to 40 characters, the first character must be a\nletter, the last could be a letter or a number. The id must match the\nregular expression: `[a-z]([a-z0-9-]{0,38}[a-z0-9])?`.",
+            "in": "query",
+            "name": "tunedModelId",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TunedModel"
+              }
+            }
+          },
+          "description": "Required. The tuned model to create."
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateTunedModelOperation"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ],
+        "x-google-lro": "true"
+      }
+    },
+    "/v1beta3/tunedModels/{tunedModel}": {
+      "delete": {
+        "description": "Deletes a tuned model.",
+        "operationId": "DeleteTunedModel",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Empty"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ]
+      },
+      "get": {
+        "description": "Gets information about a specific TunedModel.",
+        "operationId": "GetTunedModel",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TunedModel"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/alt"
+        },
+        {
+          "$ref": "#/components/parameters/callback"
+        },
+        {
+          "$ref": "#/components/parameters/prettyPrint"
+        },
+        {
+          "$ref": "#/components/parameters/_.xgafv"
+        }
+      ],
+      "patch": {
+        "description": "Updates a tuned model.",
+        "operationId": "UpdateTunedModel",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. The list of fields to update.",
+            "in": "query",
+            "name": "updateMask",
+            "schema": {
+              "format": "google-fieldmask",
+              "pattern": "^(\\s*[^,\\s.]+(\\s*[,.]\\s*[^,\\s.]+)*)?$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TunedModel"
+              }
+            }
+          },
+          "description": "Required. The tuned model to update."
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TunedModel"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ]
+      }
+    },
+    "/v1beta3/tunedModels/{tunedModel}/permissions": {
+      "get": {
+        "description": "Lists permissions for the specific resource.",
+        "operationId": "ListPermissions",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. The maximum number of `Permission`s to return (per page).\nThe service may return fewer permissions.\n\nIf unspecified, at most 10 permissions will be returned.\nThis method returns at most 1000 permissions per page, even if you pass\nlarger page_size.",
+            "in": "query",
+            "name": "pageSize",
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Optional. A page token, received from a previous `ListPermissions` call.\n\nProvide the `page_token` returned by one request as an argument to the\nnext request to retrieve the next page.\n\nWhen paginating, all other parameters provided to `ListPermissions`\nmust match the call that provided the page token.",
+            "in": "query",
+            "name": "pageToken",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListPermissionsResponse"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/alt"
+        },
+        {
+          "$ref": "#/components/parameters/callback"
+        },
+        {
+          "$ref": "#/components/parameters/prettyPrint"
+        },
+        {
+          "$ref": "#/components/parameters/_.xgafv"
+        }
+      ],
+      "post": {
+        "description": "Create a permission to a specific resource.",
+        "operationId": "CreatePermission",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Permission"
+              }
+            }
+          },
+          "description": "Required. The permission to create."
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Permission"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ]
+      }
+    },
+    "/v1beta3/tunedModels/{tunedModel}/permissions/{permission}": {
+      "delete": {
+        "description": "Deletes the permission.",
+        "operationId": "DeletePermission",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "permission",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Empty"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ]
+      },
+      "get": {
+        "description": "Gets information about a specific Permission.",
+        "operationId": "GetPermission",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "permission",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Permission"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/alt"
+        },
+        {
+          "$ref": "#/components/parameters/callback"
+        },
+        {
+          "$ref": "#/components/parameters/prettyPrint"
+        },
+        {
+          "$ref": "#/components/parameters/_.xgafv"
+        }
+      ],
+      "patch": {
+        "description": "Updates the permission.",
+        "operationId": "UpdatePermission",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "permission",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Required. The list of fields to update. Accepted ones:\n - role (`Permission.role` field)",
+            "in": "query",
+            "name": "updateMask",
+            "required": true,
+            "schema": {
+              "format": "google-fieldmask",
+              "pattern": "^(\\s*[^,\\s.]+(\\s*[,.]\\s*[^,\\s.]+)*)?$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Permission"
+              }
+            }
+          },
+          "description": "Required. The permission to update.\n\nThe permission's `name` field is used to identify the permission to update."
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Permission"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ]
+      }
+    },
+    "/v1beta3/tunedModels/{tunedModel}:generateText": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/alt"
+        },
+        {
+          "$ref": "#/components/parameters/callback"
+        },
+        {
+          "$ref": "#/components/parameters/prettyPrint"
+        },
+        {
+          "$ref": "#/components/parameters/_.xgafv"
+        }
+      ],
+      "post": {
+        "description": "Generates a response from the model given an input message.",
+        "operationId": "GenerateTextByTunedModel",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateTextRequest"
+              }
+            }
+          },
+          "description": "The request body."
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateTextResponse"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ],
+        "x-google-operation-name": "GenerateText"
+      }
+    },
+    "/v1beta3/tunedModels/{tunedModel}:transferOwnership": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/alt"
+        },
+        {
+          "$ref": "#/components/parameters/callback"
+        },
+        {
+          "$ref": "#/components/parameters/prettyPrint"
+        },
+        {
+          "$ref": "#/components/parameters/_.xgafv"
+        }
+      ],
+      "post": {
+        "description": "Transfers ownership of the tuned model.\nThis is the only way to change ownership of the tuned model.\nThe current owner will be downgraded to writer role.",
+        "operationId": "TransferOwnership",
+        "parameters": [
+          {
+            "description": "Resource ID segment making up resource `name`. It identifies the resource within its parent collection as described in https://google.aip.dev/122.",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransferOwnershipRequest"
+              }
+            }
+          },
+          "description": "The request body."
+        },
+        "responses": {
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransferOwnershipResponse"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "security": [],
+        "tags": [
+          "generativelanguage"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "description": "Global Endpoint",
+      "url": "https://generativelanguage.googleapis.com"
+    }
+  ]
+}

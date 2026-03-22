@@ -1,0 +1,2378 @@
+
+
+
+
+
+
+
+
+
+<!doctype html>
+<html 
+      lang="en"
+      dir="ltr">
+  <head>
+    <meta name="google-signin-client-id" content="157101835696-ooapojlodmuabs2do2vuhhnf90bccmoi.apps.googleusercontent.com"><meta name="google-signin-scope"
+          content="profile email https://www.googleapis.com/auth/developerprofiles https://www.googleapis.com/auth/developerprofiles.award https://www.googleapis.com/auth/devprofiles.full_control.firstparty"><meta property="og:site_name" content="Google AI for Developers">
+    <meta property="og:type" content="website"><meta name="theme-color" content="#1967d2"><meta charset="utf-8">
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <link rel="manifest" href="/_pwa/googledevai/manifest.json"
+          crossorigin="use-credentials">
+    <link rel="preconnect" href="//www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="//fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="//apis.google.com" crossorigin>
+    <link rel="preconnect" href="//www.google-analytics.com" crossorigin><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Google+Sans:400,500|Roboto:400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Inter:400,500|Inter+Tight:300,500,600&display=swap">
+      <link rel="stylesheet"
+            href="//fonts.googleapis.com/css2?family=Material+Icons&family=Material+Symbols+Outlined&display=block"><link rel="stylesheet" href="https://www.gstatic.com/devrel-devsite/prod/v8b8ef181e1dc913802015af34f7ea88ee446e0cb5daec5c977ac4c46a7a372bd/googledevai/css/app.css">
+      
+        <link rel="stylesheet" href="https://www.gstatic.com/devrel-devsite/prod/v8b8ef181e1dc913802015af34f7ea88ee446e0cb5daec5c977ac4c46a7a372bd/googledevai/css/dark-theme.css" disabled>
+      <link rel="shortcut icon" href="https://www.gstatic.com/devrel-devsite/prod/v8b8ef181e1dc913802015af34f7ea88ee446e0cb5daec5c977ac4c46a7a372bd/googledevai/images/favicon-new.png">
+    <link rel="apple-touch-icon" href="https://www.gstatic.com/devrel-devsite/prod/v8b8ef181e1dc913802015af34f7ea88ee446e0cb5daec5c977ac4c46a7a372bd/googledevai/images/touchicon-180-new.png"><link rel="canonical" href="https://ai.google.dev/api/all-methods"><link rel="search" type="application/opensearchdescription+xml"
+            title="Google AI for Developers" href="https://ai.google.dev/s/opensearch.xml">
+      <link rel="alternate" hreflang="en"
+          href="https://ai.google.dev/api/all-methods" /><link rel="alternate" hreflang="x-default" href="https://ai.google.dev/api/all-methods" /><link rel="alternate" hreflang="ar"
+          href="https://ai.google.dev/api/all-methods?hl=ar" /><link rel="alternate" hreflang="bn"
+          href="https://ai.google.dev/api/all-methods?hl=bn" /><link rel="alternate" hreflang="zh-Hans"
+          href="https://ai.google.dev/api/all-methods?hl=zh-cn" /><link rel="alternate" hreflang="zh-Hant"
+          href="https://ai.google.dev/api/all-methods?hl=zh-tw" /><link rel="alternate" hreflang="fa"
+          href="https://ai.google.dev/api/all-methods?hl=fa" /><link rel="alternate" hreflang="fr"
+          href="https://ai.google.dev/api/all-methods?hl=fr" /><link rel="alternate" hreflang="de"
+          href="https://ai.google.dev/api/all-methods?hl=de" /><link rel="alternate" hreflang="he"
+          href="https://ai.google.dev/api/all-methods?hl=he" /><link rel="alternate" hreflang="hi"
+          href="https://ai.google.dev/api/all-methods?hl=hi" /><link rel="alternate" hreflang="id"
+          href="https://ai.google.dev/api/all-methods?hl=id" /><link rel="alternate" hreflang="it"
+          href="https://ai.google.dev/api/all-methods?hl=it" /><link rel="alternate" hreflang="ja"
+          href="https://ai.google.dev/api/all-methods?hl=ja" /><link rel="alternate" hreflang="ko"
+          href="https://ai.google.dev/api/all-methods?hl=ko" /><link rel="alternate" hreflang="pl"
+          href="https://ai.google.dev/api/all-methods?hl=pl" /><link rel="alternate" hreflang="pt-BR"
+          href="https://ai.google.dev/api/all-methods?hl=pt-br" /><link rel="alternate" hreflang="ru"
+          href="https://ai.google.dev/api/all-methods?hl=ru" /><link rel="alternate" hreflang="es-419"
+          href="https://ai.google.dev/api/all-methods?hl=es-419" /><link rel="alternate" hreflang="th"
+          href="https://ai.google.dev/api/all-methods?hl=th" /><link rel="alternate" hreflang="tr"
+          href="https://ai.google.dev/api/all-methods?hl=tr" /><link rel="alternate" hreflang="vi"
+          href="https://ai.google.dev/api/all-methods?hl=vi" /><link rel="alternate" hreflang="sq"
+          href="https://ai.google.dev/api/all-methods?hl=sq" /><title>All methods &nbsp;|&nbsp; Gemini API &nbsp;|&nbsp; Google AI for Developers</title>
+
+<meta property="og:title" content="All methods &nbsp;|&nbsp; Gemini API &nbsp;|&nbsp; Google AI for Developers"><meta property="og:url" content="https://ai.google.dev/api/all-methods"><meta property="og:image" content="https://ai.google.dev/static/site-assets/images/share-gemini-api-2.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="675"><meta property="og:locale" content="en"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Gemini API",
+      "item": "https://ai.google.dev/gemini-api"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "All methods",
+      "item": "https://ai.google.dev/api/all-methods"
+    }]
+  }
+  </script>
+  
+
+
+
+
+
+
+
+
+    
+      <link rel="stylesheet" href="/extras.css"></head>
+  <body class="gemini-api docs color-scheme--light"
+        template="page"
+        theme="googledevai-theme"
+        type="reference"
+        
+        appearance
+        
+        layout="docs"
+        
+        
+        
+        
+        
+        display-toc
+        pending>
+  
+    <devsite-progress type="indeterminate" id="app-progress"></devsite-progress>
+  
+  
+    <a href="#main-content" class="skip-link button">
+      
+      Skip to main content
+    </a>
+    <section class="devsite-wrapper">
+      <devsite-cookie-notification-bar></devsite-cookie-notification-bar><devsite-header role="banner" keep-tabs-visible>
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="devsite-header--inner" data-nosnippet>
+  <div class="devsite-top-logo-row-wrapper-wrapper">
+    <div class="devsite-top-logo-row-wrapper">
+      <div class="devsite-top-logo-row">
+        <button type="button" id="devsite-hamburger-menu"
+          class="devsite-header-icon-button button-flat material-icons gc-analytics-event"
+          data-category="Site-Wide Custom Events"
+          data-label="Navigation menu button"
+          visually-hidden
+          aria-label="Open menu">
+        </button>
+        
+<div class="devsite-product-name-wrapper">
+
+  <a href="/" class="devsite-site-logo-link gc-analytics-event"
+   data-category="Site-Wide Custom Events" data-label="Site logo" track-type="globalNav"
+   track-name="geminiAPI" track-metadata-position="nav"
+   track-metadata-eventDetail="nav">
+  
+  <picture>
+    
+    <source srcset="https://ai.google.dev/_static/googledevai/images/gemini-api-logo-dark-theme.svg"
+            media="(prefers-color-scheme: dark)"
+            class="devsite-dark-theme">
+    
+    <img src="https://ai.google.dev/_static/googledevai/images/gemini-api-logo.svg" class="devsite-site-logo" alt="Gemini API">
+  </picture>
+  
+</a>
+
+
+
+  
+  
+  <span class="devsite-product-name">
+    <ul class="devsite-breadcrumb-list"
+  >
+  
+  <li class="devsite-breadcrumb-item
+             ">
+    
+    
+    
+      
+      
+    
+  </li>
+  
+</ul>
+  </span>
+
+</div>
+        <div class="devsite-top-logo-row-middle">
+          <div class="devsite-header-upper-tabs">
+            
+           </div>
+          
+<devsite-search
+    enable-signin
+    enable-search
+    enable-suggestions
+      enable-query-completion
+    
+    enable-search-summaries
+    project-name="Gemini API"
+    tenant-name="Google AI for Developers"
+    project-scope="/gemini-api"
+    url-scoped="https://ai.google.dev/s/results/gemini-api"
+    
+    
+    
+    >
+  <form class="devsite-search-form" action="https://ai.google.dev/s/results" method="GET">
+    <div class="devsite-search-container">
+      <button type="button"
+              search-open
+              class="devsite-search-button devsite-header-icon-button button-flat material-icons"
+              
+              aria-label="Open search"></button>
+      <div class="devsite-searchbox">
+        <input
+          aria-activedescendant=""
+          aria-autocomplete="list"
+          
+          aria-label="Search"
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          autocomplete="off"
+          class="devsite-search-field devsite-search-query"
+          name="q"
+          
+          placeholder="Search"
+          role="combobox"
+          type="text"
+          value=""
+          >
+          <div class="devsite-search-image material-icons" aria-hidden="true">
+            
+              <svg class="devsite-search-ai-image" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_6641_386)">
+                    <path d="M19.6 21L13.3 14.7C12.8 15.1 12.225 15.4167 11.575 15.65C10.925 15.8833 10.2333 16 9.5 16C7.68333 16 6.14167 15.375 4.875 14.125C3.625 12.8583 3 11.3167 3 9.5C3 7.68333 3.625 6.15 4.875 4.9C6.14167 3.63333 7.68333 3 9.5 3C10.0167 3 10.5167 3.05833 11 3.175C11.4833 3.275 11.9417 3.43333 12.375 3.65L10.825 5.2C10.6083 5.13333 10.3917 5.08333 10.175 5.05C9.95833 5.01667 9.73333 5 9.5 5C8.25 5 7.18333 5.44167 6.3 6.325C5.43333 7.19167 5 8.25 5 9.5C5 10.75 5.43333 11.8167 6.3 12.7C7.18333 13.5667 8.25 14 9.5 14C10.6667 14 11.6667 13.625 12.5 12.875C13.35 12.1083 13.8417 11.15 13.975 10H15.975C15.925 10.6333 15.7833 11.2333 15.55 11.8C15.3333 12.3667 15.05 12.8667 14.7 13.3L21 19.6L19.6 21ZM17.5 12C17.5 10.4667 16.9667 9.16667 15.9 8.1C14.8333 7.03333 13.5333 6.5 12 6.5C13.5333 6.5 14.8333 5.96667 15.9 4.9C16.9667 3.83333 17.5 2.53333 17.5 0.999999C17.5 2.53333 18.0333 3.83333 19.1 4.9C20.1667 5.96667 21.4667 6.5 23 6.5C21.4667 6.5 20.1667 7.03333 19.1 8.1C18.0333 9.16667 17.5 10.4667 17.5 12Z" fill="#5F6368"/>
+                  </g>
+                <defs>
+                <clipPath id="clip0_6641_386">
+                <rect width="24" height="24" fill="white"/>
+                </clipPath>
+                </defs>
+              </svg>
+            
+          </div>
+          <div class="devsite-search-shortcut-icon-container" aria-hidden="true">
+            <kbd class="devsite-search-shortcut-icon">/</kbd>
+          </div>
+      </div>
+    </div>
+  </form>
+  <button type="button"
+          search-close
+          class="devsite-search-button devsite-header-icon-button button-flat material-icons"
+          
+          aria-label="Close search"></button>
+</devsite-search>
+
+        </div>
+
+        
+
+          
+
+          
+
+          
+
+          <devsite-appearance-selector></devsite-appearance-selector>
+
+          
+<devsite-language-selector>
+  <ul role="presentation">
+    
+    
+    <li role="presentation">
+      <a role="menuitem" lang="en"
+        >English</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="de"
+        >Deutsch</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="es_419"
+        >Español – América Latina</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="fr"
+        >Français</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="id"
+        >Indonesia</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="it"
+        >Italiano</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="pl"
+        >Polski</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="pt_br"
+        >Português – Brasil</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="sq"
+        >Shqip</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="vi"
+        >Tiếng Việt</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="tr"
+        >Türkçe</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="ru"
+        >Русский</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="he"
+        >עברית</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="ar"
+        >العربيّة</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="fa"
+        >فارسی</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="hi"
+        >हिंदी</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="bn"
+        >বাংলা</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="th"
+        >ภาษาไทย</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="zh_cn"
+        >中文 – 简体</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="zh_tw"
+        >中文 – 繁體</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="ja"
+        >日本語</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="ko"
+        >한국어</a>
+    </li>
+    
+  </ul>
+</devsite-language-selector>
+
+
+          
+            <a class="devsite-header-link devsite-top-button button gc-analytics-event "
+    href="https://aistudio.google.com/apikey"
+    data-category="Site-Wide Custom Events"
+    data-label="Site header link: Get API key"
+    
+      
+        target="_blank"
+      
+    >
+  Get API key
+</a>
+          
+            <a class="devsite-header-link devsite-top-button button gc-analytics-event "
+    href="https://github.com/google-gemini/cookbook"
+    data-category="Site-Wide Custom Events"
+    data-label="Site header link: Cookbook"
+    
+      
+        target="_blank"
+      
+    >
+  Cookbook
+</a>
+          
+            <a class="devsite-header-link devsite-top-button button gc-analytics-event "
+    href="https://discuss.ai.google.dev/c/gemini-api/"
+    data-category="Site-Wide Custom Events"
+    data-label="Site header link: Community"
+    
+      
+        target="_blank"
+      
+    >
+  Community
+</a>
+          
+
+        
+
+        
+          <devsite-user 
+                        
+                        
+                          enable-profiles
+                        
+                        
+                        id="devsite-user">
+            
+              
+              <span class="button devsite-top-button" aria-hidden="true" visually-hidden>Sign in</span>
+            
+          </devsite-user>
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="devsite-collapsible-section
+    ">
+    <div class="devsite-header-background">
+      
+        
+      
+      
+        <div class="devsite-doc-set-nav-row">
+          
+          
+            
+            
+  <devsite-tabs class="lower-tabs">
+
+    <nav class="devsite-tabs-wrapper" aria-label="Lower tabs">
+      
+        
+          <tab  >
+            
+    <a href="https://ai.google.dev/gemini-api/docs"
+    class="devsite-tabs-content gc-analytics-event "
+      track-metadata-eventdetail="https://ai.google.dev/gemini-api/docs"
+    
+       track-type="nav"
+       track-metadata-position="nav - docs"
+       track-metadata-module="primary nav"
+       
+       
+         
+           data-category="Site-Wide Custom Events"
+         
+           data-label="Tab: Docs"
+         
+           track-name="docs"
+         
+       >
+    Docs
+  
+    </a>
+    
+  
+          </tab>
+        
+      
+        
+          <tab  class="devsite-active">
+            
+    <a href="https://ai.google.dev/api"
+    class="devsite-tabs-content gc-analytics-event "
+      track-metadata-eventdetail="https://ai.google.dev/api"
+    
+       track-type="nav"
+       track-metadata-position="nav - api reference"
+       track-metadata-module="primary nav"
+       aria-label="API reference, selected" 
+       
+         
+           data-category="Site-Wide Custom Events"
+         
+           data-label="Tab: API reference"
+         
+           track-name="api reference"
+         
+       >
+    API reference
+  
+    </a>
+    
+  
+          </tab>
+        
+      
+    </nav>
+
+  </devsite-tabs>
+
+          
+          
+        </div>
+      
+    </div>
+  </div>
+
+</div>
+
+
+
+  
+
+  
+</devsite-header>
+      <devsite-book-nav scrollbars >
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="devsite-book-nav-filter"
+     hidden>
+  <span class="filter-list-icon material-icons" aria-hidden="true"></span>
+  <input type="text"
+         placeholder="Filter"
+         
+         aria-label="Type to filter"
+         role="searchbox">
+  
+  <span class="filter-clear-button hidden"
+        data-title="Clear filter"
+        aria-label="Clear filter"
+        role="button"
+        tabindex="0"></span>
+</div>
+
+<nav class="devsite-book-nav devsite-nav nocontent"
+     aria-label="Side menu">
+  <div class="devsite-mobile-header">
+    <button type="button"
+            id="devsite-close-nav"
+            class="devsite-header-icon-button button-flat material-icons gc-analytics-event"
+            data-category="Site-Wide Custom Events"
+            data-label="Close navigation"
+            aria-label="Close navigation">
+    </button>
+    <div class="devsite-product-name-wrapper">
+
+  <a href="/" class="devsite-site-logo-link gc-analytics-event"
+   data-category="Site-Wide Custom Events" data-label="Site logo" track-type="globalNav"
+   track-name="geminiAPI" track-metadata-position="nav"
+   track-metadata-eventDetail="nav">
+  
+  <picture>
+    
+    <source srcset="https://ai.google.dev/_static/googledevai/images/gemini-api-logo-dark-theme.svg"
+            media="(prefers-color-scheme: dark)"
+            class="devsite-dark-theme">
+    
+    <img src="https://ai.google.dev/_static/googledevai/images/gemini-api-logo.svg" class="devsite-site-logo" alt="Gemini API">
+  </picture>
+  
+</a>
+
+
+  
+      <span class="devsite-product-name">
+        
+        
+        <ul class="devsite-breadcrumb-list"
+  >
+  
+  <li class="devsite-breadcrumb-item
+             ">
+    
+    
+    
+      
+      
+    
+  </li>
+  
+</ul>
+      </span>
+    
+
+</div>
+  </div>
+
+  <div class="devsite-book-nav-wrapper">
+    <div class="devsite-mobile-nav-top">
+      
+        <ul class="devsite-nav-list">
+          
+            <li class="devsite-nav-item">
+              
+  
+  <a href="/gemini-api/docs"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              devsite-nav-active"
+    
+
+    
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Tab: Gemini API"
+      
+        track-name="gemini api"
+      
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: Gemini API"
+     track-type="globalNav"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      Gemini API
+   </span>
+    
+  
+  </a>
+  
+
+  
+              
+                <ul class="devsite-nav-responsive-tabs">
+                  
+                    
+                    
+                    
+                    <li class="devsite-nav-item">
+                      
+  
+  <a href="/gemini-api/docs"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              "
+    
+
+    
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Tab: Docs"
+      
+        track-name="docs"
+      
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: Docs"
+     track-type="globalNav"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      Docs
+   </span>
+    
+  
+  </a>
+  
+
+  
+                    </li>
+                  
+                    
+                    
+                    
+                    <li class="devsite-nav-item">
+                      
+  
+  <a href="/api"
+    
+       class="devsite-nav-title gc-analytics-event
+              
+              devsite-nav-active"
+    
+
+    
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Tab: API reference"
+      
+        track-name="api reference"
+      
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: API reference"
+     track-type="globalNav"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip menu="_book">
+      API reference
+   </span>
+    
+  
+  </a>
+  
+
+  
+                    </li>
+                  
+                </ul>
+              
+            </li>
+          
+          
+    
+    
+<li class="devsite-nav-item">
+
+  
+  <a href="https://aistudio.google.com/apikey"
+    
+       class="devsite-nav-title gc-analytics-event "
+    
+
+    
+      
+        target="_blank"
+      
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: Get API key"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      Get API key
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+  
+    
+    
+<li class="devsite-nav-item">
+
+  
+  <a href="https://github.com/google-gemini/cookbook"
+    
+       class="devsite-nav-title gc-analytics-event "
+    
+
+    
+      
+        target="_blank"
+      
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: Cookbook"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      Cookbook
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+  
+    
+    
+<li class="devsite-nav-item">
+
+  
+  <a href="https://discuss.ai.google.dev/c/gemini-api/"
+    
+       class="devsite-nav-title gc-analytics-event "
+    
+
+    
+      
+        target="_blank"
+      
+    
+     data-category="Site-Wide Custom Events"
+     data-label="Responsive Tab: Community"
+     track-type="navMenu"
+     track-metadata-eventDetail="globalMenu"
+     track-metadata-position="nav">
+  
+    <span class="devsite-nav-text" tooltip >
+      Community
+   </span>
+    
+  
+  </a>
+  
+
+</li>
+
+  
+          
+        </ul>
+      
+    </div>
+    
+      <div class="devsite-mobile-nav-bottom">
+        
+          
+          <ul class="devsite-nav-list" menu="_book">
+            <li class="devsite-nav-item"><a href="/api"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /api"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/api"
+      ><span class="devsite-nav-text" tooltip>Overview</span></a></li>
+
+  <li class="devsite-nav-item"><a href="/gemini-api/docs/api-versions"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /gemini-api/docs/api-versions"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/gemini-api/docs/api-versions"
+      ><span class="devsite-nav-text" tooltip>API versions</span></a></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-heading"><div class="devsite-nav-title devsite-nav-title-no-path">
+        <span class="devsite-nav-text" tooltip>Capabilities</span>
+      </div></li>
+
+  <li class="devsite-nav-item"><a href="/api/models"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /api/models"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/api/models"
+      ><span class="devsite-nav-text" tooltip>Models</span></a></li>
+
+  <li class="devsite-nav-item"><a href="/api/generate-content"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /api/generate-content"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/api/generate-content"
+      ><span class="devsite-nav-text" tooltip>Generating content</span></a></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-preview"><a href="/api/live"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /api/live"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/api/live"
+      ><span class="devsite-nav-text" tooltip>Live API</span><span class="devsite-nav-icon material-icons"
+        data-icon="preview"
+        data-title="Preview"
+        aria-hidden="true"></span></a></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-preview"><a href="/api/live_music"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /api/live_music"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/api/live_music"
+      ><span class="devsite-nav-text" tooltip>Live Music API</span><span class="devsite-nav-icon material-icons"
+        data-icon="preview"
+        data-title="Preview"
+        aria-hidden="true"></span></a></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-beta"><a href="/api/interactions-api"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /api/interactions-api"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/api/interactions-api"
+      ><span class="devsite-nav-text" tooltip>Interactions API</span><span class="devsite-nav-icon material-icons"
+        data-icon="beta"
+        data-title="Beta"
+        aria-hidden="true"></span></a></li>
+
+  <li class="devsite-nav-item"><a href="/api/tokens"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /api/tokens"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/api/tokens"
+      ><span class="devsite-nav-text" tooltip>Tokens</span></a></li>
+
+  <li class="devsite-nav-item"><a href="/api/files"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /api/files"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/api/files"
+      ><span class="devsite-nav-text" tooltip>Files</span></a></li>
+
+  <li class="devsite-nav-item"><a href="/api/batch-api"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /api/batch-api"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/api/batch-api"
+      ><span class="devsite-nav-text" tooltip>Batch API</span></a></li>
+
+  <li class="devsite-nav-item"><a href="/api/caching"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /api/caching"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/api/caching"
+      ><span class="devsite-nav-text" tooltip>Caching</span></a></li>
+
+  <li class="devsite-nav-item"><a href="/api/embeddings"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /api/embeddings"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/api/embeddings"
+      ><span class="devsite-nav-text" tooltip>Embeddings</span></a></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-expandable"><div class="devsite-expandable-nav">
+      <a class="devsite-nav-toggle" aria-hidden="true"></a><div class="devsite-nav-title devsite-nav-title-no-path" tabindex="0" role="button">
+        <span class="devsite-nav-text" tooltip>File search</span>
+      </div><ul class="devsite-nav-section"><li class="devsite-nav-item"><a href="/api/file-search/file-search-stores"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /api/file-search/file-search-stores"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/api/file-search/file-search-stores"
+      ><span class="devsite-nav-text" tooltip>File search stores</span></a></li><li class="devsite-nav-item"><a href="/api/file-search/documents"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /api/file-search/documents"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/api/file-search/documents"
+      ><span class="devsite-nav-text" tooltip>Document</span></a></li></ul></div></li>
+
+  <li class="devsite-nav-item"><a href="/api/all-methods"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /api/all-methods"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/api/all-methods"
+      ><span class="devsite-nav-text" tooltip>All methods</span></a></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-expandable
+           devsite-nav-deprecated"><div class="devsite-expandable-nav">
+      <a class="devsite-nav-toggle" aria-hidden="true"></a><div class="devsite-nav-title devsite-nav-title-no-path" tabindex="0" role="button">
+        <span class="devsite-nav-text" tooltip>Deprecated</span><span class="devsite-nav-icon material-icons"
+        data-icon="deprecated"
+        data-title="Deprecated"
+        aria-hidden="true"></span>
+      </div><ul class="devsite-nav-section"><li class="devsite-nav-item"><a href="/api/palm"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: /api/palm"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="/api/palm"
+      ><span class="devsite-nav-text" tooltip>PaLM (decomissioned)</span></a></li></ul></div></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-heading"><div class="devsite-nav-title devsite-nav-title-no-path">
+        <span class="devsite-nav-text" tooltip>SDK references</span>
+      </div></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-external"><a href="https://googleapis.github.io/python-genai/"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: https://googleapis.github.io/python-genai/"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="https://googleapis.github.io/python-genai/"
+      ><span class="devsite-nav-text" tooltip>Python</span><span class="devsite-nav-icon material-icons"
+        data-icon="external"
+        data-title="External"
+        aria-hidden="true"></span></a></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-external"><a href="https://pkg.go.dev/google.golang.org/genai"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: https://pkg.go.dev/google.golang.org/genai"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="https://pkg.go.dev/google.golang.org/genai"
+      ><span class="devsite-nav-text" tooltip>Go</span><span class="devsite-nav-icon material-icons"
+        data-icon="external"
+        data-title="External"
+        aria-hidden="true"></span></a></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-external"><a href="https://googleapis.github.io/js-genai/"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: https://googleapis.github.io/js-genai/"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="https://googleapis.github.io/js-genai/"
+      ><span class="devsite-nav-text" tooltip>TypeScript</span><span class="devsite-nav-icon material-icons"
+        data-icon="external"
+        data-title="External"
+        aria-hidden="true"></span></a></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-external"><a href="https://googleapis.github.io/java-genai/javadoc/"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: https://googleapis.github.io/java-genai/javadoc/"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="https://googleapis.github.io/java-genai/javadoc/"
+      ><span class="devsite-nav-text" tooltip>Java</span><span class="devsite-nav-icon material-icons"
+        data-icon="external"
+        data-title="External"
+        aria-hidden="true"></span></a></li>
+
+  <li class="devsite-nav-item
+           devsite-nav-external"><a href="https://googleapis.github.io/dotnet-genai/"
+        class="devsite-nav-title gc-analytics-event"
+        data-category="Site-Wide Custom Events"
+        data-label="Book nav link, pathname: https://googleapis.github.io/dotnet-genai/"
+        track-type="bookNav"
+        track-name="click"
+        track-metadata-eventdetail="https://googleapis.github.io/dotnet-genai/"
+      ><span class="devsite-nav-text" tooltip>C#</span><span class="devsite-nav-icon material-icons"
+        data-icon="external"
+        data-title="External"
+        aria-hidden="true"></span></a></li>
+          </ul>
+        
+        
+          
+    
+  
+        
+        
+          
+    
+  
+    
+  
+        
+      </div>
+    
+  </div>
+</nav>
+        
+      </devsite-book-nav>
+      <section id="gc-wrapper">
+        <main role="main" id="main-content" class="devsite-main-content"
+            
+              has-book-nav
+              has-sidebar
+            >
+          <div class="devsite-sidebar">
+            <div class="devsite-sidebar-content">
+                
+                <devsite-toc class="devsite-nav"
+                            role="navigation"
+                            aria-label="On this page"
+                            depth="2"
+                            scrollbars
+                  ></devsite-toc>
+                <devsite-recommendations-sidebar class="nocontent devsite-nav">
+                </devsite-recommendations-sidebar>
+            </div>
+          </div>
+          <devsite-content>
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+<article class="devsite-article">
+  
+  
+  
+    <div class="devsite-banner devsite-banner-announcement nocontent"
+      
+        
+    background="google-blue"
+  
+      >
+      <div class="devsite-banner-message">
+        <div class="devsite-banner-message-text">
+          <div style="text-align: center;">
+  Try the new
+  <a href="/gemini-api/docs/tool-combination" style="color: black;">Built-in tools and Function calling combination</a>
+  feature, and
+  <a href="/gemini-api/docs/maps-grounding" style="color: black;">Grounding with Google Maps</a>,
+  now supported for Gemini 3 models.
+</div>
+        </div>
+      </div>
+    </div>
+  
+  
+  
+
+  <div class="devsite-article-meta nocontent" role="navigation">
+    
+    
+    <ul class="devsite-breadcrumb-list"
+  
+    aria-label="Breadcrumb">
+  
+  <li class="devsite-breadcrumb-item
+             ">
+    
+    
+    
+      
+        
+  <a href="https://ai.google.dev/"
+      
+        class="devsite-breadcrumb-link gc-analytics-event"
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Breadcrumbs"
+      
+        data-value="1"
+      
+        track-type="globalNav"
+      
+        track-name="breadcrumb"
+      
+        track-metadata-position="1"
+      
+        track-metadata-eventdetail=""
+      
+    >
+    
+          Home
+        
+  </a>
+  
+      
+    
+  </li>
+  
+  <li class="devsite-breadcrumb-item
+             ">
+    
+      
+      <div class="devsite-breadcrumb-guillemet material-icons" aria-hidden="true"></div>
+    
+    
+    
+      
+        
+  <a href="https://ai.google.dev/gemini-api"
+      
+        class="devsite-breadcrumb-link gc-analytics-event"
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Breadcrumbs"
+      
+        data-value="2"
+      
+        track-type="globalNav"
+      
+        track-name="breadcrumb"
+      
+        track-metadata-position="2"
+      
+        track-metadata-eventdetail="Gemini API"
+      
+    >
+    
+          Gemini API
+        
+  </a>
+  
+      
+    
+  </li>
+  
+  <li class="devsite-breadcrumb-item
+             ">
+    
+      
+      <div class="devsite-breadcrumb-guillemet material-icons" aria-hidden="true"></div>
+    
+    
+    
+      
+        
+  <a href="https://ai.google.dev/api"
+      
+        class="devsite-breadcrumb-link gc-analytics-event"
+      
+        data-category="Site-Wide Custom Events"
+      
+        data-label="Breadcrumbs"
+      
+        data-value="3"
+      
+        track-type="globalNav"
+      
+        track-name="breadcrumb"
+      
+        track-metadata-position="3"
+      
+        track-metadata-eventdetail=""
+      
+    >
+    
+          API reference
+        
+  </a>
+  
+      
+    
+  </li>
+  
+</ul>
+    
+      
+    <devsite-thumb-rating position="header">
+    </devsite-thumb-rating>
+  
+    
+  </div>
+  
+    <devsite-feedback
+  position="header"
+  project-name="Gemini API"
+  product-id="5292923"
+  bucket="documentation"
+  context=""
+  version="t-devsite-webserver-20260317-r00-rc00.476212536351355237"
+  data-label="Send Feedback Button"
+  track-type="feedback"
+  track-name="sendFeedbackLink"
+  track-metadata-position="header"
+  class="nocontent"
+  
+  
+  
+    project-icon="https://www.gstatic.com/devrel-devsite/prod/v8b8ef181e1dc913802015af34f7ea88ee446e0cb5daec5c977ac4c46a7a372bd/googledevai/images/touchicon-180-new.png"
+  
+  
+  
+  >
+
+  <button>
+  
+    
+    Send feedback
+  
+  </button>
+</devsite-feedback>
+  
+    <h1 class="devsite-page-title" tabindex="-1">
+      All methods<devsite-actions hidden data-nosnippet>
+    <devsite-llm-tools></devsite-llm-tools></devsite-actions>
+  
+      
+    </h1>
+  <div class="devsite-page-title-meta"><devsite-view-release-notes></devsite-view-release-notes></div>
+  
+
+  <devsite-toc class="devsite-nav"
+    depth="2"
+    devsite-toc-embedded
+    >
+  </devsite-toc>
+  
+    
+  <div class="devsite-article-body clearfix
+  ">
+
+  
+    
+    <style>
+    @media screen and (max-width: 2099px) {
+        devsite-toc.devsite-toc,devsite-toc[visible].devsite-toc {
+            display:none
+        }
+        devsite-toc.devsite-toc-embedded:not(:empty) {
+            display: block;
+            margin: 28px 0 24px
+        }
+        body[layout][concierge] devsite-toc.devsite-toc-embedded {
+            display: none
+        }
+        devsite-toc.devsite-toc-embedded:not(:empty)~.devsite-article-body>:first-child {
+            margin-top: 0
+        }
+        body[template=landing] devsite-toc.devsite-toc-embedded:not(:empty) {
+            margin: 20px 40px 24px
+        }
+    }
+
+    body[layout=docs] .devsite-main-content[has-book-nav],
+    body[layout=docs] .devsite-main-content[has-book-nav][has-sidebar],
+    body[layout=docs][concierge] .devsite-main-content[has-book-nav],
+    body[layout=docs][concierge] .devsite-main-content[has-book-nav][has-sidebar] {
+        grid-template-columns: minmax(269px, 1fr) minmax(365px, 1600px) 1fr;
+    }
+    body[layout=docs] devsite-content,
+    body[layout=docs][concierge] devsite-content {
+        width: 100%;
+        max-width: 1600px;
+    }
+    .prototype {
+      code {
+        padding: 0;
+        word-break: break-all;
+      }
+      devsite-selector {
+        font-size: 0.9rem;
+        devsite-tabs tab > a {
+          font-size: 0.9rem;
+        }
+        devsite-selector {
+          margin: 12px -23px 0;
+        }
+      }
+      devsite-code pre {
+        margin: 0;
+        padding-block: 12px;
+        padding-inline: 12px;
+        max-height: 600px;
+        font-size: 0.8rem;
+        code {
+          font-size: 0.8rem;
+        }
+      }
+      devsite-code .devsite-code-buttons-container + pre {
+        padding-block: var(--devsite-code-button-size, 24px) 0;
+      }
+      .endpoint {
+        display: inline-flex;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        align-items: baseline;
+        justify-content: flex-start;
+        column-gap: 12px;
+
+        padding: 4px 8px;
+        color: var(--devsite-ref-palette--grey800, #3c4043);
+        background: var(--devsite-code-background, #f1f3f4);
+        border: 1px solid var(--devsite-ref-palette--grey500, #9aa0a6);
+        border-radius: 4px;
+
+        /* Sys > Typography > Core Composites - Desktop/Overline-s */
+        font-family: Roboto;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 16px; /* 145.455% */
+        letter-spacing: 0.8px;
+
+        .http-method {
+          color: var(--devsite-ref-palette--green600, #1e8e3e);
+          font-size: 12px;
+          text-transform: uppercase;
+        }
+
+        .endpoint-url {
+          display: inline-block;
+        }
+      }
+      .field-entry {
+        display: flex;
+        flex-direction: column;
+        align-items: initial;
+        justify-content: initial;
+        overflow: hidden;
+        margin: 24px 0 0 12px;
+        p {
+          margin: 0;
+          font-family: Roboto;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 20px; /* 166.667% */
+        }
+        .signature {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          align-items: flex-end;
+          justify-content: initial;
+          overflow: hidden;
+          column-gap: 12px;
+          row-gap: 0;
+          .field-name {
+            display: inline-block;
+            padding-block: 2px;
+            padding-inline: 0;
+            font-weight: 500;
+          }
+          .field-type {
+            display: inline-block;
+            padding-block: 2px;
+            padding-inline: 0;
+            opacity: 0.85;
+            font-size: 0.9em;
+          }
+          .field-nessesity {
+              display: inline-block;
+              padding: 2px 0;
+              &.required {
+                color: red;
+              }
+              &.optional {
+                color: rgba(0, 0, 0, 0.66);
+              }
+            }
+          }
+        .field-description {
+            display: inline-block;
+            margin-top: 4px;
+        }
+        &.union-type {
+          .union-type-preamble {
+              display: flex;
+              flex-direction: column;
+              align-items: initial;
+              justify-content: initial;
+              row-gap: 12px;
+          }
+          /* nested field-entry styles */
+          .field-entry {
+              border-left: solid 1px #a8a8a8;
+              padding-inline: 12px 0;
+          }
+        }
+      }
+      .column-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: initial;
+        justify-content: initial;
+        max-width: 1600px;
+        gap: 0 24px;
+        .reference {
+          flex: 1 1 0;
+          min-width: 400px;
+        }
+        .second-column {
+          flex: 1 1 0;
+          min-width: 350px;
+          max-width: 600px;
+          position: sticky;
+          top: var(--devsite-js-header-height, 110px);
+          height: 100%;
+        }
+      }
+    }
+    </style><div itemscope="" itemtype="http://developers.google.com/ReferenceObject"><h2 id="generative-language-api" data-text="Generative Language API" tabindex="-1">Generative Language API</h2><a name="index"></a>
+<meta content="index" itemprop="name"/>
+<meta content="/api/rest/index" itemprop="path"/>
+<section id="/api/rest/index">
+<p>The Gemini API allows developers to build generative AI applications using Gemini models. Gemini is our most capable model, built from the ground up to be multimodal. It can generalize and seamlessly understand, operate across, and combine different types of information including language, images, audio, video, and code. You can use the Gemini API for use cases like reasoning across text and images, content generation, dialogue agents, summarization and classification systems, and more.</p>
+<ul class="toc">
+<li><a href="#v1beta.batches">REST Resource: v1beta.batches</a></li><li><a href="#v1beta.cachedContents">REST Resource: v1beta.cachedContents</a></li><li><a href="#v1beta.corpora">REST Resource: v1beta.corpora</a></li><li><a href="#v1beta.corpora.operations">REST Resource: v1beta.corpora.operations</a></li><li><a href="#v1beta.corpora.permissions">REST Resource: v1beta.corpora.permissions</a></li><li><a href="#v1beta.dynamic">REST Resource: v1beta.dynamic</a></li><li><a href="#v1beta.fileSearchStores">REST Resource: v1beta.fileSearchStores</a></li><li><a href="#v1beta.fileSearchStores.documents">REST Resource: v1beta.fileSearchStores.documents</a></li><li><a href="#v1beta.fileSearchStores.operations">REST Resource: v1beta.fileSearchStores.operations</a></li><li><a href="#v1beta.fileSearchStores.upload.operations">REST Resource: v1beta.fileSearchStores.upload.operations</a></li><li><a href="#v1beta.files">REST Resource: v1beta.files</a></li><li><a href="#v1beta.generatedFiles">REST Resource: v1beta.generatedFiles</a></li><li><a href="#v1beta.generatedFiles.operations">REST Resource: v1beta.generatedFiles.operations</a></li><li><a href="#v1beta.media">REST Resource: v1beta.media</a></li><li><a href="#v1beta.models">REST Resource: v1beta.models</a></li><li><a href="#v1beta.models.operations">REST Resource: v1beta.models.operations</a></li><li><a href="#v1beta.tunedModels">REST Resource: v1beta.tunedModels</a></li><li><a href="#v1beta.tunedModels.operations">REST Resource: v1beta.tunedModels.operations</a></li><li><a href="#v1beta.tunedModels.permissions">REST Resource: v1beta.tunedModels.permissions</a></li>
+</ul>
+<section id="generativelanguage.googleapis.com">
+<h2 id="service:-generativelanguage.googleapis.com" data-text="Service: generativelanguage.googleapis.com" tabindex="-1">Service: generativelanguage.googleapis.com</h2>
+<p>To call this service, we recommend that you use the Google-provided <a href="https://cloud.google.com/apis/docs/client-libraries-explained">client libraries</a>. If your application needs to use your own libraries to call this service, use the following information when you make the API requests.</p>
+<section id="generativelanguage.googleapis.com.endpoints">
+<h3 id="service-endpoint" data-text="Service endpoint" tabindex="-1">Service endpoint</h3>
+<div id="rest_endpoints"></div><p>A <a href="https://cloud.google.com/apis/design/glossary#api_service_endpoint">service endpoint</a> is a base URL that specifies the network address of an API service. One service might have multiple service endpoints. This service has the following service endpoint and all URIs below are relative to this service endpoint:</p>
+<ul>
+<li><code translate="no" dir="ltr">https://generativelanguage.googleapis.com</code></li>
+</ul>
+</section>
+</section>
+<section id="v1beta.batches">
+<h2 id="rest-resource:-v1beta.batches" data-text="REST Resource: v1beta.batches" tabindex="-1">REST Resource: <a href="/api/batch-api#v1beta.batches">v1beta.batches</a></h2>
+<section id="v1beta.batches.METHODS_SUMMARY">
+<table class="methods responsive fixed" id="v1beta.batches.METHODS_SUMMARY-table">
+<colgroup>
+<col width="25%"/>
+<col/>
+</colgroup>
+<thead>
+<tr>
+<th colspan="2">Methods</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/batch-api#v1beta.batches.cancel">cancel</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/{name=batches/*}:cancel</code> <br/>
+                  Starts asynchronous cancellation on a long-running operation.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/batch-api#v1beta.batches.delete">delete</a></code></td>
+<td>
+<code translate="no" dir="ltr">DELETE /v1beta/{name=batches/*}</code> <br/>
+                  Deletes a long-running operation.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/batch-api#v1beta.batches.get">get</a></code></td>
+<td>
+<code translate="no" dir="ltr">GET /v1beta/{name=batches/*}</code> <br/>
+                  Gets the latest state of a long-running operation.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/batch-api#v1beta.batches.list">list</a></code></td>
+<td>
+<code translate="no" dir="ltr">GET /v1beta/{name=batches}</code> <br/>
+                  Lists operations that match the specified filter in the request.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/batch-api#v1beta.batches.updateEmbedContentBatch">updateEmbedContentBatch</a></code></td>
+<td>
+<code translate="no" dir="ltr">PATCH /v1beta/{embedContentBatch.name=batches/*}:updateEmbedContentBatch</code> <br/>
+                  Updates a batch of EmbedContent requests for batch processing.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/batch-api#v1beta.batches.updateGenerateContentBatch">updateGenerateContentBatch</a></code></td>
+<td>
+<code translate="no" dir="ltr">PATCH /v1beta/{generateContentBatch.name=batches/*}:updateGenerateContentBatch</code> <br/>
+                  Updates a batch of GenerateContent requests for batch processing.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="v1beta.cachedContents">
+<h2 id="rest-resource:-v1beta.cachedcontents" data-text="REST Resource: v1beta.cachedContents" tabindex="-1">REST Resource: <a href="/api/caching#v1beta.cachedContents">v1beta.cachedContents</a></h2>
+<section id="v1beta.cachedContents.METHODS_SUMMARY">
+<table class="methods responsive fixed" id="v1beta.cachedContents.METHODS_SUMMARY-table">
+<colgroup>
+<col width="25%"/>
+<col/>
+</colgroup>
+<thead>
+<tr>
+<th colspan="2">Methods</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/caching#v1beta.cachedContents.create">create</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/cachedContents</code> <br/>
+                  Creates CachedContent resource.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/caching#v1beta.cachedContents.delete">delete</a></code></td>
+<td>
+<code translate="no" dir="ltr">DELETE /v1beta/{name=cachedContents/*}</code> <br/>
+                  Deletes CachedContent resource.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/caching#v1beta.cachedContents.get">get</a></code></td>
+<td>
+<code translate="no" dir="ltr">GET /v1beta/{name=cachedContents/*}</code> <br/>
+                  Reads CachedContent resource.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/caching#v1beta.cachedContents.list">list</a></code></td>
+<td>
+<code translate="no" dir="ltr">GET /v1beta/cachedContents</code> <br/>
+                  Lists CachedContents.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/caching#v1beta.cachedContents.patch">patch</a></code></td>
+<td>
+<code translate="no" dir="ltr">PATCH /v1beta/{cachedContent.name=cachedContents/*}</code> <br/>
+                  Updates CachedContent resource (only expiration is updatable).</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+
+
+<section id="v1beta.fileSearchStores">
+<h2 id="rest-resource:-v1beta.filesearchstores" data-text="REST Resource: v1beta.fileSearchStores" tabindex="-1">REST Resource: <a href="/api/file-search/file-search-stores#v1beta.fileSearchStores">v1beta.fileSearchStores</a></h2>
+<section id="v1beta.fileSearchStores.METHODS_SUMMARY">
+<table class="methods responsive fixed" id="v1beta.fileSearchStores.METHODS_SUMMARY-table">
+<colgroup>
+<col width="25%"/>
+<col/>
+</colgroup>
+<thead>
+<tr>
+<th colspan="2">Methods</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/file-search/file-search-stores#v1beta.fileSearchStores.create">create</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/fileSearchStores</code> <br/>
+                  Creates an empty <code translate="no" dir="ltr">FileSearchStore</code>.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/file-search/file-search-stores#v1beta.fileSearchStores.delete">delete</a></code></td>
+<td>
+<code translate="no" dir="ltr">DELETE /v1beta/{name=fileSearchStores/*}</code> <br/>
+                  Deletes a <code translate="no" dir="ltr">FileSearchStore</code>.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/file-search/file-search-stores#v1beta.fileSearchStores.get">get</a></code></td>
+<td>
+<code translate="no" dir="ltr">GET /v1beta/{name=fileSearchStores/*}</code> <br/>
+                  Gets information about a specific <code translate="no" dir="ltr">FileSearchStore</code>.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/file-search/file-search-stores#v1beta.fileSearchStores.importFile">importFile</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/{fileSearchStoreName=fileSearchStores/*}:importFile</code> <br/>
+                  Imports a <code translate="no" dir="ltr">File</code> from File Service to a <code translate="no" dir="ltr">FileSearchStore</code>.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/file-search/file-search-stores#v1beta.fileSearchStores.list">list</a></code></td>
+<td>
+<code translate="no" dir="ltr">GET /v1beta/fileSearchStores</code> <br/>
+                  Lists all <code translate="no" dir="ltr">FileSearchStores</code> owned by the user.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="v1beta.fileSearchStores.documents">
+<h2 id="rest-resource:-v1beta.filesearchstores.documents" data-text="REST Resource: v1beta.fileSearchStores.documents" tabindex="-1">REST Resource: <a href="/api/file-search/documents#v1beta.fileSearchStores">v1beta.fileSearchStores.documents</a></h2>
+<section id="v1beta.fileSearchStores.documents.METHODS_SUMMARY">
+<table class="methods responsive fixed" id="v1beta.fileSearchStores.documents.METHODS_SUMMARY-table">
+<colgroup>
+<col width="25%"/>
+<col/>
+</colgroup>
+<thead>
+<tr>
+<th colspan="2">Methods</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/file-search/documents#v1beta.fileSearchStores.documents.delete">delete</a></code></td>
+<td>
+<code translate="no" dir="ltr">DELETE /v1beta/{name=fileSearchStores/*/documents/*}</code> <br/>
+                  Deletes a <code translate="no" dir="ltr">Document</code>.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/file-search/documents#v1beta.fileSearchStores.documents.get">get</a></code></td>
+<td>
+<code translate="no" dir="ltr">GET /v1beta/{name=fileSearchStores/*/documents/*}</code> <br/>
+                  Gets information about a specific <code translate="no" dir="ltr">Document</code>.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/file-search/documents#v1beta.fileSearchStores.documents.list">list</a></code></td>
+<td>
+<code translate="no" dir="ltr">GET /v1beta/{parent=fileSearchStores/*}/documents</code> <br/>
+                  Lists all <code translate="no" dir="ltr">Document</code>s in a <code translate="no" dir="ltr">Corpus</code>.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="v1beta.fileSearchStores.operations">
+<h2 id="rest-resource:-v1beta.filesearchstores.operations" data-text="REST Resource: v1beta.fileSearchStores.operations" tabindex="-1">REST Resource: <a href="/api/file-search/file-search-stores#v1beta.fileSearchStores">v1beta.fileSearchStores.operations</a></h2>
+<section id="v1beta.fileSearchStores.operations.METHODS_SUMMARY">
+<table class="methods responsive fixed" id="v1beta.fileSearchStores.operations.METHODS_SUMMARY-table">
+<colgroup>
+<col width="25%"/>
+<col/>
+</colgroup>
+<thead>
+<tr>
+<th colspan="2">Methods</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/file-search/file-search-stores#v1beta.fileSearchStores.operations.get">get</a></code></td>
+<td>
+<code translate="no" dir="ltr">GET /v1beta/{name=fileSearchStores/*/operations/*}</code> <br/>
+                  Gets the latest state of a long-running operation.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="v1beta.fileSearchStores.upload.operations">
+<h2 id="rest-resource:-v1beta.filesearchstores.upload.operations" data-text="REST Resource: v1beta.fileSearchStores.upload.operations" tabindex="-1">REST Resource: <a href="/api/file-search/file-search-stores#v1beta.fileSearchStores.upload">v1beta.fileSearchStores.upload.operations</a></h2>
+<section id="v1beta.fileSearchStores.upload.operations.METHODS_SUMMARY">
+<table class="methods responsive fixed" id="v1beta.fileSearchStores.upload.operations.METHODS_SUMMARY-table">
+<colgroup>
+<col width="25%"/>
+<col/>
+</colgroup>
+<thead>
+<tr>
+<th colspan="2">Methods</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/file-search/file-search-stores#v1beta.fileSearchStores.upload.operations.get">get</a></code></td>
+<td>
+<code translate="no" dir="ltr">GET /v1beta/{name=fileSearchStores/*/upload/operations/*}</code> <br/>
+                  Gets the latest state of a long-running operation.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="v1beta.files">
+<h2 id="rest-resource:-v1beta.files" data-text="REST Resource: v1beta.files" tabindex="-1">REST Resource: <a href="/api/files#v1beta.files">v1beta.files</a></h2>
+<section id="v1beta.files.METHODS_SUMMARY">
+<table class="methods responsive fixed" id="v1beta.files.METHODS_SUMMARY-table">
+<colgroup>
+<col width="25%"/>
+<col/>
+</colgroup>
+<thead>
+<tr>
+<th colspan="2">Methods</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/files#v1beta.files.delete">delete</a></code></td>
+<td>
+<code translate="no" dir="ltr">DELETE /v1beta/{name=files/*}</code> <br/>
+                  Deletes the <code translate="no" dir="ltr">File</code>.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/files#v1beta.files.get">get</a></code></td>
+<td>
+<code translate="no" dir="ltr">GET /v1beta/{name=files/*}</code> <br/>
+                  Gets the metadata for the given <code translate="no" dir="ltr">File</code>.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/files#v1beta.files.list">list</a></code></td>
+<td>
+<code translate="no" dir="ltr">GET /v1beta/files</code> <br/>
+                  Lists the metadata for <code translate="no" dir="ltr">File</code>s owned by the requesting project.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/files#v1beta.files.register">register</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/files:register</code> <br/>
+                  Registers a Google Cloud Storage files with FileService.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+<section id="v1beta.media">
+<h2 id="rest-resource:-v1beta.media" data-text="REST Resource: v1beta.media" tabindex="-1">REST Resource: v1beta.media</h2>
+<section id="v1beta.media.METHODS_SUMMARY">
+<table class="methods responsive fixed" id="v1beta.media.METHODS_SUMMARY-table">
+<colgroup>
+<col width="25%"/>
+<col/>
+</colgroup>
+<thead>
+<tr>
+<th colspan="2">Methods</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/files#v1beta.media.upload">upload</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/files</code> <br/>
+<code translate="no" dir="ltr">POST /upload/v1beta/files</code> <br/>
+                  Creates a <code translate="no" dir="ltr">File</code>.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/file-search/file-search-stores#v1beta.media.uploadToFileSearchStore">uploadToFileSearchStore</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/{fileSearchStoreName=fileSearchStores/*}:uploadToFileSearchStore</code> <br/>
+<code translate="no" dir="ltr">POST /upload/v1beta/{fileSearchStoreName=fileSearchStores/*}:uploadToFileSearchStore</code> <br/>
+                  Uploads data to a FileSearchStore, preprocesses and chunks before storing it in a FileSearchStore Document.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="v1beta.models">
+<h2 id="rest-resource:-v1beta.models" data-text="REST Resource: v1beta.models" tabindex="-1">REST Resource: <a href="/api/models#v1beta.models">v1beta.models</a></h2>
+<section id="v1beta.models.METHODS_SUMMARY">
+<table class="methods responsive fixed" id="v1beta.models.METHODS_SUMMARY-table">
+<colgroup>
+<col width="25%"/>
+<col/>
+</colgroup>
+<thead>
+<tr>
+<th colspan="2">Methods</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/embeddings#v1beta.models.asyncBatchEmbedContent">asyncBatchEmbedContent</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/{batch.model=models/*}:asyncBatchEmbedContent</code> <br/>
+                  Enqueues a batch of <code translate="no" dir="ltr">EmbedContent</code> requests for batch processing.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/embeddings#v1beta.models.batchEmbedContents">batchEmbedContents</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/{model=models/*}:batchEmbedContents</code> <br/>
+                  Generates multiple embedding vectors from the input <code translate="no" dir="ltr">Content</code> which consists of a batch of strings represented as <code translate="no" dir="ltr">EmbedContentRequest</code> objects.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/palm#v1beta.models.batchEmbedText">batchEmbedText</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/{model=models/*}:batchEmbedText</code> <br/>
+                  Generates multiple embeddings from the model given input text in a synchronous call.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/batch-api#v1beta.models.batchGenerateContent">batchGenerateContent</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/{batch.model=models/*}:batchGenerateContent</code> <br/>
+                  Enqueues a batch of <code translate="no" dir="ltr">GenerateContent</code> requests for batch processing.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/palm#v1beta.models.countMessageTokens">countMessageTokens</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/{model=models/*}:countMessageTokens</code> <br/>
+                  Runs a model's tokenizer on a string and returns the token count.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/palm#v1beta.models.countTextTokens">countTextTokens</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/{model=models/*}:countTextTokens</code> <br/>
+                  Runs a model's tokenizer on a text and returns the token count.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/tokens#v1beta.models.countTokens">countTokens</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/{model=models/*}:countTokens</code> <br/>
+                  Runs a model's tokenizer on input <code translate="no" dir="ltr">Content</code> and returns the token count.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/embeddings#v1beta.models.embedContent">embedContent</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/{model=models/*}:embedContent</code> <br/>
+                  Generates a text embedding vector from the input <code translate="no" dir="ltr">Content</code> using the specified <a href="https://ai.google.dev/gemini-api/docs/models/gemini#text-embedding">Gemini Embedding model</a>.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/palm#v1beta.models.embedText">embedText</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/{model=models/*}:embedText</code> <br/>
+                  Generates an embedding from the model given an input message.</td>
+</tr>
+
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/generate-content#v1beta.models.generateContent">generateContent</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/{model=models/*}:generateContent</code> <br/>
+                  Generates a model response given an input <code translate="no" dir="ltr">GenerateContentRequest</code>.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/palm#v1beta.models.generateMessage">generateMessage</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/{model=models/*}:generateMessage</code> <br/>
+                  Generates a response from the model given an input <code translate="no" dir="ltr">MessagePrompt</code>.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/palm#v1beta.models.generateText">generateText</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/{model=models/*}:generateText</code> <br/>
+                  Generates a response from the model given an input message.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/models#v1beta.models.get">get</a></code></td>
+<td>
+<code translate="no" dir="ltr">GET /v1beta/{name=models/*}</code> <br/>
+                  Gets information about a specific <code translate="no" dir="ltr">Model</code> such as its version number, token limits, <a href="https://ai.google.dev/gemini-api/docs/models/generative-models#model-parameters">parameters</a> and other metadata.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/models#v1beta.models.list">list</a></code></td>
+<td>
+<code translate="no" dir="ltr">GET /v1beta/models</code> <br/>
+                  Lists the <a href="https://ai.google.dev/gemini-api/docs/models/gemini"><code translate="no" dir="ltr">Model</code>s</a> available through the Gemini API.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/models#v1beta.models.predict">predict</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/{model=models/*}:predict</code> <br/>
+                  Performs a prediction request.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/models#v1beta.models.predictLongRunning">predictLongRunning</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/{model=models/*}:predictLongRunning</code> <br/>
+                  Same as Predict but returns an LRO.</td>
+</tr>
+<tr>
+<td>
+<code translate="no" dir="ltr"><a href="/api/generate-content#v1beta.models.streamGenerateContent">streamGenerateContent</a></code></td>
+<td>
+<code translate="no" dir="ltr">POST /v1beta/{model=models/*}:streamGenerateContent</code> <br/>
+                  Generates a <a href="https://ai.google.dev/gemini-api/docs/text-generation?lang=python#generate-a-text-stream">streamed response</a> from the model given an input <code translate="no" dir="ltr">GenerateContentRequest</code>.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+
+
+</section>
+</div>
+  
+
+  
+</div>
+
+  
+    
+    
+      
+    <devsite-thumb-rating position="footer">
+    </devsite-thumb-rating>
+  
+       
+         <devsite-feedback
+  position="footer"
+  project-name="Gemini API"
+  product-id="5292923"
+  bucket="documentation"
+  context=""
+  version="t-devsite-webserver-20260317-r00-rc00.476212536351355237"
+  data-label="Send Feedback Button"
+  track-type="feedback"
+  track-name="sendFeedbackLink"
+  track-metadata-position="footer"
+  class="nocontent"
+  
+  
+  
+    project-icon="https://www.gstatic.com/devrel-devsite/prod/v8b8ef181e1dc913802015af34f7ea88ee446e0cb5daec5c977ac4c46a7a372bd/googledevai/images/touchicon-180-new.png"
+  
+  
+  
+  >
+
+  <button>
+  
+    
+    Send feedback
+  
+  </button>
+</devsite-feedback>
+       
+    
+    
+  
+
+  <div class="devsite-floating-action-buttons"></div></article>
+
+
+<devsite-content-footer class="nocontent">
+  <p>Except as otherwise noted, the content of this page is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 License</a>, and code samples are licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 License</a>. For details, see the <a href="https://developers.google.com/site-policies">Google Developers Site Policies</a>. Java is a registered trademark of Oracle and/or its affiliates.</p>
+  <p>Last updated 2026-03-18 UTC.</p>
+</devsite-content-footer>
+
+
+<devsite-notification
+>
+</devsite-notification>
+
+
+  
+<div class="devsite-content-data">
+  
+    
+    
+    <template class="devsite-thumb-rating-feedback">
+      <devsite-feedback
+  position="thumb-rating"
+  project-name="Gemini API"
+  product-id="5292923"
+  bucket="documentation"
+  context=""
+  version="t-devsite-webserver-20260317-r00-rc00.476212536351355237"
+  data-label="Send Feedback Button"
+  track-type="feedback"
+  track-name="sendFeedbackLink"
+  track-metadata-position="thumb-rating"
+  class="nocontent"
+  
+  
+  
+    project-icon="https://www.gstatic.com/devrel-devsite/prod/v8b8ef181e1dc913802015af34f7ea88ee446e0cb5daec5c977ac4c46a7a372bd/googledevai/images/touchicon-180-new.png"
+  
+  
+  
+  >
+
+  <button>
+  
+    Need to tell us more?
+  
+  </button>
+</devsite-feedback>
+    </template>
+  
+  
+    <template class="devsite-content-data-template">
+      [[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Missing the information I need","missingTheInformationINeed","thumb-down"],["Too complicated / too many steps","tooComplicatedTooManySteps","thumb-down"],["Out of date","outOfDate","thumb-down"],["Samples / code issue","samplesCodeIssue","thumb-down"],["Other","otherDown","thumb-down"]],["Last updated 2026-03-18 UTC."],[],[]]
+    </template>
+  
+</div>
+            
+          </devsite-content>
+        </main>
+        <devsite-footer-promos class="devsite-footer">
+          
+            
+          
+        </devsite-footer-promos>
+        <devsite-footer-linkboxes class="devsite-footer">
+          
+            
+<nav class="devsite-footer-linkboxes nocontent" aria-label="Footer links">
+  
+</nav>
+          
+        </devsite-footer-linkboxes>
+        <devsite-footer-utility class="devsite-footer">
+          
+            
+
+<div class="devsite-footer-utility nocontent">
+  
+
+  
+  <nav class="devsite-footer-utility-links" aria-label="Utility links">
+    
+    <ul class="devsite-footer-utility-list">
+      
+      <li class="devsite-footer-utility-item
+                 ">
+        
+        
+        <a class="devsite-footer-utility-link gc-analytics-event"
+           href="//policies.google.com/terms"
+           data-category="Site-Wide Custom Events"
+           data-label="Footer Terms link"
+         >
+          Terms
+        </a>
+        
+      </li>
+      
+      <li class="devsite-footer-utility-item
+                 ">
+        
+        
+        <a class="devsite-footer-utility-link gc-analytics-event"
+           href="//policies.google.com/privacy"
+           data-category="Site-Wide Custom Events"
+           data-label="Footer Privacy link"
+         >
+          Privacy
+        </a>
+        
+      </li>
+      
+      <li class="devsite-footer-utility-item
+                 glue-cookie-notification-bar-control">
+        
+        
+        <a class="devsite-footer-utility-link gc-analytics-event"
+           href="#"
+           data-category="Site-Wide Custom Events"
+           data-label="Footer Manage cookies link"
+         
+           aria-hidden="true"
+         >
+          Manage cookies
+        </a>
+        
+      </li>
+      
+    </ul>
+    
+    
+<devsite-language-selector>
+  <ul role="presentation">
+    
+    
+    <li role="presentation">
+      <a role="menuitem" lang="en"
+        >English</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="de"
+        >Deutsch</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="es_419"
+        >Español – América Latina</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="fr"
+        >Français</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="id"
+        >Indonesia</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="it"
+        >Italiano</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="pl"
+        >Polski</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="pt_br"
+        >Português – Brasil</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="sq"
+        >Shqip</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="vi"
+        >Tiếng Việt</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="tr"
+        >Türkçe</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="ru"
+        >Русский</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="he"
+        >עברית</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="ar"
+        >العربيّة</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="fa"
+        >فارسی</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="hi"
+        >हिंदी</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="bn"
+        >বাংলা</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="th"
+        >ภาษาไทย</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="zh_cn"
+        >中文 – 简体</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="zh_tw"
+        >中文 – 繁體</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="ja"
+        >日本語</a>
+    </li>
+    
+    <li role="presentation">
+      <a role="menuitem" lang="ko"
+        >한국어</a>
+    </li>
+    
+  </ul>
+</devsite-language-selector>
+
+  </nav>
+</div>
+          
+        </devsite-footer-utility>
+        <devsite-panel>
+          
+        </devsite-panel>
+        
+      </section></section>
+    <devsite-sitemask></devsite-sitemask>
+    <devsite-snackbar></devsite-snackbar>
+    <devsite-tooltip ></devsite-tooltip>
+    <devsite-heading-link></devsite-heading-link>
+    <devsite-analytics>
+      
+        <script type="application/json" analytics>[]</script>
+<script type="application/json" tag-management>{&#34;at&#34;: &#34;True&#34;, &#34;ga4&#34;: [], &#34;ga4p&#34;: [], &#34;gtm&#34;: [{&#34;id&#34;: &#34;GTM-TC2MQKS8&#34;, &#34;purpose&#34;: 0}], &#34;parameters&#34;: {&#34;internalUser&#34;: &#34;False&#34;, &#34;language&#34;: {&#34;machineTranslated&#34;: &#34;False&#34;, &#34;requested&#34;: &#34;en&#34;, &#34;served&#34;: &#34;en&#34;}, &#34;pageType&#34;: &#34;reference&#34;, &#34;projectName&#34;: &#34;Gemini API&#34;, &#34;signedIn&#34;: &#34;False&#34;, &#34;tenant&#34;: &#34;googledevai&#34;, &#34;recommendations&#34;: {&#34;sourcePage&#34;: &#34;&#34;, &#34;sourceType&#34;: 0, &#34;sourceRank&#34;: 0, &#34;sourceIdenticalDescriptions&#34;: 0, &#34;sourceTitleWords&#34;: 0, &#34;sourceDescriptionWords&#34;: 0, &#34;experiment&#34;: &#34;&#34;}, &#34;experiment&#34;: {&#34;ids&#34;: &#34;&#34;}}}</script>
+      
+    </devsite-analytics>
+    
+      <devsite-badger></devsite-badger>
+    
+    
+    
+    
+<script nonce="aGha8+Xp6jJyoSvR6JcEuZhKx49It7">
+  
+  (function(d,e,v,s,i,t,E){d['GoogleDevelopersObject']=i;
+    t=e.createElement(v);t.async=1;t.src=s;E=e.getElementsByTagName(v)[0];
+    E.parentNode.insertBefore(t,E);})(window, document, 'script',
+    'https://www.gstatic.com/devrel-devsite/prod/v8b8ef181e1dc913802015af34f7ea88ee446e0cb5daec5c977ac4c46a7a372bd/googledevai/js/app_loader.js', '[59,"en",null,"/js/devsite_app_module.js","https://www.gstatic.com/devrel-devsite/prod/v8b8ef181e1dc913802015af34f7ea88ee446e0cb5daec5c977ac4c46a7a372bd","https://www.gstatic.com/devrel-devsite/prod/v8b8ef181e1dc913802015af34f7ea88ee446e0cb5daec5c977ac4c46a7a372bd/googledevai","https://googledevai-dot-devsite-v2-prod-3p.appspot.com",null,null,["/_pwa/googledevai/manifest.json","https://www.gstatic.com/devrel-devsite/prod/v8b8ef181e1dc913802015af34f7ea88ee446e0cb5daec5c977ac4c46a7a372bd/images/video-placeholder.svg","https://www.gstatic.com/devrel-devsite/prod/v8b8ef181e1dc913802015af34f7ea88ee446e0cb5daec5c977ac4c46a7a372bd/googledevai/images/favicon-new.png","/_static/googledevai/images/gemini-api-logo.svg","https://fonts.googleapis.com/css?family=Google+Sans:400,500|Roboto:400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Inter:400,500|Inter+Tight:300,500,600&display=swap"],1,null,[1,6,8,12,14,17,21,25,50,52,63,70,75,76,80,87,91,92,93,97,98,100,101,102,103,104,105,107,108,109,110,112,113,117,118,120,122,124,125,126,127,129,130,131,132,133,134,135,136,138,140,141,147,148,149,151,152,156,157,158,159,161,163,164,168,169,170,179,180,182,183,186,191,193,196],"AIzaSyCNm9YxQumEXwGJgTDjxoxXK6m1F-9720Q","AIzaSyCc76DZePGtoyUjqKrLdsMGk_ry7sljLbY","ai.google.dev","AIzaSyB9bqgQ2t11WJsOX8qNsCQ6U-w91mmqF-I","AIzaSyAdYnStPdzjcJJtQ0mvIaeaMKj7_t6J_Fg",null,null,null,["MiscFeatureFlags__enable_framebox_badge_methods","Concierge__enable_pushui","Profiles__enable_dashboard_curated_recommendations","Profiles__enable_complete_playlist_endpoint","Search__enable_suggestions_from_borg","Cloud__enable_legacy_calculator_redirect","Profiles__enable_public_developer_profiles","MiscFeatureFlags__enable_view_transitions","DevPro__enable_code_assist","Profiles__enable_playlist_community_acl","DevPro__enable_google_one_card","DevPro__enable_free_benefits","Cloud__enable_free_trial_server_call","TpcFeatures__proxy_prod_host","Analytics__enable_clearcut_logging","DevPro__enable_vertex_credit_card","DevPro__enable_google_payments_buyflow","MiscFeatureFlags__developers_footer_image","TpcFeatures__enable_unmirrored_page_left_nav","Profiles__enable_completequiz_endpoint","MiscFeatureFlags__enable_variable_operator_index_yaml","MiscFeatureFlags__enable_explicit_template_dependencies","Cloud__enable_cloud_shell","Profiles__enable_join_program_group_endpoint","CloudShell__cloud_code_overflow_menu","Concierge__enable_actions_menu","Profiles__enable_recognition_badges","Analytics__enable_devpro_interaction_logging","Profiles__enable_page_saving","Cloud__fast_free_trial","DevPro__enable_firebase_workspaces_card","DevPro__enable_developer_subscriptions","Profiles__enable_developer_profile_benefits_ui_redesign","Search__enable_page_map","MiscFeatureFlags__enable_llms_txt","Profiles__enable_user_type","Cloud__enable_llm_concierge_chat","DevPro__enable_devpro_offers","Profiles__enable_auto_apply_credits","MiscFeatureFlags__fix_lower_breadcrumbs","DevPro__enable_cloud_innovators_plus","MiscFeatureFlags__enable_project_variables","Search__enable_ai_search_summaries_for_all","Profiles__enable_awarding_url","Profiles__enable_stripe_subscription_management","MiscFeatureFlags__emergency_css","Concierge__enable_devsite_llm_tools","Search__enable_ai_eligibility_checks","DevPro__enable_credits_banner","MiscFeatureFlags__gdp_dashboard_reskin_enabled","Profiles__enable_profile_collections","Profiles__enable_callout_notifications","CloudShell__cloud_shell_button","Profiles__enable_release_notes_notifications","Experiments__reqs_query_experiments","Search__enable_dynamic_content_confidential_banner","OnSwitch__enable","EngEduTelemetry__enable_engedu_telemetry","MiscFeatureFlags__remove_cross_domain_tracking_params","BookNav__enable_tenant_cache_key","Cloud__enable_cloud_shell_fte_user_flow","DevPro__enable_embed_profile_creation","SignIn__enable_l1_signup_flow","Profiles__enable_targeted_hero","DevPro__remove_eu_tax_intake_form","MiscFeatureFlags__enable_appearance_cookies","MiscFeatureFlags__enable_variable_operator","Cloud__enable_cloud_dlp_service","Cloud__cache_serialized_dynamic_content","DevPro__enable_enterprise","Profiles__enable_completecodelab_endpoint","Profiles__enable_developer_profiles_callout","Concierge__enable_remove_info_panel_tags","Profiles__require_profile_eligibility_for_signin","MiscFeatureFlags__enable_firebase_utm","Cloud__enable_cloudx_experiment_ids","DevPro__enable_nvidia_credits_card","DevPro__enable_g1_integration","MiscFeatureFlags__developers_footer_dark_image","Profiles__enable_developer_profile_pages_as_content","Profiles__enable_purchase_prompts"],null,null,"AIzaSyA58TaKli1DculwmAmbpzLVGuWc8eCQgQc","https://developerscontentserving-pa.googleapis.com","AIzaSyDWBU60w0P9hEkr29kkksYs8Z7gvZ8u_wc","https://developerscontentsearch-pa.googleapis.com",2,4,null,"https://developerprofiles-pa.googleapis.com",[59,"googledevai","Google AI for Developers","ai.google.dev",null,"googledevai-dot-devsite-v2-prod-3p.appspot.com",null,null,[null,1,null,null,null,null,null,null,null,null,null,[1],null,null,null,null,null,null,[1],null,null,null,null,[1],[1,1,null,1,1],null,null,null,null,null,[1]],null,[73,null,null,null,null,null,"/images/lockup-new.svg","/images/touchicon-180-new.png",null,null,null,null,1,1,null,null,null,null,null,null,null,2,null,null,null,"/images/lockup-dark-theme-new.svg",[]],[],null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,[44,2,4,6,7,12,14,15,17,18,20,21,22,23,28,29,32,37,39,40,43],null,[[],[1,1],null,1],[[null,null,null,null,null,["GTM-TC2MQKS8"],null,null,null,null,null,[["GTM-TC2MQKS8",1]],1]],null,4,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,[]],null,null,1,null,"https://developerscontentinsights-pa.googleapis.com","AIzaSyC11xEGtFhkmSh_iF6l_itbxnFz2GrIBOg","AIzaSyAXJ10nRF73mmdSDINgkCNX5bbd2KPcWm8","https://developers.googleapis.com",["https://aistudio.google.com"],null,"AIzaSyCjP0KOnHfv8mwe38sfzZJMOnqE3HvrD4A",null,null,"https://developers.googleapis.com"]')
+  
+</script>
+
+    <devsite-a11y-announce></devsite-a11y-announce>
+  </body>
+</html>

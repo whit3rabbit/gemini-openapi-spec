@@ -1,0 +1,86 @@
+name: Repo Validation
+
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          submodules: recursive
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Rebuild from checked-in sources
+        run: |
+          python3 scripts/extract_python_genai_surface.py
+          python3 scripts/build_openapi.py
+          python3 scripts/extract_openai_compat_surface.py
+          python3 scripts/build_openai_compat.py
+          python3 scripts/validate_surface.py
+          python3 scripts/validate_openai_compat.py
+          python3 scripts/generate_drift_reports.py
+          python3 scripts/lint_openapi.py
+
+      - name: Assert native spec has no generic placeholder operations
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path("reports/validation-report.json").read_text())
+          count = report["native_generic_operation_count"]
+          operations = report["native_generic_operations"]
+          if count != 0:
+              raise SystemExit(
+                  f"native_generic_operation_count={count}, operations={operations}"
+              )
+          print("native_generic_operation_count=0")
+          PY
+
+      - name: Assert compat spec has no generic placeholder operations
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path("reports/openai-compat-validation-report.json").read_text())
+          count = report["compat_generic_operation_count"]
+          operations = report["compat_generic_operations"]
+          if count != 0:
+              raise SystemExit(
+                  f"compat_generic_operation_count={count}, operations={operations}"
+              )
+          print("compat_generic_operation_count=0")
+          PY
+
+      - name: Show drift summary
+        run: cat reports/drift-summary.md
+
+      - name: Upload drift summary artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo-validation-drift-reports-${{ github.run_id }}
+          path: |
+            reports/drift-summary.md
+            reports/drift-summary.json
+            reports/compat-watchlist.md
+          if-no-files-found: error
+
+      - name: Check generated files are current
+        run: git diff --exit-code -- openapi reports

@@ -1,0 +1,55 @@
+{
+  "explicit_rest_count": 7,
+  "explicit_rest_operations": [
+    {
+      "method": "POST",
+      "path": "/chat/completions",
+      "source_kind": "explicit_rest_example"
+    },
+    {
+      "method": "POST",
+      "path": "/images/generations",
+      "source_kind": "explicit_rest_example"
+    },
+    {
+      "method": "POST",
+      "path": "/videos",
+      "source_kind": "explicit_rest_example"
+    },
+    {
+      "method": "GET",
+      "path": "/videos/{video_id}",
+      "source_kind": "explicit_rest_example"
+    },
+    {
+      "method": "POST",
+      "path": "/embeddings",
+      "source_kind": "explicit_rest_example"
+    },
+    {
+      "method": "GET",
+      "path": "/models",
+      "source_kind": "explicit_rest_example"
+    },
+    {
+      "method": "GET",
+      "path": "/models/{model}",
+      "source_kind": "explicit_rest_example"
+    }
+  ],
+  "sdk_inferred_count": 2,
+  "sdk_inferred_operations": [
+    {
+      "method": "POST",
+      "note": "Mentioned by Google OpenAI compatibility SDK example. The page does not show a raw REST curl example for this route.",
+      "path": "/batches",
+      "source_kind": "sdk_example_inferred_from_openai_contract"
+    },
+    {
+      "method": "GET",
+      "note": "Mentioned by Google OpenAI compatibility SDK example. The page does not show a raw REST curl example for this route.",
+      "path": "/batches/{batch_id}",
+      "source_kind": "sdk_example_inferred_from_openai_contract"
+    }
+  ]
+}

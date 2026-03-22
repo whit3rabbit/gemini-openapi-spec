@@ -1,0 +1,106 @@
+name: Upstream Drift
+
+on:
+  schedule:
+    - cron: "17 12 * * 1"
+  workflow_dispatch:
+
+jobs:
+  drift-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          submodules: recursive
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Refresh live sources and rebuild
+        run: |
+          bash scripts/update-all.sh
+          python3 scripts/lint_openapi.py
+
+      - name: Assert native spec has no generic placeholder operations
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path("reports/validation-report.json").read_text())
+          count = report["native_generic_operation_count"]
+          operations = report["native_generic_operations"]
+          if count != 0:
+              raise SystemExit(
+                  f"native_generic_operation_count={count}, operations={operations}"
+              )
+          print("native_generic_operation_count=0")
+          PY
+
+      - name: Assert compat spec has no generic placeholder operations
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path("reports/openai-compat-validation-report.json").read_text())
+          count = report["compat_generic_operation_count"]
+          operations = report["compat_generic_operations"]
+          if count != 0:
+              raise SystemExit(
+                  f"compat_generic_operation_count={count}, operations={operations}"
+              )
+          print("compat_generic_operation_count=0")
+          PY
+
+      - name: Show drift summary
+        run: cat reports/drift-summary.md
+
+      - name: Upload drift summary artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: upstream-drift-reports-${{ github.run_id }}
+          path: |
+            reports/drift-summary.md
+            reports/drift-summary.json
+            reports/compat-watchlist.md
+          if-no-files-found: error
+
+      - name: Fail on upstream drift
+        run: |
+          git diff --exit-code
+
+      - name: Show drift summary on failure
+        if: failure()
+        run: |
+          git status --short
+          git diff --stat
+
+      - name: Capture drift diff artifacts
+        if: failure()
+        run: |
+          mkdir -p ci-artifacts
+          git status --short > ci-artifacts/git-status.txt
+          git diff --stat > ci-artifacts/git-diff-stat.txt
+          git diff > ci-artifacts/git-diff.patch
+          cp reports/drift-summary.md ci-artifacts/drift-summary.md
+          cp reports/drift-summary.json ci-artifacts/drift-summary.json
+          cp reports/compat-watchlist.md ci-artifacts/compat-watchlist.md
+
+      - name: Upload drift change artifact
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: upstream-drift-change-${{ github.run_id }}
+          path: ci-artifacts
+          if-no-files-found: error

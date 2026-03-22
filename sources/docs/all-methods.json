@@ -1,0 +1,671 @@
+{
+  "operation_count": 44,
+  "operations": [
+    {
+      "description": "Starts asynchronous cancellation on a long-running operation.",
+      "method": "POST",
+      "name": "cancel",
+      "normalized_path": "/v1beta/batches/{batch}:cancel",
+      "path_parameters": [
+        {
+          "binding_token": "name=batches/*",
+          "name": "name",
+          "openapi_name": "batch",
+          "pattern": "batches/*"
+        }
+      ],
+      "raw_path": "/v1beta/{name=batches/*}:cancel",
+      "resource": "v1beta.batches"
+    },
+    {
+      "description": "Deletes a long-running operation.",
+      "method": "DELETE",
+      "name": "delete",
+      "normalized_path": "/v1beta/batches/{batch}",
+      "path_parameters": [
+        {
+          "binding_token": "name=batches/*",
+          "name": "name",
+          "openapi_name": "batch",
+          "pattern": "batches/*"
+        }
+      ],
+      "raw_path": "/v1beta/{name=batches/*}",
+      "resource": "v1beta.batches"
+    },
+    {
+      "description": "Gets the latest state of a long-running operation.",
+      "method": "GET",
+      "name": "get",
+      "normalized_path": "/v1beta/batches/{batch}",
+      "path_parameters": [
+        {
+          "binding_token": "name=batches/*",
+          "name": "name",
+          "openapi_name": "batch",
+          "pattern": "batches/*"
+        }
+      ],
+      "raw_path": "/v1beta/{name=batches/*}",
+      "resource": "v1beta.batches"
+    },
+    {
+      "description": "Lists operations that match the specified filter in the request.",
+      "method": "GET",
+      "name": "list",
+      "normalized_path": "/v1beta/batches",
+      "path_parameters": [],
+      "raw_path": "/v1beta/{name=batches}",
+      "resource": "v1beta.batches"
+    },
+    {
+      "description": "Updates a batch of EmbedContent requests for batch processing.",
+      "method": "PATCH",
+      "name": "updateEmbedContentBatch",
+      "normalized_path": "/v1beta/batches/{batch}:updateEmbedContentBatch",
+      "path_parameters": [
+        {
+          "binding_token": "embedContentBatch.name=batches/*",
+          "name": "embedContentBatch.name",
+          "openapi_name": "batch",
+          "pattern": "batches/*"
+        }
+      ],
+      "raw_path": "/v1beta/{embedContentBatch.name=batches/*}:updateEmbedContentBatch",
+      "resource": "v1beta.batches"
+    },
+    {
+      "description": "Updates a batch of GenerateContent requests for batch processing.",
+      "method": "PATCH",
+      "name": "updateGenerateContentBatch",
+      "normalized_path": "/v1beta/batches/{batch}:updateGenerateContentBatch",
+      "path_parameters": [
+        {
+          "binding_token": "generateContentBatch.name=batches/*",
+          "name": "generateContentBatch.name",
+          "openapi_name": "batch",
+          "pattern": "batches/*"
+        }
+      ],
+      "raw_path": "/v1beta/{generateContentBatch.name=batches/*}:updateGenerateContentBatch",
+      "resource": "v1beta.batches"
+    },
+    {
+      "description": "Creates CachedContent resource.",
+      "method": "POST",
+      "name": "create",
+      "normalized_path": "/v1beta/cachedContents",
+      "path_parameters": [],
+      "raw_path": "/v1beta/cachedContents",
+      "resource": "v1beta.cachedContents"
+    },
+    {
+      "description": "Deletes CachedContent resource.",
+      "method": "DELETE",
+      "name": "delete",
+      "normalized_path": "/v1beta/cachedContents/{cachedContent}",
+      "path_parameters": [
+        {
+          "binding_token": "name=cachedContents/*",
+          "name": "name",
+          "openapi_name": "cachedContent",
+          "pattern": "cachedContents/*"
+        }
+      ],
+      "raw_path": "/v1beta/{name=cachedContents/*}",
+      "resource": "v1beta.cachedContents"
+    },
+    {
+      "description": "Reads CachedContent resource.",
+      "method": "GET",
+      "name": "get",
+      "normalized_path": "/v1beta/cachedContents/{cachedContent}",
+      "path_parameters": [
+        {
+          "binding_token": "name=cachedContents/*",
+          "name": "name",
+          "openapi_name": "cachedContent",
+          "pattern": "cachedContents/*"
+        }
+      ],
+      "raw_path": "/v1beta/{name=cachedContents/*}",
+      "resource": "v1beta.cachedContents"
+    },
+    {
+      "description": "Lists CachedContents.",
+      "method": "GET",
+      "name": "list",
+      "normalized_path": "/v1beta/cachedContents",
+      "path_parameters": [],
+      "raw_path": "/v1beta/cachedContents",
+      "resource": "v1beta.cachedContents"
+    },
+    {
+      "description": "Updates CachedContent resource (only expiration is updatable).",
+      "method": "PATCH",
+      "name": "patch",
+      "normalized_path": "/v1beta/cachedContents/{cachedContent}",
+      "path_parameters": [
+        {
+          "binding_token": "cachedContent.name=cachedContents/*",
+          "name": "cachedContent.name",
+          "openapi_name": "cachedContent",
+          "pattern": "cachedContents/*"
+        }
+      ],
+      "raw_path": "/v1beta/{cachedContent.name=cachedContents/*}",
+      "resource": "v1beta.cachedContents"
+    },
+    {
+      "description": "Creates an empty",
+      "method": "POST",
+      "name": "create",
+      "normalized_path": "/v1beta/fileSearchStores",
+      "path_parameters": [],
+      "raw_path": "/v1beta/fileSearchStores",
+      "resource": "v1beta.fileSearchStores"
+    },
+    {
+      "description": "Deletes a",
+      "method": "DELETE",
+      "name": "delete",
+      "normalized_path": "/v1beta/fileSearchStores/{fileSearchStore}",
+      "path_parameters": [
+        {
+          "binding_token": "name=fileSearchStores/*",
+          "name": "name",
+          "openapi_name": "fileSearchStore",
+          "pattern": "fileSearchStores/*"
+        }
+      ],
+      "raw_path": "/v1beta/{name=fileSearchStores/*}",
+      "resource": "v1beta.fileSearchStores"
+    },
+    {
+      "description": "Gets information about a specific",
+      "method": "GET",
+      "name": "get",
+      "normalized_path": "/v1beta/fileSearchStores/{fileSearchStore}",
+      "path_parameters": [
+        {
+          "binding_token": "name=fileSearchStores/*",
+          "name": "name",
+          "openapi_name": "fileSearchStore",
+          "pattern": "fileSearchStores/*"
+        }
+      ],
+      "raw_path": "/v1beta/{name=fileSearchStores/*}",
+      "resource": "v1beta.fileSearchStores"
+    },
+    {
+      "description": "Imports a",
+      "method": "POST",
+      "name": "importFile",
+      "normalized_path": "/v1beta/fileSearchStores/{fileSearchStore}:importFile",
+      "path_parameters": [
+        {
+          "binding_token": "fileSearchStoreName=fileSearchStores/*",
+          "name": "fileSearchStoreName",
+          "openapi_name": "fileSearchStore",
+          "pattern": "fileSearchStores/*"
+        }
+      ],
+      "raw_path": "/v1beta/{fileSearchStoreName=fileSearchStores/*}:importFile",
+      "resource": "v1beta.fileSearchStores"
+    },
+    {
+      "description": "Lists all",
+      "method": "GET",
+      "name": "list",
+      "normalized_path": "/v1beta/fileSearchStores",
+      "path_parameters": [],
+      "raw_path": "/v1beta/fileSearchStores",
+      "resource": "v1beta.fileSearchStores"
+    },
+    {
+      "description": "Deletes a",
+      "method": "DELETE",
+      "name": "delete",
+      "normalized_path": "/v1beta/fileSearchStores/{fileSearchStore}/documents/{document}",
+      "path_parameters": [
+        {
+          "binding_token": "name=fileSearchStores/*/documents/*",
+          "name": "name",
+          "openapi_name": "fileSearchStore",
+          "pattern": "fileSearchStores/*/documents/*"
+        },
+        {
+          "binding_token": "name=fileSearchStores/*/documents/*",
+          "name": "name",
+          "openapi_name": "document",
+          "pattern": "fileSearchStores/*/documents/*"
+        }
+      ],
+      "raw_path": "/v1beta/{name=fileSearchStores/*/documents/*}",
+      "resource": "v1beta.fileSearchStores.documents"
+    },
+    {
+      "description": "Gets information about a specific",
+      "method": "GET",
+      "name": "get",
+      "normalized_path": "/v1beta/fileSearchStores/{fileSearchStore}/documents/{document}",
+      "path_parameters": [
+        {
+          "binding_token": "name=fileSearchStores/*/documents/*",
+          "name": "name",
+          "openapi_name": "fileSearchStore",
+          "pattern": "fileSearchStores/*/documents/*"
+        },
+        {
+          "binding_token": "name=fileSearchStores/*/documents/*",
+          "name": "name",
+          "openapi_name": "document",
+          "pattern": "fileSearchStores/*/documents/*"
+        }
+      ],
+      "raw_path": "/v1beta/{name=fileSearchStores/*/documents/*}",
+      "resource": "v1beta.fileSearchStores.documents"
+    },
+    {
+      "description": "Lists all",
+      "method": "GET",
+      "name": "list",
+      "normalized_path": "/v1beta/fileSearchStores/{fileSearchStore}/documents",
+      "path_parameters": [
+        {
+          "binding_token": "parent=fileSearchStores/*",
+          "name": "parent",
+          "openapi_name": "fileSearchStore",
+          "pattern": "fileSearchStores/*"
+        }
+      ],
+      "raw_path": "/v1beta/{parent=fileSearchStores/*}/documents",
+      "resource": "v1beta.fileSearchStores.documents"
+    },
+    {
+      "description": "Gets the latest state of a long-running operation.",
+      "method": "GET",
+      "name": "get",
+      "normalized_path": "/v1beta/fileSearchStores/{fileSearchStore}/operations/{operation}",
+      "path_parameters": [
+        {
+          "binding_token": "name=fileSearchStores/*/operations/*",
+          "name": "name",
+          "openapi_name": "fileSearchStore",
+          "pattern": "fileSearchStores/*/operations/*"
+        },
+        {
+          "binding_token": "name=fileSearchStores/*/operations/*",
+          "name": "name",
+          "openapi_name": "operation",
+          "pattern": "fileSearchStores/*/operations/*"
+        }
+      ],
+      "raw_path": "/v1beta/{name=fileSearchStores/*/operations/*}",
+      "resource": "v1beta.fileSearchStores.operations"
+    },
+    {
+      "description": "Gets the latest state of a long-running operation.",
+      "method": "GET",
+      "name": "get",
+      "normalized_path": "/v1beta/fileSearchStores/{fileSearchStore}/upload/operations/{operation}",
+      "path_parameters": [
+        {
+          "binding_token": "name=fileSearchStores/*/upload/operations/*",
+          "name": "name",
+          "openapi_name": "fileSearchStore",
+          "pattern": "fileSearchStores/*/upload/operations/*"
+        },
+        {
+          "binding_token": "name=fileSearchStores/*/upload/operations/*",
+          "name": "name",
+          "openapi_name": "operation",
+          "pattern": "fileSearchStores/*/upload/operations/*"
+        }
+      ],
+      "raw_path": "/v1beta/{name=fileSearchStores/*/upload/operations/*}",
+      "resource": "v1beta.fileSearchStores.upload.operations"
+    },
+    {
+      "description": "Deletes the",
+      "method": "DELETE",
+      "name": "delete",
+      "normalized_path": "/v1beta/files/{file}",
+      "path_parameters": [
+        {
+          "binding_token": "name=files/*",
+          "name": "name",
+          "openapi_name": "file",
+          "pattern": "files/*"
+        }
+      ],
+      "raw_path": "/v1beta/{name=files/*}",
+      "resource": "v1beta.files"
+    },
+    {
+      "description": "Gets the metadata for the given",
+      "method": "GET",
+      "name": "get",
+      "normalized_path": "/v1beta/files/{file}",
+      "path_parameters": [
+        {
+          "binding_token": "name=files/*",
+          "name": "name",
+          "openapi_name": "file",
+          "pattern": "files/*"
+        }
+      ],
+      "raw_path": "/v1beta/{name=files/*}",
+      "resource": "v1beta.files"
+    },
+    {
+      "description": "Lists the metadata for",
+      "method": "GET",
+      "name": "list",
+      "normalized_path": "/v1beta/files",
+      "path_parameters": [],
+      "raw_path": "/v1beta/files",
+      "resource": "v1beta.files"
+    },
+    {
+      "description": "Registers a Google Cloud Storage files with FileService.",
+      "method": "POST",
+      "name": "register",
+      "normalized_path": "/v1beta/files:register",
+      "path_parameters": [],
+      "raw_path": "/v1beta/files:register",
+      "resource": "v1beta.files"
+    },
+    {
+      "description": "POST /upload/v1beta/files",
+      "method": "POST",
+      "name": "upload",
+      "normalized_path": "/v1beta/files",
+      "path_parameters": [],
+      "raw_path": "/v1beta/files",
+      "resource": "v1beta.files"
+    },
+    {
+      "description": "POST /upload/v1beta/{fileSearchStoreName=fileSearchStores/*}:uploadToFileSearchStore",
+      "method": "POST",
+      "name": "uploadToFileSearchStore",
+      "normalized_path": "/v1beta/fileSearchStores/{fileSearchStore}:uploadToFileSearchStore",
+      "path_parameters": [
+        {
+          "binding_token": "fileSearchStoreName=fileSearchStores/*",
+          "name": "fileSearchStoreName",
+          "openapi_name": "fileSearchStore",
+          "pattern": "fileSearchStores/*"
+        }
+      ],
+      "raw_path": "/v1beta/{fileSearchStoreName=fileSearchStores/*}:uploadToFileSearchStore",
+      "resource": "v1beta.files"
+    },
+    {
+      "description": "Enqueues a batch of",
+      "method": "POST",
+      "name": "asyncBatchEmbedContent",
+      "normalized_path": "/v1beta/models/{model}:asyncBatchEmbedContent",
+      "path_parameters": [
+        {
+          "binding_token": "batch.model=models/*",
+          "name": "batch.model",
+          "openapi_name": "model",
+          "pattern": "models/*"
+        }
+      ],
+      "raw_path": "/v1beta/{batch.model=models/*}:asyncBatchEmbedContent",
+      "resource": "v1beta.models"
+    },
+    {
+      "description": "Generates multiple embedding vectors from the input",
+      "method": "POST",
+      "name": "batchEmbedContents",
+      "normalized_path": "/v1beta/models/{model}:batchEmbedContents",
+      "path_parameters": [
+        {
+          "binding_token": "model=models/*",
+          "name": "model",
+          "openapi_name": "model",
+          "pattern": "models/*"
+        }
+      ],
+      "raw_path": "/v1beta/{model=models/*}:batchEmbedContents",
+      "resource": "v1beta.models"
+    },
+    {
+      "description": "Generates multiple embeddings from the model given input text in a synchronous call.",
+      "method": "POST",
+      "name": "batchEmbedText",
+      "normalized_path": "/v1beta/models/{model}:batchEmbedText",
+      "path_parameters": [
+        {
+          "binding_token": "model=models/*",
+          "name": "model",
+          "openapi_name": "model",
+          "pattern": "models/*"
+        }
+      ],
+      "raw_path": "/v1beta/{model=models/*}:batchEmbedText",
+      "resource": "v1beta.models"
+    },
+    {
+      "description": "Enqueues a batch of",
+      "method": "POST",
+      "name": "batchGenerateContent",
+      "normalized_path": "/v1beta/models/{model}:batchGenerateContent",
+      "path_parameters": [
+        {
+          "binding_token": "batch.model=models/*",
+          "name": "batch.model",
+          "openapi_name": "model",
+          "pattern": "models/*"
+        }
+      ],
+      "raw_path": "/v1beta/{batch.model=models/*}:batchGenerateContent",
+      "resource": "v1beta.models"
+    },
+    {
+      "description": "Runs a model's tokenizer on a string and returns the token count.",
+      "method": "POST",
+      "name": "countMessageTokens",
+      "normalized_path": "/v1beta/models/{model}:countMessageTokens",
+      "path_parameters": [
+        {
+          "binding_token": "model=models/*",
+          "name": "model",
+          "openapi_name": "model",
+          "pattern": "models/*"
+        }
+      ],
+      "raw_path": "/v1beta/{model=models/*}:countMessageTokens",
+      "resource": "v1beta.models"
+    },
+    {
+      "description": "Runs a model's tokenizer on a text and returns the token count.",
+      "method": "POST",
+      "name": "countTextTokens",
+      "normalized_path": "/v1beta/models/{model}:countTextTokens",
+      "path_parameters": [
+        {
+          "binding_token": "model=models/*",
+          "name": "model",
+          "openapi_name": "model",
+          "pattern": "models/*"
+        }
+      ],
+      "raw_path": "/v1beta/{model=models/*}:countTextTokens",
+      "resource": "v1beta.models"
+    },
+    {
+      "description": "Runs a model's tokenizer on input",
+      "method": "POST",
+      "name": "countTokens",
+      "normalized_path": "/v1beta/models/{model}:countTokens",
+      "path_parameters": [
+        {
+          "binding_token": "model=models/*",
+          "name": "model",
+          "openapi_name": "model",
+          "pattern": "models/*"
+        }
+      ],
+      "raw_path": "/v1beta/{model=models/*}:countTokens",
+      "resource": "v1beta.models"
+    },
+    {
+      "description": "Generates a text embedding vector from the input",
+      "method": "POST",
+      "name": "embedContent",
+      "normalized_path": "/v1beta/models/{model}:embedContent",
+      "path_parameters": [
+        {
+          "binding_token": "model=models/*",
+          "name": "model",
+          "openapi_name": "model",
+          "pattern": "models/*"
+        }
+      ],
+      "raw_path": "/v1beta/{model=models/*}:embedContent",
+      "resource": "v1beta.models"
+    },
+    {
+      "description": "Generates an embedding from the model given an input message.",
+      "method": "POST",
+      "name": "embedText",
+      "normalized_path": "/v1beta/models/{model}:embedText",
+      "path_parameters": [
+        {
+          "binding_token": "model=models/*",
+          "name": "model",
+          "openapi_name": "model",
+          "pattern": "models/*"
+        }
+      ],
+      "raw_path": "/v1beta/{model=models/*}:embedText",
+      "resource": "v1beta.models"
+    },
+    {
+      "description": "Generates a model response given an input",
+      "method": "POST",
+      "name": "generateContent",
+      "normalized_path": "/v1beta/models/{model}:generateContent",
+      "path_parameters": [
+        {
+          "binding_token": "model=models/*",
+          "name": "model",
+          "openapi_name": "model",
+          "pattern": "models/*"
+        }
+      ],
+      "raw_path": "/v1beta/{model=models/*}:generateContent",
+      "resource": "v1beta.models"
+    },
+    {
+      "description": "Generates a response from the model given an input",
+      "method": "POST",
+      "name": "generateMessage",
+      "normalized_path": "/v1beta/models/{model}:generateMessage",
+      "path_parameters": [
+        {
+          "binding_token": "model=models/*",
+          "name": "model",
+          "openapi_name": "model",
+          "pattern": "models/*"
+        }
+      ],
+      "raw_path": "/v1beta/{model=models/*}:generateMessage",
+      "resource": "v1beta.models"
+    },
+    {
+      "description": "Generates a response from the model given an input message.",
+      "method": "POST",
+      "name": "generateText",
+      "normalized_path": "/v1beta/models/{model}:generateText",
+      "path_parameters": [
+        {
+          "binding_token": "model=models/*",
+          "name": "model",
+          "openapi_name": "model",
+          "pattern": "models/*"
+        }
+      ],
+      "raw_path": "/v1beta/{model=models/*}:generateText",
+      "resource": "v1beta.models"
+    },
+    {
+      "description": "Gets information about a specific",
+      "method": "GET",
+      "name": "get",
+      "normalized_path": "/v1beta/models/{model}",
+      "path_parameters": [
+        {
+          "binding_token": "name=models/*",
+          "name": "name",
+          "openapi_name": "model",
+          "pattern": "models/*"
+        }
+      ],
+      "raw_path": "/v1beta/{name=models/*}",
+      "resource": "v1beta.models"
+    },
+    {
+      "description": "Lists the",
+      "method": "GET",
+      "name": "list",
+      "normalized_path": "/v1beta/models",
+      "path_parameters": [],
+      "raw_path": "/v1beta/models",
+      "resource": "v1beta.models"
+    },
+    {
+      "description": "Performs a prediction request.",
+      "method": "POST",
+      "name": "predict",
+      "normalized_path": "/v1beta/models/{model}:predict",
+      "path_parameters": [
+        {
+          "binding_token": "model=models/*",
+          "name": "model",
+          "openapi_name": "model",
+          "pattern": "models/*"
+        }
+      ],
+      "raw_path": "/v1beta/{model=models/*}:predict",
+      "resource": "v1beta.models"
+    },
+    {
+      "description": "Same as Predict but returns an LRO.",
+      "method": "POST",
+      "name": "predictLongRunning",
+      "normalized_path": "/v1beta/models/{model}:predictLongRunning",
+      "path_parameters": [
+        {
+          "binding_token": "model=models/*",
+          "name": "model",
+          "openapi_name": "model",
+          "pattern": "models/*"
+        }
+      ],
+      "raw_path": "/v1beta/{model=models/*}:predictLongRunning",
+      "resource": "v1beta.models"
+    },
+    {
+      "description": "Generates a",
+      "method": "POST",
+      "name": "streamGenerateContent",
+      "normalized_path": "/v1beta/models/{model}:streamGenerateContent",
+      "path_parameters": [
+        {
+          "binding_token": "model=models/*",
+          "name": "model",
+          "openapi_name": "model",
+          "pattern": "models/*"
+        }
+      ],
+      "raw_path": "/v1beta/{model=models/*}:streamGenerateContent",
+      "resource": "v1beta.models"
+    }
+  ],
+  "source": "https://ai.google.dev/api/all-methods"
+}

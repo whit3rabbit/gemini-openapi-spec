@@ -1,0 +1,8 @@
+{
+  "last_updated": "Last updated 2026-03-18 UTC.",
+  "source": "https://ai.google.dev/api/generate-content",
+  "stream_generate_content": {
+    "alt_sse_evidence": "alt=sse",
+    "event_stream_response_evidence": "response body contains a stream of GenerateContentResponse instances"
+  }
+}

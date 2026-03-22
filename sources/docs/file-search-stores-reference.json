@@ -1,0 +1,11 @@
+{
+  "documented_aliases": [
+    {
+      "evidence": "/api/rest/v1beta/media/uploadToFileSearchStore",
+      "method": "POST",
+      "normalized_path": "/upload/v1beta/fileSearchStores/{fileSearchStore}:uploadToFileSearchStore",
+      "raw_path": "/upload/v1beta/{fileSearchStoreName=fileSearchStores/*}:uploadToFileSearchStore"
+    }
+  ],
+  "source": "https://ai.google.dev/api/file-search/file-search-stores"
+}

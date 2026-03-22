@@ -1,0 +1,12 @@
+{
+  "documented_legacy_methods": [
+    "models.countTextTokens",
+    "models.countMessageTokens",
+    "models.embedText",
+    "models.batchEmbedText",
+    "models.generateText",
+    "models.generateMessage"
+  ],
+  "last_updated": "Last updated 2025-07-24 UTC.",
+  "source": "https://ai.google.dev/api/palm"
+}

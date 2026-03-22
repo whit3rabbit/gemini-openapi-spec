@@ -1,0 +1,55 @@
+{
+  "compat": {
+    "gemini_only_path_count": 2,
+    "generic_operation_count": 0,
+    "google_documented_operation_count": 9,
+    "upstream_only_classification_counts": {
+      "documented_family_subset_gap": 10,
+      "legacy_openai_generation_surface": 2,
+      "openai_admin_surface": 51,
+      "openai_assistants_surface": 39,
+      "openai_audio_surface": 3,
+      "openai_evals_surface": 12,
+      "openai_files_uploads_surface": 9,
+      "openai_fine_tuning_surface": 9,
+      "openai_realtime_surface": 2,
+      "openai_responses_surface": 4
+    },
+    "upstream_only_path_count": 141,
+    "upstream_only_subset_classification_counts": {
+      "likely_intentionally_unsupported_subset_gap": 8,
+      "not_applicable": 131,
+      "sdk_adjacent_undocumented_subset_gap": 2
+    },
+    "upstream_operation_count": 148
+  },
+  "compat_watchlist": [
+    {
+      "operation": "GET /batches",
+      "reason": "Google documents batch create and retrieve through SDK examples, so this adjacent batch-management operation is plausible but still undocumented.",
+      "watch_reason": "Batch create and retrieve are already present in Google's compatibility story, so this adjacent operation is worth rechecking against future docs."
+    },
+    {
+      "operation": "POST /batches/{batch_id}/cancel",
+      "reason": "Google documents batch create and retrieve through SDK examples, so this adjacent batch-management operation is plausible but still undocumented.",
+      "watch_reason": "Batch create and retrieve are already present in Google's compatibility story, so this adjacent operation is worth rechecking against future docs."
+    }
+  ],
+  "docs_vs_discovery": {
+    "extra_in_discovery_after_version_normalization_count": 17,
+    "missing_from_discovery_after_version_normalization_count": 36
+  },
+  "generated_at_utc": "2026-03-22T20:30:16.939750+00:00",
+  "native": {
+    "doc_operation_count": 44,
+    "generic_operation_count": 0,
+    "guide_only_alias_count": 1,
+    "guide_only_operation_count": 1,
+    "reference_only_alias_count": 1,
+    "spec_operation_count": 47
+  },
+  "sdk_vs_native": {
+    "paths_missing_from_docs_count": 2,
+    "paths_missing_from_native_spec_count": 1
+  }
+}
