@@ -8,6 +8,7 @@
 
 # Python
 __pycache__/
+.pytest_cache/
 *.pyc
 *.pyo
 *.egg-info/
@@ -19,4 +20,3 @@ venv/
 
 # Local agent instructions
 AGENTS.md
-CLAUDE.md

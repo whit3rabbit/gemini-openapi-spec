@@ -25,6 +25,9 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Update submodule to latest upstream
+        run: git submodule update --remote
+
       - name: Refresh live sources and rebuild
         run: |
           bash scripts/update-all.sh

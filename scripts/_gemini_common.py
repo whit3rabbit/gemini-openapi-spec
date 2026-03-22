@@ -458,28 +458,12 @@ def load_batch_guide_evidence() -> dict[str, Any]:
     return read_json(DOCS_DIR / "batch-guide.json")
 
 
-def load_models_reference_evidence() -> dict[str, Any]:
-    return read_json(DOCS_DIR / "models-reference.json")
-
-
-def load_tokens_reference_evidence() -> dict[str, Any]:
-    return read_json(DOCS_DIR / "tokens-reference.json")
-
-
-def load_palm_reference_evidence() -> dict[str, Any]:
-    return read_json(DOCS_DIR / "palm-reference.json")
-
-
 def load_generate_content_reference_evidence() -> dict[str, Any]:
     return read_json(DOCS_DIR / "generate-content-reference.json")
 
 
 def load_file_search_stores_reference_evidence() -> dict[str, Any]:
     return read_json(DOCS_DIR / "file-search-stores-reference.json")
-
-
-def load_file_search_documents_reference_evidence() -> dict[str, Any]:
-    return read_json(DOCS_DIR / "file-search-documents-reference.json")
 
 
 def build_operation_id(operation: DocOperation) -> str:

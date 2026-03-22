@@ -147,8 +147,6 @@ def build_spec() -> dict:
 def main() -> None:
     spec = build_spec()
     write_json(OPENAPI_DIR / "gemini-native.openapi.json", spec)
-    # Legacy alias kept for external consumers that may reference this filename.
-    write_json(OPENAPI_DIR / "gemini-api.openapi.json", spec)
     print(f"Saved OpenAPI spec to {OPENAPI_DIR / 'gemini-native.openapi.json'}")
 
 

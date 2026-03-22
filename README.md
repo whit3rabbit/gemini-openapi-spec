@@ -1,101 +1,145 @@
 # gemini-openapi-spec
 
-OpenAPI workbench for the Gemini Developer API and its OpenAI-compatible surface.
+Community-maintained OpenAPI specifications for the Google Gemini API. Google does not publish an official OpenAPI spec, so this repo generates one from their public documentation, discovery endpoint, and SDK sources, then compares it against the OpenAI API spec to surface differences.
 
-## Upstream sources
+## Specs
 
-This repo reconciles four upstream sources that do not currently agree:
+| Spec | Description |
+|------|-------------|
+| [`gemini-native.openapi.json`](openapi/gemini-native.openapi.json) | Gemini Developer API (v1beta), all documented operations with concrete schemas |
+| [`gemini-openai-compat.openapi.json`](openapi/gemini-openai-compat.openapi.json) | Gemini's OpenAI-compatible surface (`/v1beta/openai`), filtered from the upstream OpenAI spec with Gemini extensions |
 
-1. **Discovery export** -- `https://generativelanguage.googleapis.com/$discovery/OPENAPI3_0` (reports `v1beta3`, smaller surface)
-2. **Live API reference** -- `https://ai.google.dev/api/all-methods` (current `v1beta` surface)
-3. **Python SDK** -- [`reference/python-genai`](reference/python-genai) submodule (targets `v1beta`, exposes extra implementation detail)
-4. **OpenAI upstream spec** -- `https://raw.githubusercontent.com/openai/openai-openapi/manual_spec/openapi.yaml`
+Both are OpenAPI 3.1 JSON files. Download them directly or point your tooling at the raw GitHub URLs.
 
-Because of those mismatches, the repo keeps separate native and compatibility tracks.
+## How it works
 
-## Repository layout
+Google's API surface is spread across four sources that do not fully agree:
+
+1. **Discovery export** -- machine-readable but reports an older `v1beta3` surface
+2. **Live API reference** -- the current `v1beta` surface at [ai.google.dev/api/all-methods](https://ai.google.dev/api/all-methods)
+3. **Python SDK** -- the [`google-genai`](https://github.com/googleapis/python-genai) package (exposes extra implementation detail)
+4. **OpenAI upstream spec** -- the [openai-openapi](https://github.com/openai/openai-openapi) repo
+
+The build pipeline reconciles these into two specs:
 
 ```
-openapi/
-  gemini-native.openapi.json      # generated native v1beta spec
-  gemini-openai-compat.openapi.json  # generated OpenAI-compat spec (/v1beta/openai)
-scripts/                           # build, validate, lint, drift helpers
-sources/
-  discovery/                       # raw upstream discovery export
-  docs/                            # cached doc extracts (files, batch, models, tokens, etc.)
-  openai/                          # upstream OpenAI spec snapshot
-reports/                           # generated validation, drift, lint, watchlist outputs
-reference/python-genai/            # SDK submodule
+ Upstream sources        Build                    Validate & compare
+ ───────────────        ─────                    ──────────────────
+ Discovery export  ─┐
+ Live API docs     ─┼─> Native spec             Coverage checks (zero generic ops)
+ Python SDK        ─┘                           Drift reports (docs vs discovery vs SDK)
+
+ OpenAI spec       ───> Compat spec             Compat coverage + watchlist
+                        (filtered + extensions)  Redocly lint
 ```
 
-## Quick start
+The native spec is built from the live docs, with Google's resource-name bindings expanded into standard OpenAPI path templates. Streaming endpoints use SSE modeling. Guide-documented routes (batch downloads, file uploads) are included when official guides publish concrete paths.
 
-Run the full pipeline (fetch, build, validate, lint, drift reports):
+The compat spec starts from the upstream OpenAI spec, filtered to the subset Gemini documents. Gemini-only extensions are attached as `x-gemini-sdk-extra-body-schema` vendor extensions rather than merged into the upstream wire schema.
+
+Weekly CI detects upstream drift and flags when Google changes their API surface.
+
+## Reports
+
+Each build produces validation and drift reports in [`reports/`](reports/):
+
+- **`drift-summary.md`** -- PR-friendly snapshot of docs vs discovery vs SDK drift
+- **`compat-watchlist.md`** -- undocumented gaps between Gemini's compat layer and the OpenAI spec
+- **`validation-report.json`** -- native coverage details, generic-op count
+- **`source-drift-report.json`** -- full drift data
+
+<details>
+<summary><strong>Developer guide</strong></summary>
+
+### Requirements
+
+- Python 3.10+
+- Node.js 22+ (for Redocly linting)
+- Ruby (for YAML parsing of the OpenAI spec)
+- Git submodules (`git clone --recursive`)
+
+### Setup
+
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+pip install -e ".[test,validate]"
+pre-commit install
+```
+
+### Full pipeline
 
 ```bash
 bash scripts/update-all.sh
 ```
 
-Or run individual steps in order:
+This runs all steps in order: fetch sources, extract SDK surface, build both specs, validate coverage, generate drift reports, lint, and run schema meta-validation.
+
+### Individual steps
 
 ```bash
-python3 scripts/refresh_sources.py          # fetch upstream discovery + docs
-python3 scripts/extract_python_genai_surface.py  # extract SDK surface
-python3 scripts/build_openapi.py            # build native spec
-python3 scripts/extract_openai_compat_surface.py # extract compat surface
-python3 scripts/build_openai_compat.py      # build compat spec
-python3 scripts/validate_surface.py         # native coverage + generic-op check
-python3 scripts/validate_openai_compat.py   # compat coverage check
-python3 scripts/generate_drift_reports.py   # drift + watchlist reports
-python3 scripts/lint_openapi.py             # Redocly lint (native strict, compat advisory)
+python3 scripts/refresh_sources.py              # fetch upstream discovery + docs (network)
+python3 scripts/extract_python_genai_surface.py  # parse SDK AST
+python3 scripts/build_openapi.py                # build native spec
+python3 scripts/extract_openai_compat_surface.py # extract compat surface from docs
+python3 scripts/build_openai_compat.py          # build compat spec
+python3 scripts/validate_surface.py             # native coverage + generic-op check
+python3 scripts/validate_openai_compat.py       # compat coverage check
+python3 scripts/generate_drift_reports.py       # drift + watchlist reports
+python3 scripts/lint_openapi.py                 # Redocly lint (native strict, compat advisory)
+python3 scripts/validate_schema.py              # JSON Schema meta-validation
 ```
 
-## Design decisions
+Steps 2-8 work offline from cached sources in `sources/`. Step 1 requires network access. Steps 9-10 require Node.js and `jsonschema` respectively.
 
-### Native spec
+### Tests
 
-- Path and method coverage follows the live `all-methods` docs. Guide-documented extras (e.g., batch download routes) are included when official guides publish concrete routes outside `all-methods`.
-- Path templates expand Google resource-name bindings into concrete collection segments (e.g., `/{name=cachedContents/*}` becomes `/cachedContents/{cachedContent}`) to avoid ambiguous OpenAPI paths.
-- `streamGenerateContent` is modeled as SSE (`text/event-stream` + `alt=sse`) with an `x-gemini-stream-event-schema` hint, not as a fake JSON response body.
-- All native operations have concrete schemas. Zero operations fall back to `GenericJsonObject`.
+```bash
+pytest
+```
 
-### Compatibility spec
+### Repository layout
 
-- Starts from the upstream OpenAI spec, filtered to the subset Google documents.
-- Preserves upstream OpenAI request/response schemas where possible.
-- Gemini-only extensions are attached as `x-gemini-sdk-extra-body-schema` vendor extensions on operations, not merged into the upstream wire schema.
-- Extensions use `extra_body.google.*` (matching Google's JS/REST examples). The Python SDK docs show a double-nested `extra_body` key which appears to be a docs bug and is not encoded.
+```
+openapi/                              # generated specs (committed, diffed in CI)
+scripts/
+  _gemini_common.py                   # shared utilities, constants, HTML parsers, loaders
+  native_schema_registry.py           # schema definitions for the native spec
+  refresh_sources.py                  # fetch and cache upstream sources
+  build_openapi.py                    # assemble native spec
+  build_openai_compat.py              # assemble compat spec
+  extract_python_genai_surface.py     # parse Python SDK for operation surface
+  extract_openai_compat_surface.py    # extract compat operations from docs
+  validate_surface.py                 # check native coverage vs docs
+  validate_openai_compat.py           # check compat coverage
+  generate_drift_reports.py           # drift analysis between sources
+  lint_openapi.py                     # Redocly linting wrapper
+  validate_schema.py                  # JSON Schema meta-validation
+  update-all.sh                       # orchestration script
+sources/
+  discovery/                          # raw Google Discovery export
+  docs/                               # cached HTML snapshots + JSON extracts
+  openai/                             # upstream OpenAI spec snapshot
+reports/                              # generated validation, drift, lint outputs
+reference/python-genai/               # SDK submodule (googleapis/python-genai)
+tests/                                # pytest unit tests
+```
+
+### CI
+
+**`repo-validation.yml`** (push/PR): rebuilds from checked-in sources, validates both specs, asserts zero generic operations, fails if generated files are stale.
+
+**`upstream-drift.yml`** (weekly): refreshes live upstream inputs, reruns assertions, uploads a drift-change bundle on failure.
+
+### Design notes
+
+- All native operations must have concrete schemas. CI fails on any `GenericJsonObject` fallback.
+- `openapi/` and `reports/` are committed so diffs are reviewable in PRs. Rebuild before committing if you change any script.
+- Pre-commit hooks run both validation scripts and check that generated files are current.
 - Compat lint is advisory only because the upstream OpenAI spec snapshot is not Redocly-clean.
+- Where verification is weak, a partial schema is preferred over copying stale shapes from the wrong API version.
 
-### Schema policy
+</details>
 
-Where verification is weak, a partial schema is better than copying stale shapes from the wrong version. Request/response schemas stay as generic placeholders unless backed by a verified machine-readable source.
+## License
 
-## Validation
-
-| Command | Purpose |
-|---------|---------|
-| `validate_surface.py` | Native coverage vs docs, fails on any `GenericJsonObject` fallback |
-| `validate_openai_compat.py` | Compat coverage, generic-op count, classified upstream-only path summary, compat watchlist |
-| `generate_drift_reports.py` | Docs vs discovery drift, SDK vs native drift, compat vs upstream summary |
-| `lint_openapi.py` | Redocly lint (native: blocking, compat: advisory) |
-
-Key report files:
-- `reports/validation-report.json` -- separates undocumented ops, guide-documented aliases, and reference-documented aliases
-- `reports/source-drift-report.json` -- aggregated drift data
-- `reports/drift-summary.md` / `drift-summary.json` -- PR-friendly snapshot
-- `reports/compat-watchlist.md` -- undocumented compat gaps worth rechecking
-
-## CI
-
-**`repo-validation.yml`** (push/PR): rebuilds from checked-in sources, runs validation + native lint, asserts zero generic operations in both specs, fails if generated files are stale. Uploads drift summary and watchlist as artifacts.
-
-**`upstream-drift.yml`** (weekly schedule): refreshes live upstream inputs, reruns assertions, fails if repo differs from checked-in state. On failure, uploads a drift-change bundle (git status, diff, patch, summaries). Weekly cadence balances signal vs noise.
-
-## Current promoted native schemas
-
-`batches` list/get/delete/cancel, updateGenerateContentBatch/updateEmbedContentBatch |
-`fileSearchStores` create/get/list/delete/import/upload, documents list/get/delete |
-`models` list/get/countTokens/countMessageTokens/countTextTokens/embedText/batchEmbedText/batchEmbedContents/generateMessage/generateText/predict/predictLongRunning/streamGenerateContent/batchGenerateContent/asyncBatchEmbedContent/generateContent/embedContent |
-`cachedContents` create/get/list/patch/delete |
-`files` upload/get/list/delete/register
+[MIT](LICENSE)
