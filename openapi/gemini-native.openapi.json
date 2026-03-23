@@ -730,6 +730,53 @@
         },
         "type": "object"
       },
+      "CreateTunedModelMetadata": {
+        "additionalProperties": false,
+        "description": "Metadata about the state and progress of creating a tuned model.",
+        "properties": {
+          "completedPercent": {
+            "type": "number"
+          },
+          "completedSteps": {
+            "type": "integer"
+          },
+          "snapshots": {
+            "items": {
+              "$ref": "#/components/schemas/TuningSnapshot"
+            },
+            "type": "array"
+          },
+          "totalSteps": {
+            "type": "integer"
+          },
+          "tunedModel": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "CreateTunedModelOperation": {
+        "additionalProperties": false,
+        "description": "Long-running operation returned by tunedModels.create with typed metadata and response.",
+        "properties": {
+          "done": {
+            "type": "boolean"
+          },
+          "error": {
+            "$ref": "#/components/schemas/JobError"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/CreateTunedModelMetadata"
+          },
+          "name": {
+            "type": "string"
+          },
+          "response": {
+            "$ref": "#/components/schemas/TunedModel"
+          }
+        },
+        "type": "object"
+      },
       "CustomMetadata": {
         "additionalProperties": false,
         "properties": {
@@ -744,6 +791,16 @@
           },
           "stringValue": {
             "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "Dataset": {
+        "additionalProperties": false,
+        "description": "Dataset for training or validation.",
+        "properties": {
+          "examples": {
+            "$ref": "#/components/schemas/TuningExamples"
           }
         },
         "type": "object"
@@ -1593,8 +1650,7 @@
             "type": "array"
           },
           "responseSchema": {
-            "additionalProperties": true,
-            "type": "object"
+            "$ref": "#/components/schemas/ApiSchema"
           },
           "seed": {
             "type": "integer"
@@ -2012,6 +2068,25 @@
         },
         "type": "object"
       },
+      "Hyperparameters": {
+        "additionalProperties": false,
+        "description": "Hyperparameters controlling the tuning process.",
+        "properties": {
+          "batchSize": {
+            "type": "integer"
+          },
+          "epochCount": {
+            "type": "integer"
+          },
+          "learningRate": {
+            "type": "number"
+          },
+          "learningRateMultiplier": {
+            "type": "number"
+          }
+        },
+        "type": "object"
+      },
       "ImageConfig": {
         "additionalProperties": false,
         "properties": {
@@ -2309,6 +2384,36 @@
         },
         "type": "object"
       },
+      "ListPermissionsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "nextPageToken": {
+            "type": "string"
+          },
+          "permissions": {
+            "items": {
+              "$ref": "#/components/schemas/Permission"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "ListTunedModelsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "nextPageToken": {
+            "type": "string"
+          },
+          "tunedModels": {
+            "items": {
+              "$ref": "#/components/schemas/TunedModel"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
       "LogprobsResult": {
         "additionalProperties": false,
         "properties": {
@@ -2368,6 +2473,7 @@
           },
           "metadata": {
             "additionalProperties": true,
+            "description": "Operation-specific metadata. Structure varies by endpoint.",
             "type": "object"
           },
           "name": {
@@ -2375,6 +2481,7 @@
           },
           "response": {
             "additionalProperties": true,
+            "description": "Operation result. Structure varies by endpoint.",
             "type": "object"
           }
         },
@@ -2564,6 +2671,40 @@
             "$ref": "#/components/schemas/VideoMetadata"
           }
         },
+        "type": "object"
+      },
+      "Permission": {
+        "additionalProperties": false,
+        "description": "Permission resource grants user, group or the rest of the world access to a PaLM API resource (e.g. a tuned model).",
+        "properties": {
+          "emailAddress": {
+            "type": "string"
+          },
+          "granteeType": {
+            "enum": [
+              "GRANTEE_TYPE_UNSPECIFIED",
+              "USER",
+              "GROUP",
+              "EVERYONE"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "enum": [
+              "ROLE_UNSPECIFIED",
+              "OWNER",
+              "WRITER",
+              "READER"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "role"
+        ],
         "type": "object"
       },
       "PredictRequest": {
@@ -2976,6 +3117,171 @@
         },
         "type": "object"
       },
+      "TransferOwnershipRequest": {
+        "additionalProperties": false,
+        "description": "Request to transfer the ownership of the tuned model.",
+        "properties": {
+          "emailAddress": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "emailAddress"
+        ],
+        "type": "object"
+      },
+      "TransferOwnershipResponse": {
+        "additionalProperties": false,
+        "description": "Response from TransferOwnership.",
+        "type": "object"
+      },
+      "TunedModel": {
+        "additionalProperties": false,
+        "description": "A fine-tuned model created using CreateTunedModel.",
+        "properties": {
+          "baseModel": {
+            "type": "string"
+          },
+          "createTime": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "description": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "readerProjectNumbers": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "state": {
+            "enum": [
+              "STATE_UNSPECIFIED",
+              "CREATING",
+              "ACTIVE",
+              "FAILED"
+            ],
+            "type": "string"
+          },
+          "temperature": {
+            "type": "number"
+          },
+          "topK": {
+            "type": "integer"
+          },
+          "topP": {
+            "type": "number"
+          },
+          "tunedModelSource": {
+            "$ref": "#/components/schemas/TunedModelSource"
+          },
+          "tuningTask": {
+            "$ref": "#/components/schemas/TuningTask"
+          },
+          "updateTime": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          }
+        },
+        "required": [
+          "tuningTask"
+        ],
+        "type": "object"
+      },
+      "TunedModelSource": {
+        "additionalProperties": false,
+        "description": "Tuned model as a source for training a new model.",
+        "properties": {
+          "baseModel": {
+            "type": "string"
+          },
+          "tunedModel": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "TuningExample": {
+        "additionalProperties": false,
+        "description": "A single example for tuning.",
+        "properties": {
+          "output": {
+            "type": "string"
+          },
+          "textInput": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "output"
+        ],
+        "type": "object"
+      },
+      "TuningExamples": {
+        "additionalProperties": false,
+        "description": "A set of tuning examples. Can be training or validation data.",
+        "properties": {
+          "examples": {
+            "items": {
+              "$ref": "#/components/schemas/TuningExample"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "TuningSnapshot": {
+        "additionalProperties": false,
+        "description": "Record for a single tuning step.",
+        "properties": {
+          "computeTime": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "epoch": {
+            "type": "integer"
+          },
+          "meanLoss": {
+            "type": "number"
+          },
+          "step": {
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "TuningTask": {
+        "additionalProperties": false,
+        "description": "Tuning tasks that create tuned models.",
+        "properties": {
+          "completeTime": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "hyperparameters": {
+            "$ref": "#/components/schemas/Hyperparameters"
+          },
+          "snapshots": {
+            "items": {
+              "$ref": "#/components/schemas/TuningSnapshot"
+            },
+            "type": "array"
+          },
+          "startTime": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "trainingData": {
+            "$ref": "#/components/schemas/Dataset"
+          }
+        },
+        "required": [
+          "trainingData"
+        ],
+        "type": "object"
+      },
       "UploadToFileSearchStoreMetadataRequest": {
         "additionalProperties": false,
         "properties": {
@@ -3067,7 +3373,7 @@
     "url": "https://ai.google.dev/api"
   },
   "info": {
-    "description": "Generated working OpenAPI spec for the documented Gemini Developer API surface. Path and method coverage come primarily from the live `all-methods` docs, with selected guide-documented extras added where the official Gemini guides publish native routes that are not listed in the method index. Raw upstream discovery output is kept separately because it currently describes an older, smaller `v1beta3` surface.",
+    "description": "Generated working OpenAPI spec for the documented Gemini Developer API surface. Path and method coverage come primarily from the live `all-methods` docs, with guide-documented extras and tuning reference endpoints added from their dedicated reference pages. Discovery-sourced CRUD operations for tunedModels are also included.",
     "title": "Gemini Developer API",
     "version": "v1beta",
     "x-upstream-discovery-revision": "20260320",
@@ -3081,7 +3387,7 @@
         "operationId": "v1beta_files_get_mediaDownload",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `files/*`. Original parameter name: `name`. Original binding token: `{name=files/*}`",
+            "description": "ID within the `files` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=files/*}`",
             "in": "path",
             "name": "file",
             "required": true,
@@ -3134,7 +3440,7 @@
         "operationId": "v1beta_files_uploadToFileSearchStore_mediaUpload",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `fileSearchStores/*`. Original parameter name: `fileSearchStoreName`. Original binding token: `{fileSearchStoreName=fileSearchStores/*}`",
+            "description": "ID within the `fileSearchStores` collection. Pass just the resource ID, not the full path. Original parameter name: `fileSearchStoreName`. Original binding token: `{fileSearchStoreName=fileSearchStores/*}`",
             "in": "path",
             "name": "fileSearchStore",
             "required": true,
@@ -3157,6 +3463,7 @@
               }
             }
           },
+          "description": "Google requires multipart/related or resumable upload protocol. The content types shown here are a simplified representation. See the Gemini Files API guide for the actual upload flow.",
           "required": false
         },
         "responses": {
@@ -3203,6 +3510,7 @@
               }
             }
           },
+          "description": "Google requires multipart/related or resumable upload protocol. The content types shown here are a simplified representation. See the Gemini Files API guide for the actual upload flow.",
           "required": false
         },
         "responses": {
@@ -3298,7 +3606,7 @@
         "operationId": "v1beta_batches_delete",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `batches/*`. Original parameter name: `name`. Original binding token: `{name=batches/*}`",
+            "description": "ID within the `batches` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=batches/*}`",
             "in": "path",
             "name": "batch",
             "required": true,
@@ -3335,7 +3643,7 @@
         "operationId": "v1beta_batches_get",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `batches/*`. Original parameter name: `name`. Original binding token: `{name=batches/*}`",
+            "description": "ID within the `batches` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=batches/*}`",
             "in": "path",
             "name": "batch",
             "required": true,
@@ -3374,7 +3682,7 @@
         "operationId": "v1beta_batches_cancel",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `batches/*`. Original parameter name: `name`. Original binding token: `{name=batches/*}`",
+            "description": "ID within the `batches` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=batches/*}`",
             "in": "path",
             "name": "batch",
             "required": true,
@@ -3413,7 +3721,7 @@
         "operationId": "v1beta_batches_updateEmbedContentBatch",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `batches/*`. Original parameter name: `embedContentBatch.name`. Original binding token: `{embedContentBatch.name=batches/*}`",
+            "description": "ID within the `batches` collection. Pass just the resource ID, not the full path. Original parameter name: `embedContentBatch.name`. Original binding token: `{embedContentBatch.name=batches/*}`",
             "in": "path",
             "name": "batch",
             "required": true,
@@ -3470,7 +3778,7 @@
         "operationId": "v1beta_batches_updateGenerateContentBatch",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `batches/*`. Original parameter name: `generateContentBatch.name`. Original binding token: `{generateContentBatch.name=batches/*}`",
+            "description": "ID within the `batches` collection. Pass just the resource ID, not the full path. Original parameter name: `generateContentBatch.name`. Original binding token: `{generateContentBatch.name=batches/*}`",
             "in": "path",
             "name": "batch",
             "required": true,
@@ -3610,7 +3918,7 @@
         "operationId": "v1beta_cachedContents_delete",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `cachedContents/*`. Original parameter name: `name`. Original binding token: `{name=cachedContents/*}`",
+            "description": "ID within the `cachedContents` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=cachedContents/*}`",
             "in": "path",
             "name": "cachedContent",
             "required": true,
@@ -3647,7 +3955,7 @@
         "operationId": "v1beta_cachedContents_get",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `cachedContents/*`. Original parameter name: `name`. Original binding token: `{name=cachedContents/*}`",
+            "description": "ID within the `cachedContents` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=cachedContents/*}`",
             "in": "path",
             "name": "cachedContent",
             "required": true,
@@ -3684,7 +3992,7 @@
         "operationId": "v1beta_cachedContents_patch",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `cachedContents/*`. Original parameter name: `cachedContent.name`. Original binding token: `{cachedContent.name=cachedContents/*}`",
+            "description": "ID within the `cachedContents` collection. Pass just the resource ID, not the full path. Original parameter name: `cachedContent.name`. Original binding token: `{cachedContent.name=cachedContents/*}`",
             "in": "path",
             "name": "cachedContent",
             "required": true,
@@ -3824,7 +4132,7 @@
         "operationId": "v1beta_fileSearchStores_delete",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `fileSearchStores/*`. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*}`",
+            "description": "ID within the `fileSearchStores` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*}`",
             "in": "path",
             "name": "fileSearchStore",
             "required": true,
@@ -3869,7 +4177,7 @@
         "operationId": "v1beta_fileSearchStores_get",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `fileSearchStores/*`. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*}`",
+            "description": "ID within the `fileSearchStores` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*}`",
             "in": "path",
             "name": "fileSearchStore",
             "required": true,
@@ -3908,7 +4216,7 @@
         "operationId": "v1beta_fileSearchStores_documents_list",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `fileSearchStores/*`. Original parameter name: `parent`. Original binding token: `{parent=fileSearchStores/*}`",
+            "description": "ID within the `fileSearchStores` collection. Pass just the resource ID, not the full path. Original parameter name: `parent`. Original binding token: `{parent=fileSearchStores/*}`",
             "in": "path",
             "name": "fileSearchStore",
             "required": true,
@@ -3963,7 +4271,7 @@
         "operationId": "v1beta_fileSearchStores_documents_delete",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `fileSearchStores/*/documents/*`. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*/documents/*}`",
+            "description": "ID within the `fileSearchStores` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*/documents/*}`",
             "in": "path",
             "name": "fileSearchStore",
             "required": true,
@@ -3972,7 +4280,7 @@
             }
           },
           {
-            "description": "Google API path binding, expected pattern `fileSearchStores/*/documents/*`. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*/documents/*}`",
+            "description": "ID within the `documents` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*/documents/*}`",
             "in": "path",
             "name": "document",
             "required": true,
@@ -4017,7 +4325,7 @@
         "operationId": "v1beta_fileSearchStores_documents_get",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `fileSearchStores/*/documents/*`. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*/documents/*}`",
+            "description": "ID within the `fileSearchStores` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*/documents/*}`",
             "in": "path",
             "name": "fileSearchStore",
             "required": true,
@@ -4026,7 +4334,7 @@
             }
           },
           {
-            "description": "Google API path binding, expected pattern `fileSearchStores/*/documents/*`. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*/documents/*}`",
+            "description": "ID within the `documents` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*/documents/*}`",
             "in": "path",
             "name": "document",
             "required": true,
@@ -4065,7 +4373,7 @@
         "operationId": "v1beta_fileSearchStores_operations_get",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `fileSearchStores/*/operations/*`. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*/operations/*}`",
+            "description": "ID within the `fileSearchStores` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*/operations/*}`",
             "in": "path",
             "name": "fileSearchStore",
             "required": true,
@@ -4074,7 +4382,7 @@
             }
           },
           {
-            "description": "Google API path binding, expected pattern `fileSearchStores/*/operations/*`. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*/operations/*}`",
+            "description": "ID within the `operations` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*/operations/*}`",
             "in": "path",
             "name": "operation",
             "required": true,
@@ -4113,7 +4421,7 @@
         "operationId": "v1beta_fileSearchStores_upload_operations_get",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `fileSearchStores/*/upload/operations/*`. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*/upload/operations/*}`",
+            "description": "ID within the `fileSearchStores` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*/upload/operations/*}`",
             "in": "path",
             "name": "fileSearchStore",
             "required": true,
@@ -4122,7 +4430,7 @@
             }
           },
           {
-            "description": "Google API path binding, expected pattern `fileSearchStores/*/upload/operations/*`. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*/upload/operations/*}`",
+            "description": "ID within the `operations` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*/upload/operations/*}`",
             "in": "path",
             "name": "operation",
             "required": true,
@@ -4161,7 +4469,7 @@
         "operationId": "v1beta_fileSearchStores_importFile",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `fileSearchStores/*`. Original parameter name: `fileSearchStoreName`. Original binding token: `{fileSearchStoreName=fileSearchStores/*}`",
+            "description": "ID within the `fileSearchStores` collection. Pass just the resource ID, not the full path. Original parameter name: `fileSearchStoreName`. Original binding token: `{fileSearchStoreName=fileSearchStores/*}`",
             "in": "path",
             "name": "fileSearchStore",
             "required": true,
@@ -4210,7 +4518,7 @@
         "operationId": "v1beta_files_uploadToFileSearchStore",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `fileSearchStores/*`. Original parameter name: `fileSearchStoreName`. Original binding token: `{fileSearchStoreName=fileSearchStores/*}`",
+            "description": "ID within the `fileSearchStores` collection. Pass just the resource ID, not the full path. Original parameter name: `fileSearchStoreName`. Original binding token: `{fileSearchStoreName=fileSearchStores/*}`",
             "in": "path",
             "name": "fileSearchStore",
             "required": true,
@@ -4342,7 +4650,7 @@
         "operationId": "v1beta_files_delete",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `files/*`. Original parameter name: `name`. Original binding token: `{name=files/*}`",
+            "description": "ID within the `files` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=files/*}`",
             "in": "path",
             "name": "file",
             "required": true,
@@ -4379,7 +4687,7 @@
         "operationId": "v1beta_files_get",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `files/*`. Original parameter name: `name`. Original binding token: `{name=files/*}`",
+            "description": "ID within the `files` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=files/*}`",
             "in": "path",
             "name": "file",
             "required": true,
@@ -4503,7 +4811,7 @@
         "operationId": "v1beta_models_get",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `models/*`. Original parameter name: `name`. Original binding token: `{name=models/*}`",
+            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=models/*}`",
             "in": "path",
             "name": "model",
             "required": true,
@@ -4542,7 +4850,7 @@
         "operationId": "v1beta_models_asyncBatchEmbedContent",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `models/*`. Original parameter name: `batch.model`. Original binding token: `{batch.model=models/*}`",
+            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original parameter name: `batch.model`. Original binding token: `{batch.model=models/*}`",
             "in": "path",
             "name": "model",
             "required": true,
@@ -4591,7 +4899,7 @@
         "operationId": "v1beta_models_batchEmbedContents",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `models/*`. Original binding token: `{model=models/*}`",
+            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original binding token: `{model=models/*}`",
             "in": "path",
             "name": "model",
             "required": true,
@@ -4640,7 +4948,7 @@
         "operationId": "v1beta_models_batchEmbedText",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `models/*`. Original binding token: `{model=models/*}`",
+            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original binding token: `{model=models/*}`",
             "in": "path",
             "name": "model",
             "required": true,
@@ -4689,7 +4997,7 @@
         "operationId": "v1beta_models_batchGenerateContent",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `models/*`. Original parameter name: `batch.model`. Original binding token: `{batch.model=models/*}`",
+            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original parameter name: `batch.model`. Original binding token: `{batch.model=models/*}`",
             "in": "path",
             "name": "model",
             "required": true,
@@ -4738,7 +5046,7 @@
         "operationId": "v1beta_models_countMessageTokens",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `models/*`. Original binding token: `{model=models/*}`",
+            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original binding token: `{model=models/*}`",
             "in": "path",
             "name": "model",
             "required": true,
@@ -4787,7 +5095,7 @@
         "operationId": "v1beta_models_countTextTokens",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `models/*`. Original binding token: `{model=models/*}`",
+            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original binding token: `{model=models/*}`",
             "in": "path",
             "name": "model",
             "required": true,
@@ -4836,7 +5144,7 @@
         "operationId": "v1beta_models_countTokens",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `models/*`. Original binding token: `{model=models/*}`",
+            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original binding token: `{model=models/*}`",
             "in": "path",
             "name": "model",
             "required": true,
@@ -4885,7 +5193,7 @@
         "operationId": "v1beta_models_embedContent",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `models/*`. Original binding token: `{model=models/*}`",
+            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original binding token: `{model=models/*}`",
             "in": "path",
             "name": "model",
             "required": true,
@@ -4934,7 +5242,7 @@
         "operationId": "v1beta_models_embedText",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `models/*`. Original binding token: `{model=models/*}`",
+            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original binding token: `{model=models/*}`",
             "in": "path",
             "name": "model",
             "required": true,
@@ -4983,7 +5291,7 @@
         "operationId": "v1beta_models_generateContent",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `models/*`. Original binding token: `{model=models/*}`",
+            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original binding token: `{model=models/*}`",
             "in": "path",
             "name": "model",
             "required": true,
@@ -5032,7 +5340,7 @@
         "operationId": "v1beta_models_generateMessage",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `models/*`. Original binding token: `{model=models/*}`",
+            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original binding token: `{model=models/*}`",
             "in": "path",
             "name": "model",
             "required": true,
@@ -5081,7 +5389,7 @@
         "operationId": "v1beta_models_generateText",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `models/*`. Original binding token: `{model=models/*}`",
+            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original binding token: `{model=models/*}`",
             "in": "path",
             "name": "model",
             "required": true,
@@ -5130,7 +5438,7 @@
         "operationId": "v1beta_models_predict",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `models/*`. Original binding token: `{model=models/*}`",
+            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original binding token: `{model=models/*}`",
             "in": "path",
             "name": "model",
             "required": true,
@@ -5179,7 +5487,7 @@
         "operationId": "v1beta_models_predictLongRunning",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `models/*`. Original binding token: `{model=models/*}`",
+            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original binding token: `{model=models/*}`",
             "in": "path",
             "name": "model",
             "required": true,
@@ -5228,7 +5536,7 @@
         "operationId": "v1beta_models_streamGenerateContent",
         "parameters": [
           {
-            "description": "Google API path binding, expected pattern `models/*`. Original binding token: `{model=models/*}`",
+            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original binding token: `{model=models/*}`",
             "in": "path",
             "name": "model",
             "required": true,
@@ -5285,6 +5593,661 @@
           "$ref": "#/components/schemas/GenerateContentResponse"
         },
         "x-google-original-path": "/v1beta/{model=models/*}:streamGenerateContent"
+      }
+    },
+    "/v1beta/tunedModels": {
+      "get": {
+        "description": "list on v1beta.tunedModels",
+        "operationId": "v1beta_tunedModels_list",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "pageSize",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pageToken",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "filter",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListTunedModelsResponse"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "list",
+        "tags": [
+          "v1beta.tunedModels"
+        ],
+        "x-google-original-path": "/v1beta/tunedModels"
+      },
+      "post": {
+        "description": "create on v1beta.tunedModels",
+        "operationId": "v1beta_tunedModels_create",
+        "parameters": [
+          {
+            "description": "Optional unique ID for the tuned model. If not set, one is generated.",
+            "in": "query",
+            "name": "tunedModelId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TunedModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateTunedModelOperation"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "create",
+        "tags": [
+          "v1beta.tunedModels"
+        ],
+        "x-google-original-path": "/v1beta/tunedModels"
+      }
+    },
+    "/v1beta/tunedModels/{tunedModel}": {
+      "delete": {
+        "description": "delete on v1beta.tunedModels",
+        "operationId": "v1beta_tunedModels_delete",
+        "parameters": [
+          {
+            "description": "ID within the `tunedModels` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=tunedModels/*}`",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmptyObject"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "delete",
+        "tags": [
+          "v1beta.tunedModels"
+        ],
+        "x-google-original-path": "/v1beta/{name=tunedModels/*}"
+      },
+      "get": {
+        "description": "get on v1beta.tunedModels",
+        "operationId": "v1beta_tunedModels_get",
+        "parameters": [
+          {
+            "description": "ID within the `tunedModels` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=tunedModels/*}`",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TunedModel"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "get",
+        "tags": [
+          "v1beta.tunedModels"
+        ],
+        "x-google-original-path": "/v1beta/{name=tunedModels/*}"
+      },
+      "patch": {
+        "description": "patch on v1beta.tunedModels",
+        "operationId": "v1beta_tunedModels_patch",
+        "parameters": [
+          {
+            "description": "ID within the `tunedModels` collection. Pass just the resource ID, not the full path. Original parameter name: `tunedModel.name`. Original binding token: `{tunedModel.name=tunedModels/*}`",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "updateMask",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TunedModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TunedModel"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "patch",
+        "tags": [
+          "v1beta.tunedModels"
+        ],
+        "x-google-original-path": "/v1beta/{tunedModel.name=tunedModels/*}"
+      }
+    },
+    "/v1beta/tunedModels/{tunedModel}/permissions": {
+      "get": {
+        "description": "list on v1beta.tunedModels.permissions",
+        "operationId": "v1beta_tunedModels_permissions_list",
+        "parameters": [
+          {
+            "description": "ID within the `tunedModels` collection. Pass just the resource ID, not the full path. Original parameter name: `parent`. Original binding token: `{parent=tunedModels/*}`",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pageToken",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListPermissionsResponse"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "list",
+        "tags": [
+          "v1beta.tunedModels.permissions"
+        ],
+        "x-google-original-path": "/v1beta/{parent=tunedModels/*}/permissions"
+      },
+      "post": {
+        "description": "create on v1beta.tunedModels.permissions",
+        "operationId": "v1beta_tunedModels_permissions_create",
+        "parameters": [
+          {
+            "description": "ID within the `tunedModels` collection. Pass just the resource ID, not the full path. Original parameter name: `parent`. Original binding token: `{parent=tunedModels/*}`",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Permission"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Permission"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "create",
+        "tags": [
+          "v1beta.tunedModels.permissions"
+        ],
+        "x-google-original-path": "/v1beta/{parent=tunedModels/*}/permissions"
+      }
+    },
+    "/v1beta/tunedModels/{tunedModel}/permissions/{permission}": {
+      "delete": {
+        "description": "delete on v1beta.tunedModels.permissions",
+        "operationId": "v1beta_tunedModels_permissions_delete",
+        "parameters": [
+          {
+            "description": "ID within the `tunedModels` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=tunedModels/*/permissions/*}`",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "ID within the `permissions` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=tunedModels/*/permissions/*}`",
+            "in": "path",
+            "name": "permission",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmptyObject"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "delete",
+        "tags": [
+          "v1beta.tunedModels.permissions"
+        ],
+        "x-google-original-path": "/v1beta/{name=tunedModels/*/permissions/*}"
+      },
+      "get": {
+        "description": "get on v1beta.tunedModels.permissions",
+        "operationId": "v1beta_tunedModels_permissions_get",
+        "parameters": [
+          {
+            "description": "ID within the `tunedModels` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=tunedModels/*/permissions/*}`",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "ID within the `permissions` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=tunedModels/*/permissions/*}`",
+            "in": "path",
+            "name": "permission",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Permission"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "get",
+        "tags": [
+          "v1beta.tunedModels.permissions"
+        ],
+        "x-google-original-path": "/v1beta/{name=tunedModels/*/permissions/*}"
+      },
+      "patch": {
+        "description": "patch on v1beta.tunedModels.permissions",
+        "operationId": "v1beta_tunedModels_permissions_patch",
+        "parameters": [
+          {
+            "description": "ID within the `tunedModels` collection. Pass just the resource ID, not the full path. Original parameter name: `permission.name`. Original binding token: `{permission.name=tunedModels/*/permissions/*}`",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "ID within the `permissions` collection. Pass just the resource ID, not the full path. Original parameter name: `permission.name`. Original binding token: `{permission.name=tunedModels/*/permissions/*}`",
+            "in": "path",
+            "name": "permission",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "updateMask",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Permission"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Permission"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "patch",
+        "tags": [
+          "v1beta.tunedModels.permissions"
+        ],
+        "x-google-original-path": "/v1beta/{permission.name=tunedModels/*/permissions/*}"
+      }
+    },
+    "/v1beta/tunedModels/{tunedModel}:generateContent": {
+      "post": {
+        "description": "generateContent on v1beta.tunedModels",
+        "operationId": "v1beta_tunedModels_generateContent",
+        "parameters": [
+          {
+            "description": "ID within the `tunedModels` collection. Pass just the resource ID, not the full path. Original parameter name: `model`. Original binding token: `{model=tunedModels/*}`",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateContentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateContentResponse"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "generateContent",
+        "tags": [
+          "v1beta.tunedModels"
+        ],
+        "x-google-original-path": "/v1beta/{model=tunedModels/*}:generateContent"
+      }
+    },
+    "/v1beta/tunedModels/{tunedModel}:streamGenerateContent": {
+      "post": {
+        "description": "streamGenerateContent on v1beta.tunedModels",
+        "operationId": "v1beta_tunedModels_streamGenerateContent",
+        "parameters": [
+          {
+            "description": "ID within the `tunedModels` collection. Pass just the resource ID, not the full path. Original parameter name: `model`. Original binding token: `{model=tunedModels/*}`",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Required streaming mode documented for streamGenerateContent.",
+            "in": "query",
+            "name": "alt",
+            "required": true,
+            "schema": {
+              "enum": [
+                "sse"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateContentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful server-sent event stream of GenerateContentResponse chunks"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "streamGenerateContent",
+        "tags": [
+          "v1beta.tunedModels"
+        ],
+        "x-gemini-doc-source": "https://ai.google.dev/api/generate-content",
+        "x-gemini-stream-event-schema": {
+          "$ref": "#/components/schemas/GenerateContentResponse"
+        },
+        "x-google-original-path": "/v1beta/{model=tunedModels/*}:streamGenerateContent"
+      }
+    },
+    "/v1beta/tunedModels/{tunedModel}:transferOwnership": {
+      "post": {
+        "description": "transferOwnership on v1beta.tunedModels.permissions",
+        "operationId": "v1beta_tunedModels_permissions_transferOwnership",
+        "parameters": [
+          {
+            "description": "ID within the `tunedModels` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=tunedModels/*}`",
+            "in": "path",
+            "name": "tunedModel",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransferOwnershipRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransferOwnershipResponse"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "transferOwnership",
+        "tags": [
+          "v1beta.tunedModels.permissions"
+        ],
+        "x-google-original-path": "/v1beta/{name=tunedModels/*}:transferOwnership"
       }
     }
   },

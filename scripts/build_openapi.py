@@ -6,30 +6,165 @@ from collections import defaultdict
 
 from _gemini_common import (
     DOCS_DIR,
+    DocOperation,
     OPENAPI_DIR,
     build_operation_id,
     load_doc_operations,
+    normalize_google_path,
     read_json,
+    singularize,
     write_json,
 )
 from native_schema_registry import apply_native_operation_overrides, build_native_components
 
 
+def _derive_segment_pattern(pattern: str, openapi_name: str) -> str:
+    """Derive the collection/*  segment for a specific parameter.
+
+    For single-wildcard patterns like "models/*", returns the pattern
+    as-is.  For multi-wildcard patterns like
+    "fileSearchStores/*/documents/*", uses the singularization mapping
+    to find which wildcard belongs to this openapi_name and returns just
+    the relevant "collection/*" segment.
+    """
+    if not pattern:
+        return ""
+    segments = pattern.split("/")
+    wildcards = [i for i, s in enumerate(segments) if s == "*"]
+    if len(wildcards) <= 1:
+        # Single wildcard: the whole pattern is the segment.
+        return pattern
+    # Multi-wildcard: find the literal segment before this parameter's
+    # wildcard.  openapi_name is the singularized form of the literal
+    # that precedes the wildcard.
+    for wi in wildcards:
+        if wi > 0:
+            literal = segments[wi - 1]
+            if singularize(literal) == openapi_name:
+                return f"{literal}/*"
+    # Fallback: return the full pattern.
+    return pattern
+
+
+def _load_tuning_supplemental_operations(discovery: dict) -> list[DocOperation]:
+    """Load tunedModels operations from tuning reference pages and discovery."""
+    supplemental: list[DocOperation] = []
+    seen: set[tuple[str, str]] = set()
+
+    # Doc-sourced: tuning reference and permissions reference
+    for json_file in ("tuning-reference.json", "tuning-permissions-reference.json"):
+        path = DOCS_DIR / json_file
+        if not path.exists():
+            continue
+        data = read_json(path)
+        for item in data.get("operations", []):
+            key = (item["method"], item["normalized_path"])
+            if key not in seen:
+                seen.add(key)
+                supplemental.append(
+                    DocOperation(
+                        resource=item["resource"],
+                        name=item["name"],
+                        method=item["method"],
+                        raw_path=item["raw_path"],
+                        normalized_path=item["normalized_path"],
+                        description=item.get("description", ""),
+                        path_parameters=item["path_parameters"],
+                    )
+                )
+
+    # Discovery-sourced: CRUD operations not on the tuning reference pages
+    if discovery:
+        # Map discovery v1beta3 tunedModels paths to v1beta
+        method_map = {"get": "GET", "post": "POST", "patch": "PATCH", "delete": "DELETE"}
+        for raw_disc_path, path_item in discovery.get("paths", {}).items():
+            if "tunedModels" not in raw_disc_path:
+                continue
+            # Normalize v1beta3 -> v1beta
+            raw_path = raw_disc_path.replace("/v1beta3/", "/v1beta/")
+            for http_method_lower, operation in path_item.items():
+                if http_method_lower not in method_map:
+                    continue
+                http_method = method_map[http_method_lower]
+                normalized_path, parameters = normalize_google_path(raw_path)
+                key = (http_method, normalized_path)
+                if key in seen:
+                    continue
+                seen.add(key)
+                name = operation.get("x-google-operation-name", "")
+                # Skip PaLM legacy endpoint not on current tuning reference page
+                if name == "GenerateText":
+                    continue
+                if name.startswith("List"):
+                    name = "list"
+                elif name.startswith("Get"):
+                    name = "get"
+                elif name.startswith("Create"):
+                    name = "create"
+                elif name.startswith("Update"):
+                    name = "patch"
+                elif name.startswith("Delete"):
+                    name = "delete"
+                else:
+                    # camelCase the operation name
+                    name = name[0].lower() + name[1:] if name else http_method_lower
+
+                if "/permissions" in raw_path:
+                    resource = "v1beta.tunedModels.permissions"
+                else:
+                    resource = "v1beta.tunedModels"
+
+                supplemental.append(
+                    DocOperation(
+                        resource=resource,
+                        name=name,
+                        method=http_method,
+                        raw_path=raw_path,
+                        normalized_path=normalized_path,
+                        description=operation.get("description", ""),
+                        path_parameters=parameters,
+                    )
+                )
+
+    return supplemental
+
+
 def build_spec() -> dict:
     operations = load_doc_operations()
     discovery = read_json(DOCS_DIR.parent / "discovery" / "openapi3_0.json")
+    operations.extend(_load_tuning_supplemental_operations(discovery))
     paths: dict[str, dict] = defaultdict(dict)
 
     for operation in operations:
         parameters = []
         for parameter in operation.path_parameters:
-            description = "Google API path binding"
-            if parameter["pattern"]:
-                description = f"Google API path binding, expected pattern `{parameter['pattern']}`"
+            # Derive the per-parameter collection name from
+            # segment_pattern (set by normalize_google_path for
+            # multi-wildcard patterns) or by finding the openapi_name's
+            # position in the full pattern.
+            seg = parameter.get("segment_pattern")
+            if not seg:
+                # Compute from the full pattern and openapi_name.
+                # For "models/*" with openapi_name "model", the
+                # collection is "models".  For multi-wildcard patterns
+                # like "fileSearchStores/*/documents/*", find the
+                # literal segment that precedes this parameter's
+                # wildcard.
+                pat = parameter.get("pattern", "")
+                oname = parameter["openapi_name"]
+                seg = _derive_segment_pattern(pat, oname)
+            if seg:
+                collection = seg.rstrip("/*").rstrip("/")
+                description = (
+                    f"ID within the `{collection}` collection. "
+                    f"Pass just the resource ID, not the full path"
+                )
+            else:
+                description = "Google API path binding"
             if parameter["name"] != parameter["openapi_name"]:
-                description = f"{description}. Original parameter name: `{parameter['name']}`"
+                description += f". Original parameter name: `{parameter['name']}`"
             if parameter.get("binding_token"):
-                description = f"{description}. Original binding token: `{{{parameter['binding_token']}}}`"
+                description += f". Original binding token: `{{{parameter['binding_token']}}}`"
             parameters.append(
                 {
                     "name": parameter["openapi_name"],
@@ -55,6 +190,13 @@ def build_spec() -> dict:
                 "required": False,
                 "content": content,
             }
+            if operation.normalized_path.startswith("/upload/"):
+                request_body["description"] = (
+                    "Google requires multipart/related or resumable upload "
+                    "protocol. The content types shown here are a simplified "
+                    "representation. See the Gemini Files API guide for the "
+                    "actual upload flow."
+                )
 
         responses = {
             "200": {
@@ -99,10 +241,9 @@ def build_spec() -> dict:
             "description": (
                 "Generated working OpenAPI spec for the documented Gemini Developer API "
                 "surface. Path and method coverage come primarily from the live "
-                "`all-methods` docs, with selected guide-documented extras added where "
-                "the official Gemini guides publish native routes that are not listed in "
-                "the method index. Raw upstream discovery output is kept separately because "
-                "it currently describes an older, smaller `v1beta3` surface."
+                "`all-methods` docs, with guide-documented extras and tuning reference "
+                "endpoints added from their dedicated reference pages. Discovery-sourced "
+                "CRUD operations for tunedModels are also included."
             ),
             "x-upstream-discovery-version": discovery["info"]["version"],
             "x-upstream-discovery-revision": discovery["info"].get("x-google-revision"),

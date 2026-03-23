@@ -1,0 +1,109 @@
+{
+  "last_updated": "Last updated 2026-03-18 UTC.",
+  "operations": [
+    {
+      "description": "",
+      "method": "POST",
+      "name": "create",
+      "normalized_path": "/v1beta/tunedModels",
+      "path_parameters": [],
+      "raw_path": "/v1beta/tunedModels",
+      "resource": "v1beta.tunedModels"
+    },
+    {
+      "description": "",
+      "method": "POST",
+      "name": "generateContent",
+      "normalized_path": "/v1beta/tunedModels/{tunedModel}:generateContent",
+      "path_parameters": [
+        {
+          "binding_token": "model=tunedModels/*",
+          "name": "model",
+          "openapi_name": "tunedModel",
+          "pattern": "tunedModels/*",
+          "segment_pattern": "tunedModels/*"
+        }
+      ],
+      "raw_path": "/v1beta/{model=tunedModels/*}:generateContent",
+      "resource": "v1beta.tunedModels"
+    },
+    {
+      "description": "",
+      "method": "POST",
+      "name": "streamGenerateContent",
+      "normalized_path": "/v1beta/tunedModels/{tunedModel}:streamGenerateContent",
+      "path_parameters": [
+        {
+          "binding_token": "model=tunedModels/*",
+          "name": "model",
+          "openapi_name": "tunedModel",
+          "pattern": "tunedModels/*",
+          "segment_pattern": "tunedModels/*"
+        }
+      ],
+      "raw_path": "/v1beta/{model=tunedModels/*}:streamGenerateContent",
+      "resource": "v1beta.tunedModels"
+    },
+    {
+      "description": "",
+      "method": "GET",
+      "name": "get",
+      "normalized_path": "/v1beta/tunedModels/{tunedModel}",
+      "path_parameters": [
+        {
+          "binding_token": "name=tunedModels/*",
+          "name": "name",
+          "openapi_name": "tunedModel",
+          "pattern": "tunedModels/*",
+          "segment_pattern": "tunedModels/*"
+        }
+      ],
+      "raw_path": "/v1beta/{name=tunedModels/*}",
+      "resource": "v1beta.tunedModels"
+    },
+    {
+      "description": "",
+      "method": "GET",
+      "name": "list",
+      "normalized_path": "/v1beta/tunedModels",
+      "path_parameters": [],
+      "raw_path": "/v1beta/tunedModels",
+      "resource": "v1beta.tunedModels"
+    },
+    {
+      "description": "",
+      "method": "PATCH",
+      "name": "patch",
+      "normalized_path": "/v1beta/tunedModels/{tunedModel}",
+      "path_parameters": [
+        {
+          "binding_token": "tunedModel.name=tunedModels/*",
+          "name": "tunedModel.name",
+          "openapi_name": "tunedModel",
+          "pattern": "tunedModels/*",
+          "segment_pattern": "tunedModels/*"
+        }
+      ],
+      "raw_path": "/v1beta/{tunedModel.name=tunedModels/*}",
+      "resource": "v1beta.tunedModels"
+    },
+    {
+      "description": "",
+      "method": "DELETE",
+      "name": "delete",
+      "normalized_path": "/v1beta/tunedModels/{tunedModel}",
+      "path_parameters": [
+        {
+          "binding_token": "name=tunedModels/*",
+          "name": "name",
+          "openapi_name": "tunedModel",
+          "pattern": "tunedModels/*",
+          "segment_pattern": "tunedModels/*"
+        }
+      ],
+      "raw_path": "/v1beta/{name=tunedModels/*}",
+      "resource": "v1beta.tunedModels"
+    }
+  ],
+  "source": "https://ai.google.dev/api/tuning"
+}

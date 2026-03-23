@@ -1,18 +1,18 @@
 # Drift Summary
 
-Generated: 2026-03-22T20:30:16.939750+00:00
+Generated: 2026-03-23T02:05:53.445586+00:00
 
 ## Native
 - Native generic operations: 0
 - Live docs operations: 44
-- Native spec operations: 47
+- Native spec operations: 60
 - Guide-only aliases: 1
 - Guide-only operations: 1
 - Reference-only aliases: 1
 
 ## Docs vs Discovery
-- Missing from discovery after version normalization: 36
-- Extra in discovery after version normalization: 17
+- Missing from discovery after version normalization: 38
+- Extra in discovery after version normalization: 6
 
 ## SDK vs Native
 - High-confidence SDK paths missing from docs: 2

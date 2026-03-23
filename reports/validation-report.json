@@ -1,5 +1,17 @@
 {
+  "coverage_summary": {
+    "all_methods_covered": 44,
+    "all_methods_operations": 44,
+    "coverage_percent": 100.0,
+    "guide_covered": 3,
+    "guide_operations": 3,
+    "total_documented_operations": 60,
+    "total_spec_operations": 60,
+    "tuning_covered": 13,
+    "tuning_reference_operations": 13
+  },
   "doc_operation_count": 44,
+  "documented_discovery_sourced_tuning": [],
   "documented_guide_only_aliases": [
     {
       "docs_sources": [
@@ -30,18 +42,128 @@
       "reason": "This upload alias is documented in the official File Search Stores reference, but it does not appear in the all-methods index."
     }
   ],
+  "documented_tuning_permissions_reference_only": [
+    {
+      "docs_sources": [
+        "https://ai.google.dev/api/tuning/permissions"
+      ],
+      "operation": "DELETE /v1beta/tunedModels/{tunedModel}/permissions/{permission}",
+      "reason": "This tunedModels permissions operation is documented on the tuning permissions reference page, but it does not appear in the all-methods index."
+    },
+    {
+      "docs_sources": [
+        "https://ai.google.dev/api/tuning/permissions"
+      ],
+      "operation": "GET /v1beta/tunedModels/{tunedModel}/permissions",
+      "reason": "This tunedModels permissions operation is documented on the tuning permissions reference page, but it does not appear in the all-methods index."
+    },
+    {
+      "docs_sources": [
+        "https://ai.google.dev/api/tuning/permissions"
+      ],
+      "operation": "GET /v1beta/tunedModels/{tunedModel}/permissions/{permission}",
+      "reason": "This tunedModels permissions operation is documented on the tuning permissions reference page, but it does not appear in the all-methods index."
+    },
+    {
+      "docs_sources": [
+        "https://ai.google.dev/api/tuning/permissions"
+      ],
+      "operation": "PATCH /v1beta/tunedModels/{tunedModel}/permissions/{permission}",
+      "reason": "This tunedModels permissions operation is documented on the tuning permissions reference page, but it does not appear in the all-methods index."
+    },
+    {
+      "docs_sources": [
+        "https://ai.google.dev/api/tuning/permissions"
+      ],
+      "operation": "POST /v1beta/tunedModels/{tunedModel}/permissions",
+      "reason": "This tunedModels permissions operation is documented on the tuning permissions reference page, but it does not appear in the all-methods index."
+    },
+    {
+      "docs_sources": [
+        "https://ai.google.dev/api/tuning/permissions"
+      ],
+      "operation": "POST /v1beta/tunedModels/{tunedModel}:transferOwnership",
+      "reason": "This tunedModels permissions operation is documented on the tuning permissions reference page, but it does not appear in the all-methods index."
+    }
+  ],
+  "documented_tuning_reference_only": [
+    {
+      "docs_sources": [
+        "https://ai.google.dev/api/tuning"
+      ],
+      "operation": "DELETE /v1beta/tunedModels/{tunedModel}",
+      "reason": "This tunedModels operation is documented on the dedicated tuning reference page, but it does not appear in the all-methods index."
+    },
+    {
+      "docs_sources": [
+        "https://ai.google.dev/api/tuning"
+      ],
+      "operation": "GET /v1beta/tunedModels",
+      "reason": "This tunedModels operation is documented on the dedicated tuning reference page, but it does not appear in the all-methods index."
+    },
+    {
+      "docs_sources": [
+        "https://ai.google.dev/api/tuning"
+      ],
+      "operation": "GET /v1beta/tunedModels/{tunedModel}",
+      "reason": "This tunedModels operation is documented on the dedicated tuning reference page, but it does not appear in the all-methods index."
+    },
+    {
+      "docs_sources": [
+        "https://ai.google.dev/api/tuning"
+      ],
+      "operation": "PATCH /v1beta/tunedModels/{tunedModel}",
+      "reason": "This tunedModels operation is documented on the dedicated tuning reference page, but it does not appear in the all-methods index."
+    },
+    {
+      "docs_sources": [
+        "https://ai.google.dev/api/tuning"
+      ],
+      "operation": "POST /v1beta/tunedModels",
+      "reason": "This tunedModels operation is documented on the dedicated tuning reference page, but it does not appear in the all-methods index."
+    },
+    {
+      "docs_sources": [
+        "https://ai.google.dev/api/tuning"
+      ],
+      "operation": "POST /v1beta/tunedModels/{tunedModel}:generateContent",
+      "reason": "This tunedModels operation is documented on the dedicated tuning reference page, but it does not appear in the all-methods index."
+    },
+    {
+      "docs_sources": [
+        "https://ai.google.dev/api/tuning"
+      ],
+      "operation": "POST /v1beta/tunedModels/{tunedModel}:streamGenerateContent",
+      "reason": "This tunedModels operation is documented on the dedicated tuning reference page, but it does not appear in the all-methods index."
+    }
+  ],
   "guide_documented_missing_from_native_spec": [],
   "invalid_guide_backed_operations": [],
   "invalid_streaming_operations": [],
   "missing_from_spec": [],
   "native_generic_operation_count": 0,
   "native_generic_operations": [],
-  "spec_operation_count": 47,
+  "spec_operation_count": 60,
+  "tuning_perm_ref_missing_from_spec": [],
+  "tuning_ref_missing_from_spec": [],
   "unconcretized_selected_operations": [],
   "undocumented_in_docs": [
+    "DELETE /v1beta/tunedModels/{tunedModel}",
+    "DELETE /v1beta/tunedModels/{tunedModel}/permissions/{permission}",
     "GET /download/v1beta/files/{file}:download",
+    "GET /v1beta/tunedModels",
+    "GET /v1beta/tunedModels/{tunedModel}",
+    "GET /v1beta/tunedModels/{tunedModel}/permissions",
+    "GET /v1beta/tunedModels/{tunedModel}/permissions/{permission}",
+    "PATCH /v1beta/tunedModels/{tunedModel}",
+    "PATCH /v1beta/tunedModels/{tunedModel}/permissions/{permission}",
     "POST /upload/v1beta/fileSearchStores/{fileSearchStore}:uploadToFileSearchStore",
-    "POST /upload/v1beta/files"
+    "POST /upload/v1beta/files",
+    "POST /v1beta/tunedModels",
+    "POST /v1beta/tunedModels/{tunedModel}/permissions",
+    "POST /v1beta/tunedModels/{tunedModel}:generateContent",
+    "POST /v1beta/tunedModels/{tunedModel}:streamGenerateContent",
+    "POST /v1beta/tunedModels/{tunedModel}:transferOwnership"
   ],
   "undocumented_in_docs_unclassified": []
 }

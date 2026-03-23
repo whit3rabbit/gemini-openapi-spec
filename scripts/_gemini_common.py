@@ -30,6 +30,8 @@ PALM_REF_URL = "https://ai.google.dev/api/palm"
 GENERATE_CONTENT_REF_URL = "https://ai.google.dev/api/generate-content"
 FILE_SEARCH_STORES_REF_URL = "https://ai.google.dev/api/file-search/file-search-stores"
 FILE_SEARCH_DOCUMENTS_REF_URL = "https://ai.google.dev/api/file-search/documents"
+TUNING_REF_URL = "https://ai.google.dev/api/tuning"
+TUNING_PERMISSIONS_REF_URL = "https://ai.google.dev/api/tuning/permissions"
 OPENAI_COMPAT_URL = "https://ai.google.dev/gemini-api/docs/openai"
 OPENAI_UPSTREAM_SPEC_URL = (
     "https://raw.githubusercontent.com/openai/openai-openapi/manual_spec/openapi.yaml"
@@ -100,22 +102,24 @@ def slugify_resource(resource: str) -> str:
     return resource.replace(".", "_")
 
 
+def singularize(value: str) -> str:
+    """Naive English singularization for Google API collection names."""
+    if value.endswith("ies") and len(value) > 3:
+        return value[:-3] + "y"
+    for suffix in ("ches", "shes", "xes", "zes", "ses"):
+        if value.endswith(suffix) and len(value) > len(suffix):
+            return value[: -2]
+    if value.endswith("s") and not value.endswith("ss") and len(value) > 1:
+        return value[:-1]
+    return value
+
+
 def normalize_google_path(path: str) -> tuple[str, list[dict[str, str]]]:
     parameters: list[dict[str, str]] = []
 
     def sanitize(value: str) -> str:
         sanitized = re.sub(r"[^A-Za-z0-9_]+", "_", value).strip("_")
         return sanitized or "param"
-
-    def singularize(value: str) -> str:
-        if value.endswith("ies") and len(value) > 3:
-            return value[:-3] + "y"
-        for suffix in ("ches", "shes", "xes", "zes", "ses"):
-            if value.endswith(suffix) and len(value) > len(suffix):
-                return value[: -2]
-        if value.endswith("s") and not value.endswith("ss") and len(value) > 1:
-            return value[:-1]
-        return value
 
     def replace(match: re.Match[str]) -> str:
         token = match.group(1)
@@ -159,10 +163,14 @@ def normalize_google_path(path: str) -> tuple[str, list[dict[str, str]]]:
                 occurrence = wildcard_name_counts.get(base_name, 0) + 1
                 wildcard_name_counts[base_name] = occurrence
                 openapi_name = base_name if occurrence == 1 else f"{base_name}_{occurrence}"
+                # Per-wildcard segment pattern (e.g. "documents/*") so
+                # descriptions can reference the specific collection.
+                segment_pattern = f"{context}/*"
                 parameters.append(
                     {
                         "name": name,
                         "pattern": pattern,
+                        "segment_pattern": segment_pattern,
                         "openapi_name": openapi_name,
                         "binding_token": token,
                     }
@@ -432,6 +440,113 @@ def parse_file_search_documents_reference_html(html: str) -> dict[str, Any]:
         "documented_aliases": [],
         "last_updated": last_updated,
     }
+
+
+def _parse_tuning_page_operations(
+    html: str, resource_prefix: str
+) -> list[dict[str, Any]]:
+    """Extract REST method signatures from a tuning reference HTML page.
+
+    The tuning pages use ``class="endpoint"`` for the HTTP method and
+    ``class="endpoint-url"`` for the URL.  The URL text is split across
+    child elements with whitespace, so we strip all spaces and reconstruct.
+    """
+    operations: list[dict[str, Any]] = []
+    seen: set[tuple[str, str]] = set()
+
+    # Pair up consecutive endpoint method + endpoint-url elements
+    method_pattern = re.compile(
+        r'class="endpoint"[^>]*>(.*?)</[^>]+>', re.DOTALL
+    )
+    url_pattern = re.compile(
+        r'class="endpoint-url"[^>]*>(.*?)</[^>]+>', re.DOTALL
+    )
+
+    methods = [
+        re.sub(r"<[^>]+>", "", m.group(1)).strip().upper()
+        for m in method_pattern.finditer(html)
+    ]
+    urls_raw = [
+        re.sub(r"<[^>]+>", "", m.group(1))
+        for m in url_pattern.finditer(html)
+    ]
+
+    for method, url_raw in zip(methods, urls_raw):
+        if method not in {"GET", "POST", "PATCH", "DELETE"}:
+            continue
+        # Reconstruct URL by removing spaces inserted by HTML rendering
+        url_clean = re.sub(r"\s+", "", url_raw)
+        # Extract path after the domain
+        path_match = re.match(
+            r"https?://generativelanguage\.googleapis\.com(/\S+)", url_clean
+        )
+        if not path_match:
+            continue
+        raw_path = path_match.group(1)
+        normalized_path, parameters = normalize_google_path(raw_path)
+
+        key = (method, normalized_path)
+        if key in seen:
+            continue
+        seen.add(key)
+
+        # Derive operation name from the normalized path (no binding tokens)
+        norm_tail = normalized_path.rstrip("/").rsplit("/", 1)[-1]
+        if ":" in norm_tail:
+            name = norm_tail.split(":", 1)[1]
+        elif norm_tail.startswith("{"):
+            # Path ends with a parameter like {tunedModel}
+            name = {"GET": "get", "DELETE": "delete", "PATCH": "patch"}.get(
+                method, norm_tail
+            )
+        else:
+            # Path ends with a collection name like /tunedModels or /permissions
+            name = {"GET": "list", "POST": "create"}.get(method, norm_tail)
+
+        operations.append({
+            "resource": resource_prefix,
+            "name": name,
+            "method": method,
+            "raw_path": raw_path,
+            "normalized_path": normalized_path,
+            "description": "",
+            "path_parameters": parameters,
+        })
+    return operations
+
+
+def _parse_tuning_reference(
+    html: str, resource_prefix: str, source_url: str
+) -> dict[str, Any]:
+    lines = extract_text_lines(html)
+    last_updated = next(
+        (line for line in lines if line.startswith("Last updated ")),
+        None,
+    )
+    operations = _parse_tuning_page_operations(html, resource_prefix)
+    return {
+        "source": source_url,
+        "last_updated": last_updated,
+        "operations": operations,
+    }
+
+
+def parse_tuning_reference_html(html: str) -> dict[str, Any]:
+    return _parse_tuning_reference(html, "v1beta.tunedModels", TUNING_REF_URL)
+
+
+def parse_tuning_permissions_reference_html(html: str) -> dict[str, Any]:
+    return _parse_tuning_reference(
+        html, "v1beta.tunedModels.permissions", TUNING_PERMISSIONS_REF_URL
+    )
+
+
+def load_tuning_reference_evidence() -> dict[str, Any]:
+    return read_json(DOCS_DIR / "tuning-reference.json")
+
+
+def load_tuning_permissions_reference_evidence() -> dict[str, Any]:
+    return read_json(DOCS_DIR / "tuning-permissions-reference.json")
 
 
 def load_doc_operations() -> list[DocOperation]:

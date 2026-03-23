@@ -58,6 +58,118 @@ def _enum_string_schema(values: list[str], description: str | None = None) -> di
     return schema
 
 
+def _strip_openai_enums(schemas: dict) -> None:
+    """Replace inline OpenAI-specific enums with open string types.
+
+    Covers model enums on embeddings/images, voice enums, and batch
+    endpoint enums that are defined inline rather than via $ref to
+    ModelIdsShared (which is handled separately).
+    """
+    # Embedding model enum (text-embedding-ada-002 etc.)
+    emb = schemas.get("CreateEmbeddingRequest", {}).get("properties", {})
+    if "model" in emb:
+        emb["model"] = {
+            "type": "string",
+            "description": (
+                "Model ID for embeddings. For Gemini, use "
+                "'text-embedding-004' or 'gemini-embedding-001'."
+            ),
+            "example": "text-embedding-004",
+        }
+
+    # Image model enum (dall-e-2, dall-e-3, gpt-image-1)
+    img = schemas.get("CreateImageRequest", {}).get("properties", {})
+    if "model" in img:
+        img["model"] = {
+            "type": "string",
+            "description": (
+                "Model ID for image generation. For Gemini, use "
+                "'imagen-3.0-generate-002' or similar."
+            ),
+            "example": "imagen-3.0-generate-002",
+            "nullable": True,
+        }
+
+    # Voice enum (alloy, ash, echo, etc.)
+    if "VoiceIdsShared" in schemas:
+        schemas["VoiceIdsShared"] = {
+            "type": "string",
+            "description": (
+                "Voice ID. For Gemini, use Gemini voice names such as "
+                "'Aoede', 'Charon', 'Fenrir', 'Kore', or 'Puck'. "
+                "Upstream OpenAI voice values are not applicable."
+            ),
+            "example": "Kore",
+        }
+
+    # Batch endpoint enum is handled inline on the path operation in
+    # build_spec() since the upstream spec inlines the schema rather
+    # than referencing CreateBatchRequest.
+
+
+def _collect_refs(obj: object, _acc: set[str] | None = None) -> set[str]:
+    """Recursively collect all $ref target names from a JSON-like structure."""
+    if _acc is None:
+        _acc = set()
+    prefix = "#/components/schemas/"
+    if isinstance(obj, dict):
+        ref = obj.get("$ref")
+        if isinstance(ref, str) and ref.startswith(prefix):
+            _acc.add(ref[len(prefix):])
+        for v in obj.values():
+            _collect_refs(v, _acc)
+    elif isinstance(obj, list):
+        for item in obj:
+            _collect_refs(item, _acc)
+    return _acc
+
+
+def _prune_unreachable_schemas(spec: dict) -> int:
+    """Remove schemas not reachable from paths or Gemini-added schemas.
+
+    Returns the number of schemas removed.
+    """
+    schemas = spec.get("components", {}).get("schemas", {})
+    if not schemas:
+        return 0
+
+    # Seed reachable set from all paths (operations, parameters, responses, extensions)
+    reachable: set[str] = set()
+    queue: list[str] = []
+
+    # Collect refs from paths
+    path_refs = _collect_refs(spec.get("paths", {}))
+    for name in path_refs:
+        if name in schemas and name not in reachable:
+            reachable.add(name)
+            queue.append(name)
+
+    # Also seed Gemini-specific schemas (they use vendor extensions not always in paths)
+    for name in list(schemas):
+        if name.startswith("Gemini") or name == "GenericJsonObject":
+            if name not in reachable:
+                reachable.add(name)
+                queue.append(name)
+
+    # BFS: follow $refs from reachable schemas
+    while queue:
+        current = queue.pop()
+        schema = schemas.get(current)
+        if schema is None:
+            continue
+        for ref_name in _collect_refs(schema):
+            if ref_name in schemas and ref_name not in reachable:
+                reachable.add(ref_name)
+                queue.append(ref_name)
+
+    # Remove unreachable
+    unreachable = set(schemas) - reachable
+    for name in unreachable:
+        del schemas[name]
+
+    return len(unreachable)
+
+
 def build_spec() -> tuple[dict, dict]:
     openai_spec = load_yaml_via_ruby(OPENAI_DIR / "openapi.yaml")
     compat_surface = read_json(REPORTS_DIR / "openai-compat-surface.json")
@@ -89,6 +201,30 @@ def build_spec() -> tuple[dict, dict]:
         paths[path] = {**paths.get(path, {}), **path_item}
         copied_from_upstream.append(f"{item['method']} {item['path']}")
 
+    # Issue 4A: note that batch input files come from the native Files API
+    batches_post = paths.get("/batches", {}).get("post")
+    if batches_post:
+        batches_post["x-gemini-compat-note"] = (
+            "Batch input files must be uploaded via the Gemini native Files "
+            "API (POST /upload/v1beta/files). The OpenAI /files endpoint is "
+            "not supported. Pass the Gemini file resource URI as input_file_id."
+        )
+        # Strip the inline endpoint enum (/v1/chat/completions etc.) from
+        # the batch request body -- it's defined inline, not in a named schema.
+        try:
+            props = batches_post["requestBody"]["content"]["application/json"]["schema"]["properties"]
+            if "endpoint" in props and "enum" in props["endpoint"]:
+                props["endpoint"] = {
+                    "type": "string",
+                    "description": (
+                        "API endpoint for batch requests. For Gemini, use the "
+                        "OpenAI-compatible endpoint paths supported by the "
+                        "Gemini batch API."
+                    ),
+                }
+        except (KeyError, TypeError):
+            pass
+
     paths["/videos"] = {
         "post": {
             "tags": ["videos"],
@@ -108,6 +244,15 @@ def build_spec() -> tuple[dict, dict]:
                             "properties": {
                                 "model": {"type": "string"},
                                 "prompt": {"type": "string"},
+                                "google": {
+                                    "type": "string",
+                                    "description": (
+                                        "JSON-encoded Gemini-specific video "
+                                        "options (aspect ratio, resolution, "
+                                        "etc.). See GeminiVideosGoogleOptions "
+                                        "for structure."
+                                    ),
+                                },
                             },
                             "required": ["model", "prompt"],
                         }
@@ -143,6 +288,26 @@ def build_spec() -> tuple[dict, dict]:
     if "BearerAuth" not in security_schemes:
         security_schemes["BearerAuth"] = {"type": "http", "scheme": "bearer"}
     schemas = components.setdefault("schemas", {})
+
+    # Replace upstream OpenAI model enums with a plain string type.
+    # The anyOf already accepted any string, but the enum values
+    # (gpt-4o, dall-e-3, etc.) are misleading for Gemini users.
+    for model_schema_name in ("ModelIdsShared", "ModelIdsResponses"):
+        if model_schema_name in schemas:
+            schemas[model_schema_name] = {
+                "type": "string",
+                "description": (
+                    "Model ID. For the Gemini API, use Gemini model names "
+                    "such as 'gemini-2.5-flash' or 'gemini-2.5-pro'. "
+                    "Upstream OpenAI enum values are not applicable."
+                ),
+                "example": "gemini-2.5-flash",
+            }
+
+    # Strip remaining inline OpenAI-specific enums that bypass the
+    # top-level schema replacement above.
+    _strip_openai_enums(schemas)
+
     schemas["GenericJsonObject"] = {
         "type": "object",
         "description": "Placeholder schema for Gemini OpenAI-compatible responses or requests not modeled by the upstream OpenAI spec.",
@@ -372,6 +537,11 @@ def build_spec() -> tuple[dict, dict]:
         }
     }
 
+    # Prune unreachable schemas from upstream OpenAI spec
+    schema_count_before = len(compat_spec.get("components", {}).get("schemas", {}))
+    pruned_count = _prune_unreachable_schemas(compat_spec)
+    schema_count_after = len(compat_spec.get("components", {}).get("schemas", {}))
+
     upstream_operation_keys = {
         canonical_operation_key(method, path)
         for path, path_item in openai_spec.get("paths", {}).items()
@@ -413,6 +583,9 @@ def build_spec() -> tuple[dict, dict]:
             "POST /images/generations",
             "POST /videos",
         ],
+        "schema_count_before_pruning": schema_count_before,
+        "schema_count_after_pruning": schema_count_after,
+        "schemas_pruned": pruned_count,
     }
     return compat_spec, report
 

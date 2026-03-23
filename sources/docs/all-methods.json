@@ -11,7 +11,8 @@
           "binding_token": "name=batches/*",
           "name": "name",
           "openapi_name": "batch",
-          "pattern": "batches/*"
+          "pattern": "batches/*",
+          "segment_pattern": "batches/*"
         }
       ],
       "raw_path": "/v1beta/{name=batches/*}:cancel",
@@ -27,7 +28,8 @@
           "binding_token": "name=batches/*",
           "name": "name",
           "openapi_name": "batch",
-          "pattern": "batches/*"
+          "pattern": "batches/*",
+          "segment_pattern": "batches/*"
         }
       ],
       "raw_path": "/v1beta/{name=batches/*}",
@@ -43,7 +45,8 @@
           "binding_token": "name=batches/*",
           "name": "name",
           "openapi_name": "batch",
-          "pattern": "batches/*"
+          "pattern": "batches/*",
+          "segment_pattern": "batches/*"
         }
       ],
       "raw_path": "/v1beta/{name=batches/*}",
@@ -68,7 +71,8 @@
           "binding_token": "embedContentBatch.name=batches/*",
           "name": "embedContentBatch.name",
           "openapi_name": "batch",
-          "pattern": "batches/*"
+          "pattern": "batches/*",
+          "segment_pattern": "batches/*"
         }
       ],
       "raw_path": "/v1beta/{embedContentBatch.name=batches/*}:updateEmbedContentBatch",
@@ -84,7 +88,8 @@
           "binding_token": "generateContentBatch.name=batches/*",
           "name": "generateContentBatch.name",
           "openapi_name": "batch",
-          "pattern": "batches/*"
+          "pattern": "batches/*",
+          "segment_pattern": "batches/*"
         }
       ],
       "raw_path": "/v1beta/{generateContentBatch.name=batches/*}:updateGenerateContentBatch",
@@ -109,7 +114,8 @@
           "binding_token": "name=cachedContents/*",
           "name": "name",
           "openapi_name": "cachedContent",
-          "pattern": "cachedContents/*"
+          "pattern": "cachedContents/*",
+          "segment_pattern": "cachedContents/*"
         }
       ],
       "raw_path": "/v1beta/{name=cachedContents/*}",
@@ -125,7 +131,8 @@
           "binding_token": "name=cachedContents/*",
           "name": "name",
           "openapi_name": "cachedContent",
-          "pattern": "cachedContents/*"
+          "pattern": "cachedContents/*",
+          "segment_pattern": "cachedContents/*"
         }
       ],
       "raw_path": "/v1beta/{name=cachedContents/*}",
@@ -150,7 +157,8 @@
           "binding_token": "cachedContent.name=cachedContents/*",
           "name": "cachedContent.name",
           "openapi_name": "cachedContent",
-          "pattern": "cachedContents/*"
+          "pattern": "cachedContents/*",
+          "segment_pattern": "cachedContents/*"
         }
       ],
       "raw_path": "/v1beta/{cachedContent.name=cachedContents/*}",
@@ -175,7 +183,8 @@
           "binding_token": "name=fileSearchStores/*",
           "name": "name",
           "openapi_name": "fileSearchStore",
-          "pattern": "fileSearchStores/*"
+          "pattern": "fileSearchStores/*",
+          "segment_pattern": "fileSearchStores/*"
         }
       ],
       "raw_path": "/v1beta/{name=fileSearchStores/*}",
@@ -191,7 +200,8 @@
           "binding_token": "name=fileSearchStores/*",
           "name": "name",
           "openapi_name": "fileSearchStore",
-          "pattern": "fileSearchStores/*"
+          "pattern": "fileSearchStores/*",
+          "segment_pattern": "fileSearchStores/*"
         }
       ],
       "raw_path": "/v1beta/{name=fileSearchStores/*}",
@@ -207,7 +217,8 @@
           "binding_token": "fileSearchStoreName=fileSearchStores/*",
           "name": "fileSearchStoreName",
           "openapi_name": "fileSearchStore",
-          "pattern": "fileSearchStores/*"
+          "pattern": "fileSearchStores/*",
+          "segment_pattern": "fileSearchStores/*"
         }
       ],
       "raw_path": "/v1beta/{fileSearchStoreName=fileSearchStores/*}:importFile",
@@ -232,13 +243,15 @@
           "binding_token": "name=fileSearchStores/*/documents/*",
           "name": "name",
           "openapi_name": "fileSearchStore",
-          "pattern": "fileSearchStores/*/documents/*"
+          "pattern": "fileSearchStores/*/documents/*",
+          "segment_pattern": "fileSearchStores/*"
         },
         {
           "binding_token": "name=fileSearchStores/*/documents/*",
           "name": "name",
           "openapi_name": "document",
-          "pattern": "fileSearchStores/*/documents/*"
+          "pattern": "fileSearchStores/*/documents/*",
+          "segment_pattern": "documents/*"
         }
       ],
       "raw_path": "/v1beta/{name=fileSearchStores/*/documents/*}",
@@ -254,13 +267,15 @@
           "binding_token": "name=fileSearchStores/*/documents/*",
           "name": "name",
           "openapi_name": "fileSearchStore",
-          "pattern": "fileSearchStores/*/documents/*"
+          "pattern": "fileSearchStores/*/documents/*",
+          "segment_pattern": "fileSearchStores/*"
         },
         {
           "binding_token": "name=fileSearchStores/*/documents/*",
           "name": "name",
           "openapi_name": "document",
-          "pattern": "fileSearchStores/*/documents/*"
+          "pattern": "fileSearchStores/*/documents/*",
+          "segment_pattern": "documents/*"
         }
       ],
       "raw_path": "/v1beta/{name=fileSearchStores/*/documents/*}",
@@ -276,7 +291,8 @@
           "binding_token": "parent=fileSearchStores/*",
           "name": "parent",
           "openapi_name": "fileSearchStore",
-          "pattern": "fileSearchStores/*"
+          "pattern": "fileSearchStores/*",
+          "segment_pattern": "fileSearchStores/*"
         }
       ],
       "raw_path": "/v1beta/{parent=fileSearchStores/*}/documents",
@@ -292,13 +308,15 @@
           "binding_token": "name=fileSearchStores/*/operations/*",
           "name": "name",
           "openapi_name": "fileSearchStore",
-          "pattern": "fileSearchStores/*/operations/*"
+          "pattern": "fileSearchStores/*/operations/*",
+          "segment_pattern": "fileSearchStores/*"
         },
         {
           "binding_token": "name=fileSearchStores/*/operations/*",
           "name": "name",
           "openapi_name": "operation",
-          "pattern": "fileSearchStores/*/operations/*"
+          "pattern": "fileSearchStores/*/operations/*",
+          "segment_pattern": "operations/*"
         }
       ],
       "raw_path": "/v1beta/{name=fileSearchStores/*/operations/*}",
@@ -314,13 +332,15 @@
           "binding_token": "name=fileSearchStores/*/upload/operations/*",
           "name": "name",
           "openapi_name": "fileSearchStore",
-          "pattern": "fileSearchStores/*/upload/operations/*"
+          "pattern": "fileSearchStores/*/upload/operations/*",
+          "segment_pattern": "fileSearchStores/*"
         },
         {
           "binding_token": "name=fileSearchStores/*/upload/operations/*",
           "name": "name",
           "openapi_name": "operation",
-          "pattern": "fileSearchStores/*/upload/operations/*"
+          "pattern": "fileSearchStores/*/upload/operations/*",
+          "segment_pattern": "operations/*"
         }
       ],
       "raw_path": "/v1beta/{name=fileSearchStores/*/upload/operations/*}",
@@ -336,7 +356,8 @@
           "binding_token": "name=files/*",
           "name": "name",
           "openapi_name": "file",
-          "pattern": "files/*"
+          "pattern": "files/*",
+          "segment_pattern": "files/*"
         }
       ],
       "raw_path": "/v1beta/{name=files/*}",
@@ -352,7 +373,8 @@
           "binding_token": "name=files/*",
           "name": "name",
           "openapi_name": "file",
-          "pattern": "files/*"
+          "pattern": "files/*",
+          "segment_pattern": "files/*"
         }
       ],
       "raw_path": "/v1beta/{name=files/*}",
@@ -395,7 +417,8 @@
           "binding_token": "fileSearchStoreName=fileSearchStores/*",
           "name": "fileSearchStoreName",
           "openapi_name": "fileSearchStore",
-          "pattern": "fileSearchStores/*"
+          "pattern": "fileSearchStores/*",
+          "segment_pattern": "fileSearchStores/*"
         }
       ],
       "raw_path": "/v1beta/{fileSearchStoreName=fileSearchStores/*}:uploadToFileSearchStore",
@@ -411,7 +434,8 @@
           "binding_token": "batch.model=models/*",
           "name": "batch.model",
           "openapi_name": "model",
-          "pattern": "models/*"
+          "pattern": "models/*",
+          "segment_pattern": "models/*"
         }
       ],
       "raw_path": "/v1beta/{batch.model=models/*}:asyncBatchEmbedContent",
@@ -427,7 +451,8 @@
           "binding_token": "model=models/*",
           "name": "model",
           "openapi_name": "model",
-          "pattern": "models/*"
+          "pattern": "models/*",
+          "segment_pattern": "models/*"
         }
       ],
       "raw_path": "/v1beta/{model=models/*}:batchEmbedContents",
@@ -443,7 +468,8 @@
           "binding_token": "model=models/*",
           "name": "model",
           "openapi_name": "model",
-          "pattern": "models/*"
+          "pattern": "models/*",
+          "segment_pattern": "models/*"
         }
       ],
       "raw_path": "/v1beta/{model=models/*}:batchEmbedText",
@@ -459,7 +485,8 @@
           "binding_token": "batch.model=models/*",
           "name": "batch.model",
           "openapi_name": "model",
-          "pattern": "models/*"
+          "pattern": "models/*",
+          "segment_pattern": "models/*"
         }
       ],
       "raw_path": "/v1beta/{batch.model=models/*}:batchGenerateContent",
@@ -475,7 +502,8 @@
           "binding_token": "model=models/*",
           "name": "model",
           "openapi_name": "model",
-          "pattern": "models/*"
+          "pattern": "models/*",
+          "segment_pattern": "models/*"
         }
       ],
       "raw_path": "/v1beta/{model=models/*}:countMessageTokens",
@@ -491,7 +519,8 @@
           "binding_token": "model=models/*",
           "name": "model",
           "openapi_name": "model",
-          "pattern": "models/*"
+          "pattern": "models/*",
+          "segment_pattern": "models/*"
         }
       ],
       "raw_path": "/v1beta/{model=models/*}:countTextTokens",
@@ -507,7 +536,8 @@
           "binding_token": "model=models/*",
           "name": "model",
           "openapi_name": "model",
-          "pattern": "models/*"
+          "pattern": "models/*",
+          "segment_pattern": "models/*"
         }
       ],
       "raw_path": "/v1beta/{model=models/*}:countTokens",
@@ -523,7 +553,8 @@
           "binding_token": "model=models/*",
           "name": "model",
           "openapi_name": "model",
-          "pattern": "models/*"
+          "pattern": "models/*",
+          "segment_pattern": "models/*"
         }
       ],
       "raw_path": "/v1beta/{model=models/*}:embedContent",
@@ -539,7 +570,8 @@
           "binding_token": "model=models/*",
           "name": "model",
           "openapi_name": "model",
-          "pattern": "models/*"
+          "pattern": "models/*",
+          "segment_pattern": "models/*"
         }
       ],
       "raw_path": "/v1beta/{model=models/*}:embedText",
@@ -555,7 +587,8 @@
           "binding_token": "model=models/*",
           "name": "model",
           "openapi_name": "model",
-          "pattern": "models/*"
+          "pattern": "models/*",
+          "segment_pattern": "models/*"
         }
       ],
       "raw_path": "/v1beta/{model=models/*}:generateContent",
@@ -571,7 +604,8 @@
           "binding_token": "model=models/*",
           "name": "model",
           "openapi_name": "model",
-          "pattern": "models/*"
+          "pattern": "models/*",
+          "segment_pattern": "models/*"
         }
       ],
       "raw_path": "/v1beta/{model=models/*}:generateMessage",
@@ -587,7 +621,8 @@
           "binding_token": "model=models/*",
           "name": "model",
           "openapi_name": "model",
-          "pattern": "models/*"
+          "pattern": "models/*",
+          "segment_pattern": "models/*"
         }
       ],
       "raw_path": "/v1beta/{model=models/*}:generateText",
@@ -603,7 +638,8 @@
           "binding_token": "name=models/*",
           "name": "name",
           "openapi_name": "model",
-          "pattern": "models/*"
+          "pattern": "models/*",
+          "segment_pattern": "models/*"
         }
       ],
       "raw_path": "/v1beta/{name=models/*}",
@@ -628,7 +664,8 @@
           "binding_token": "model=models/*",
           "name": "model",
           "openapi_name": "model",
-          "pattern": "models/*"
+          "pattern": "models/*",
+          "segment_pattern": "models/*"
         }
       ],
       "raw_path": "/v1beta/{model=models/*}:predict",
@@ -644,7 +681,8 @@
           "binding_token": "model=models/*",
           "name": "model",
           "openapi_name": "model",
-          "pattern": "models/*"
+          "pattern": "models/*",
+          "segment_pattern": "models/*"
         }
       ],
       "raw_path": "/v1beta/{model=models/*}:predictLongRunning",
@@ -660,7 +698,8 @@
           "binding_token": "model=models/*",
           "name": "model",
           "openapi_name": "model",
-          "pattern": "models/*"
+          "pattern": "models/*",
+          "segment_pattern": "models/*"
         }
       ],
       "raw_path": "/v1beta/{model=models/*}:streamGenerateContent",

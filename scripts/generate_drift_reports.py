@@ -12,6 +12,8 @@ from _gemini_common import (
     load_batch_guide_evidence,
     load_doc_operations,
     load_files_guide_evidence,
+    load_tuning_reference_evidence,
+    load_tuning_permissions_reference_evidence,
     read_json,
     write_json,
 )
@@ -274,10 +276,22 @@ def main() -> None:
     compat_diff = read_json(REPORTS_DIR / "openai-compat-diff-report.json")
     compat_validation = read_json(REPORTS_DIR / "openai-compat-validation-report.json")
 
+    tuning_evidence = load_tuning_reference_evidence()
+    tuning_permissions_evidence = load_tuning_permissions_reference_evidence()
+
     doc_operation_keys = {
         canonical_operation_key(operation.method, operation.normalized_path)
         for operation in doc_operations
     }
+    # Include tuning reference operations alongside all-methods
+    tuning_operation_keys = {
+        canonical_operation_key(item["method"], item["normalized_path"])
+        for item in tuning_evidence.get("operations", [])
+    } | {
+        canonical_operation_key(item["method"], item["normalized_path"])
+        for item in tuning_permissions_evidence.get("operations", [])
+    }
+    all_documented_operation_keys = doc_operation_keys | tuning_operation_keys
     doc_paths = sorted({operation.normalized_path for operation in doc_operations})
 
     discovery_exact_operation_keys: set[str] = set()
@@ -422,10 +436,10 @@ def main() -> None:
                 discovery_version_normalized_operation_keys
             ),
             "missing_from_discovery_after_version_normalization": sorted(
-                doc_operation_keys - discovery_version_normalized_operation_keys
+                all_documented_operation_keys - discovery_version_normalized_operation_keys
             ),
             "extra_in_discovery_after_version_normalization": sorted(
-                discovery_version_normalized_operation_keys - doc_operation_keys
+                discovery_version_normalized_operation_keys - all_documented_operation_keys
             ),
             "discovery_version": discovery["info"]["version"],
             "discovery_revision": discovery["info"].get("x-google-revision"),

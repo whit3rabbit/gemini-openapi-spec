@@ -36,17 +36,17 @@
     }
   ],
   "docs_vs_discovery": {
-    "extra_in_discovery_after_version_normalization_count": 17,
-    "missing_from_discovery_after_version_normalization_count": 36
+    "extra_in_discovery_after_version_normalization_count": 6,
+    "missing_from_discovery_after_version_normalization_count": 38
   },
-  "generated_at_utc": "2026-03-22T20:30:16.939750+00:00",
+  "generated_at_utc": "2026-03-23T02:05:53.445586+00:00",
   "native": {
     "doc_operation_count": 44,
     "generic_operation_count": 0,
     "guide_only_alias_count": 1,
     "guide_only_operation_count": 1,
     "reference_only_alias_count": 1,
-    "spec_operation_count": 47
+    "spec_operation_count": 60
   },
   "sdk_vs_native": {
     "paths_missing_from_docs_count": 2,

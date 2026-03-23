@@ -22,6 +22,9 @@
     "GET /videos/{video_id}",
     "POST /videos"
   ],
+  "schema_count_after_pruning": 75,
+  "schema_count_before_pruning": 491,
+  "schemas_pruned": 416,
   "upstream_only_paths": [
     "DELETE /assistants/{assistant_id}",
     "DELETE /chat/completions/{completion_id}",

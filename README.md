@@ -13,29 +13,37 @@ Both are OpenAPI 3.1 JSON files. Download them directly or point your tooling at
 
 ## How it works
 
-Google's API surface is spread across four sources that do not fully agree:
+Google's API surface is spread across five source categories that do not fully agree:
 
-1. **Discovery export** -- machine-readable but reports an older `v1beta3` surface
-2. **Live API reference** -- the current `v1beta` surface at [ai.google.dev/api/all-methods](https://ai.google.dev/api/all-methods)
-3. **Python SDK** -- the [`google-genai`](https://github.com/googleapis/python-genai) package (exposes extra implementation detail)
-4. **OpenAI upstream spec** -- the [openai-openapi](https://github.com/openai/openai-openapi) repo
+1. **All-methods index** -- the current `v1beta` surface at [ai.google.dev/api/all-methods](https://ai.google.dev/api/all-methods) (44 operations)
+2. **Guide/reference pages** -- official guides (Files, Batch, File Search Stores) that document routes not listed in the all-methods index (3 operations)
+3. **Tuning reference pages** -- dedicated reference pages at [ai.google.dev/api/tuning](https://ai.google.dev/api/tuning) and [ai.google.dev/api/tuning/permissions](https://ai.google.dev/api/tuning/permissions) for the full tunedModels surface (13 operations)
+4. **Discovery export** -- machine-readable but reports an older `v1beta3` surface (used for cross-referencing)
+5. **Python SDK** -- the [`google-genai`](https://github.com/googleapis/python-genai) package (used for drift analysis)
+
+For the compat spec, additionally:
+
+6. **OpenAI upstream spec** -- the [openai-openapi](https://github.com/openai/openai-openapi) repo
 
 The build pipeline reconciles these into two specs:
 
 ```
- Upstream sources        Build                    Validate & compare
- ───────────────        ─────                    ──────────────────
- Discovery export  ─┐
- Live API docs     ─┼─> Native spec             Coverage checks (zero generic ops)
- Python SDK        ─┘                           Drift reports (docs vs discovery vs SDK)
+ Upstream sources          Build                    Validate & compare
+ ───────────────          ─────                    ──────────────────
+ All-methods index    ─┐
+ Guide/reference pages├─> Native spec             Coverage checks (100% across all sources)
+ Tuning reference     ─┤                          Zero generic ops enforcement
+ Discovery export     ─┤                          Drift reports (docs vs discovery vs SDK)
+ Python SDK           ─┘
 
- OpenAI spec       ───> Compat spec             Compat coverage + watchlist
-                        (filtered + extensions)  Redocly lint
+ OpenAI spec          ───> Compat spec            Compat coverage + watchlist
+                           (filtered + pruned)     Schema pruning (unreachable removal)
+                                                   Redocly lint
 ```
 
-The native spec is built from the live docs, with Google's resource-name bindings expanded into standard OpenAPI path templates. Streaming endpoints use SSE modeling. Guide-documented routes (batch downloads, file uploads) are included when official guides publish concrete paths.
+The native spec is built from the live docs and tuning reference pages, with Google's resource-name bindings expanded into standard OpenAPI path templates. Streaming endpoints use SSE modeling. Guide-documented routes (batch downloads, file uploads) are included when official guides publish concrete paths.
 
-The compat spec starts from the upstream OpenAI spec, filtered to the subset Gemini documents. Gemini-only extensions are attached as `x-gemini-sdk-extra-body-schema` vendor extensions rather than merged into the upstream wire schema.
+The compat spec starts from the upstream OpenAI spec, filtered to the subset Gemini documents. Unreachable schemas are pruned via transitive `$ref` reachability analysis. Gemini-only extensions are attached as `x-gemini-sdk-extra-body-schema` vendor extensions rather than merged into the upstream wire schema.
 
 Weekly CI detects upstream drift and flags when Google changes their API surface.
 
@@ -45,8 +53,9 @@ Each build produces validation and drift reports in [`reports/`](reports/):
 
 - **`drift-summary.md`** -- PR-friendly snapshot of docs vs discovery vs SDK drift
 - **`compat-watchlist.md`** -- undocumented gaps between Gemini's compat layer and the OpenAI spec
-- **`validation-report.json`** -- native coverage details, generic-op count
+- **`validation-report.json`** -- native coverage details, generic-op count, per-source coverage summary
 - **`source-drift-report.json`** -- full drift data
+- **`openai-compat-diff-report.json`** -- compat spec diff including schema pruning stats
 
 <details>
 <summary><strong>Developer guide</strong></summary>
@@ -133,10 +142,35 @@ tests/                                # pytest unit tests
 ### Design notes
 
 - All native operations must have concrete schemas. CI fails on any `GenericJsonObject` fallback.
+- `validate_surface.py` enforces 100% coverage across all source categories (all-methods, guides, tuning reference). It prints a coverage summary and fails if any documented operation is missing from the spec.
 - `openapi/` and `reports/` are committed so diffs are reviewable in PRs. Rebuild before committing if you change any script.
 - Pre-commit hooks run both validation scripts and check that generated files are current.
 - Compat lint is advisory only because the upstream OpenAI spec snapshot is not Redocly-clean.
+- Compat schemas are pruned to only reachable definitions. Unreferenced schemas from assistants, audio, admin, fine-tuning, evals, etc. are removed.
 - Where verification is weak, a partial schema is preferred over copying stale shapes from the wrong API version.
+
+### Coverage validation
+
+Run `python3 scripts/validate_surface.py` to verify 100% coverage. The output includes:
+
+```
+Coverage: 60 spec operations, 60 documented across all sources, 100.0% documented coverage
+  all-methods: 44/44, guides: 3/3, tuning: 13/13
+```
+
+The validation report (`reports/validation-report.json`) contains a `coverage_summary` object with per-source breakdowns. The script fails on any of:
+
+- All-methods operation missing from spec
+- Guide-documented operation missing from spec
+- Tuning reference operation missing from spec
+- Selected operation using GenericJsonObject placeholder
+- Guide-backed operation with malformed structure (missing alt params, binary bodies, SSE)
+
+### Intentionally excluded endpoints
+
+- **Corpora / Semantic Retrieval** -- deprecated September 2025, replaced by File Search Stores.
+- **generateAnswer** -- not documented in any current API reference page.
+- **tunedModels:generateText** -- PaLM legacy endpoint present in the discovery export but absent from the current tuning reference page.
 
 </details>
 
