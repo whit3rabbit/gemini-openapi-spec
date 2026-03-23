@@ -18,5 +18,14 @@ build/
 .venv/
 venv/
 
-# Local agent instructions
+# Node
+node_modules/
+
+# CI
+ci-artifacts/
+
+# AI agent artifacts
+CLAUDE.md
+.claude/
+.claude.local.md
 AGENTS.md
