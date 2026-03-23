@@ -5,7 +5,6 @@ from __future__ import annotations
 import os
 import re
 import subprocess
-from datetime import datetime, timezone
 
 from _gemini_common import OPENAPI_DIR, REPORTS_DIR, write_json
 
@@ -55,14 +54,12 @@ def _lint(spec_path: str, skip_rules: list[str]) -> dict:
 
 
 def main() -> None:
-    generated_at = datetime.now(timezone.utc).isoformat()
     native_result = _lint(str(OPENAPI_DIR / "gemini-native.openapi.json"), NATIVE_SKIP_RULES)
     compat_result = _lint(
         str(OPENAPI_DIR / "gemini-openai-compat.openapi.json"), COMPAT_SKIP_RULES
     )
 
     report = {
-        "generated_at_utc": generated_at,
         "redocly_version": REDOCLY_VERSION,
         "native": native_result,
         "compat": {

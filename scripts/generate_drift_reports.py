@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
-
 from _gemini_common import (
     DISCOVERY_DIR,
     OPENAPI_DIR,
@@ -27,8 +25,6 @@ def _write_markdown_summary(
     compat_watchlist = compat_validation.get("compat_watchlist", [])
     lines = [
         "# Drift Summary",
-        "",
-        f"Generated: {report['generated_at_utc']}",
         "",
         "## Native",
         f"- Native generic operations: {validation_report['native_generic_operation_count']}",
@@ -106,7 +102,6 @@ def _write_json_summary(
     compat_validation: dict,
 ) -> None:
     payload = {
-        "generated_at_utc": report["generated_at_utc"],
         "native": {
             "generic_operation_count": validation_report["native_generic_operation_count"],
             "doc_operation_count": validation_report["doc_operation_count"],
@@ -265,7 +260,6 @@ def _sdk_candidate_path(module_name: str, fragment: str) -> tuple[str | None, st
 
 
 def main() -> None:
-    generated_at = datetime.now(timezone.utc).isoformat()
     doc_operations = load_doc_operations()
     batch_guide_evidence = load_batch_guide_evidence()
     files_guide_evidence = load_files_guide_evidence()
@@ -428,7 +422,6 @@ def main() -> None:
     }
 
     report = {
-        "generated_at_utc": generated_at,
         "docs_vs_discovery": {
             "doc_operation_count": len(doc_operation_keys),
             "discovery_exact_operation_count": len(discovery_exact_operation_keys),

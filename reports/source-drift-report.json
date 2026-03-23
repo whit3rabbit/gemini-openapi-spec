@@ -272,7 +272,6 @@
       "POST /v1beta/tunedModels/{tunedModel}:streamGenerateContent"
     ]
   },
-  "generated_at_utc": "2026-03-23T02:05:53.445586+00:00",
   "guides_vs_native": {
     "guide_documented_missing_from_native_spec": [],
     "guide_documented_not_in_all_methods": [

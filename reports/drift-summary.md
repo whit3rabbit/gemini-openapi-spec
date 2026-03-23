@@ -1,7 +1,5 @@
 # Drift Summary
 
-Generated: 2026-03-23T02:05:53.445586+00:00
-
 ## Native
 - Native generic operations: 0
 - Live docs operations: 44
