@@ -47,7 +47,10 @@ def _lint(spec_path: str, skip_rules: list[str]) -> dict:
         "exit_code": result.returncode,
         "error_count": int(match.group(1)) if match else 0,
         "warning_count": int(warning_group) if warning_group is not None else 0,
-        "output_excerpt": "\n".join(combined_output.splitlines()[:80]),
+        "output_excerpt": "\n".join(
+            line for line in combined_output.splitlines()[:80]
+            if not re.match(r".*validated in \d+ms", line)
+        ),
     }
 
 
