@@ -42,7 +42,6 @@ def _lint(spec_path: str, skip_rules: list[str]) -> dict:
     )
     warning_group = warning_match.group(1) if warning_match else None
     return {
-        "command": command,
         "exit_code": result.returncode,
         "error_count": int(match.group(1)) if match else 0,
         "warning_count": int(warning_group) if warning_group is not None else 0,
