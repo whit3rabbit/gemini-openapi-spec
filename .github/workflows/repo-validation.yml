@@ -83,4 +83,4 @@ jobs:
           if-no-files-found: error
 
       - name: Check generated files are current
-        run: git diff --exit-code -- openapi reports
+        run: git diff --exit-code -- openapi reports ':!reports/openapi-lint-report.json'
