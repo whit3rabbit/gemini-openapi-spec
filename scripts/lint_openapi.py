@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import re
 import subprocess
 from datetime import datetime, timezone
@@ -33,7 +34,8 @@ def _lint(spec_path: str, skip_rules: list[str]) -> dict:
         spec_path,
         *[item for rule in skip_rules for item in ("--skip-rule", rule)],
     ]
-    result = subprocess.run(command, capture_output=True, text=True)
+    env = {**os.environ, "NO_COLOR": "1"}
+    result = subprocess.run(command, capture_output=True, text=True, env=env)
     combined_output = (result.stdout + "\n" + result.stderr).strip()
     match = re.search(r"Validation failed with (\d+) errors?(?: and (\d+) warnings?)?", combined_output)
     warning_match = re.search(
