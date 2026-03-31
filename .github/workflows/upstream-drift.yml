@@ -25,6 +25,9 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Install Python dependencies
+        run: pip install -e ".[validate]"
+
       - name: Update submodule to latest upstream
         run: git submodule update --remote
 
