@@ -1,6 +1,6 @@
 # gemini-openapi-spec
 
-Community-maintained OpenAPI specifications for the Google Gemini API. Google does not publish an official OpenAPI spec, so this repo generates one from their public documentation, discovery endpoint, and SDK sources, then compares it against the OpenAI API spec to surface differences.
+Automated OpenAPI specifications for the Google Gemini API. Google does not publish an official OpenAPI spec, so this repo generates one from their public documentation, discovery endpoint, and SDK sources, then compares it against the OpenAI API spec to surface differences.
 
 ## Specs
 
