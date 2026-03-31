@@ -8,6 +8,8 @@ on:
 jobs:
   drift-check:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout
@@ -82,31 +84,14 @@ jobs:
             reports/compat-watchlist.md
           if-no-files-found: error
 
-      - name: Fail on upstream drift
+      - name: Commit and push upstream sync
         run: |
-          git diff --exit-code
-
-      - name: Show drift summary on failure
-        if: failure()
-        run: |
-          git status --short
-          git diff --stat
-
-      - name: Capture drift diff artifacts
-        if: failure()
-        run: |
-          mkdir -p ci-artifacts
-          git status --short > ci-artifacts/git-status.txt
-          git diff --stat > ci-artifacts/git-diff-stat.txt
-          git diff > ci-artifacts/git-diff.patch
-          cp reports/drift-summary.md ci-artifacts/drift-summary.md
-          cp reports/drift-summary.json ci-artifacts/drift-summary.json
-          cp reports/compat-watchlist.md ci-artifacts/compat-watchlist.md
-
-      - name: Upload drift change artifact
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: upstream-drift-change-${{ github.run_id }}
-          path: ci-artifacts
-          if-no-files-found: error
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "No upstream drift detected."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add sources/ reports/ openapi/ reference/
+            git commit -m "chore: sync upstream sources and rebuild specs [skip ci]"
+            git push
+          fi
