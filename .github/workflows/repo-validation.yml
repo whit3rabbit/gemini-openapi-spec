@@ -21,7 +21,7 @@ jobs:
           python-version: "3.12"
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6.3.0
         with:
           node-version: "22"
 
@@ -73,7 +73,7 @@ jobs:
 
       - name: Upload drift summary artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7.0.0
         with:
           name: repo-validation-drift-reports-${{ github.run_id }}
           path: |
