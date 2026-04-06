@@ -219,7 +219,7 @@
   },
   "docs_vs_discovery": {
     "discovery_exact_operation_count": 25,
-    "discovery_revision": "20260320",
+    "discovery_revision": "20260402",
     "discovery_version": "v1beta3",
     "discovery_version_normalized_operation_count": 25,
     "doc_operation_count": 44,

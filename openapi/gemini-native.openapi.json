@@ -3376,7 +3376,7 @@
     "description": "Generated working OpenAPI spec for the documented Gemini Developer API surface. Path and method coverage come primarily from the live `all-methods` docs, with guide-documented extras and tuning reference endpoints added from their dedicated reference pages. Discovery-sourced CRUD operations for tunedModels are also included.",
     "title": "Gemini Developer API",
     "version": "v1beta",
-    "x-upstream-discovery-revision": "20260320",
+    "x-upstream-discovery-revision": "20260402",
     "x-upstream-discovery-version": "v1beta3"
   },
   "openapi": "3.1.0",
