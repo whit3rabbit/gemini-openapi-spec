@@ -20,12 +20,6 @@
       "response_content_type": "application/octet-stream"
     }
   ],
-  "questionable_examples": [
-    {
-      "evidence": "/v1beta/$BATCH_NAME:delete",
-      "kind": "batch_delete_alias",
-      "notes": "The Batch guide shows a `:delete` REST example, while the API reference lists `DELETE /v1beta/batches/{batch}`."
-    }
-  ],
+  "questionable_examples": [],
   "source": "https://ai.google.dev/gemini-api/docs/batch-api"
 }

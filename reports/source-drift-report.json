@@ -219,7 +219,7 @@
   },
   "docs_vs_discovery": {
     "discovery_exact_operation_count": 25,
-    "discovery_revision": "20260402",
+    "discovery_revision": "20260410",
     "discovery_version": "v1beta3",
     "discovery_version_normalized_operation_count": 25,
     "doc_operation_count": 44,
@@ -282,13 +282,7 @@
       "GET /download/v1beta/files/{file}:download",
       "POST /upload/v1beta/files"
     ],
-    "questionable_examples": [
-      {
-        "evidence": "/v1beta/$BATCH_NAME:delete",
-        "kind": "batch_delete_alias",
-        "notes": "The Batch guide shows a `:delete` REST example, while the API reference lists `DELETE /v1beta/batches/{batch}`."
-      }
-    ]
+    "questionable_examples": []
   },
   "sdk_vs_native": {
     "developer_api_only_modules": [
