@@ -225,11 +225,22 @@
     "doc_operation_count": 44,
     "extra_in_discovery_after_version_normalization": [
       "DELETE /v1beta/corpora/{corpus}/permissions/{permission}",
+      "DELETE /v1beta/tunedModels/{tunedModel}",
+      "DELETE /v1beta/tunedModels/{tunedModel}/permissions/{permission}",
       "GET /v1beta/corpora/{corpus}/permissions",
       "GET /v1beta/corpora/{corpus}/permissions/{permission}",
+      "GET /v1beta/tunedModels",
+      "GET /v1beta/tunedModels/{tunedModel}",
+      "GET /v1beta/tunedModels/{tunedModel}/permissions",
+      "GET /v1beta/tunedModels/{tunedModel}/permissions/{permission}",
       "PATCH /v1beta/corpora/{corpus}/permissions/{permission}",
+      "PATCH /v1beta/tunedModels/{tunedModel}",
+      "PATCH /v1beta/tunedModels/{tunedModel}/permissions/{permission}",
       "POST /v1beta/corpora/{corpus}/permissions",
-      "POST /v1beta/tunedModels/{tunedModel}:generateText"
+      "POST /v1beta/tunedModels",
+      "POST /v1beta/tunedModels/{tunedModel}/permissions",
+      "POST /v1beta/tunedModels/{tunedModel}:generateText",
+      "POST /v1beta/tunedModels/{tunedModel}:transferOwnership"
     ],
     "missing_from_discovery_after_version_normalization": [
       "DELETE /v1beta/batches/{batch}",
@@ -267,9 +278,7 @@
       "POST /v1beta/models/{model}:generateContent",
       "POST /v1beta/models/{model}:predict",
       "POST /v1beta/models/{model}:predictLongRunning",
-      "POST /v1beta/models/{model}:streamGenerateContent",
-      "POST /v1beta/tunedModels/{tunedModel}:generateContent",
-      "POST /v1beta/tunedModels/{tunedModel}:streamGenerateContent"
+      "POST /v1beta/models/{model}:streamGenerateContent"
     ]
   },
   "guides_vs_native": {
@@ -327,7 +336,7 @@
         "reason": "The python-genai Gemini Developer client exposes this route, but the official Gemini Files guide says uploaded files cannot be downloaded."
       }
     ],
-    "medium_confidence_path_count": 4,
+    "medium_confidence_path_count": 2,
     "mixed_surface_modules": [
       "batches.py",
       "caches.py",
@@ -455,9 +464,19 @@
         "reason": "vertexai-only branch"
       },
       {
+        "fragment": "tunedModels",
+        "module": "tunings.py",
+        "reason": "tuning deprecated in Gemini Developer API (Vertex AI only)"
+      },
+      {
         "fragment": "tuningJobs",
         "module": "tunings.py",
         "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "{name}",
+        "module": "tunings.py",
+        "reason": "tuning deprecated in Gemini Developer API (Vertex AI only)"
       },
       {
         "fragment": "{name}",
@@ -467,7 +486,7 @@
       {
         "fragment": "{name}:cancel",
         "module": "tunings.py",
-        "reason": "no documented Gemini Developer cancel route for tunedModels"
+        "reason": "tuning deprecated in Gemini Developer API (Vertex AI only)"
       },
       {
         "fragment": "{name}:cancel",

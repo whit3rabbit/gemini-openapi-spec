@@ -11,8 +11,6 @@ from _gemini_common import (
     load_file_search_stores_reference_evidence,
     load_files_guide_evidence,
     load_generate_content_reference_evidence,
-    load_tuning_reference_evidence,
-    load_tuning_permissions_reference_evidence,
     read_json,
     write_json,
 )
@@ -25,8 +23,6 @@ def main() -> None:
     file_search_stores_reference_evidence = load_file_search_stores_reference_evidence()
     files_guide_evidence = load_files_guide_evidence()
     generate_content_reference_evidence = load_generate_content_reference_evidence()
-    tuning_reference_evidence = load_tuning_reference_evidence()
-    tuning_permissions_reference_evidence = load_tuning_permissions_reference_evidence()
     spec = read_json(OPENAPI_DIR / "gemini-native.openapi.json")
 
     doc_keys = {
@@ -49,14 +45,6 @@ def main() -> None:
     documented_reference_alias_paths = {
         canonical_operation_key(item["method"], item["normalized_path"])
         for item in file_search_stores_reference_evidence.get("documented_aliases", [])
-    }
-    tuning_reference_operation_keys = {
-        canonical_operation_key(item["method"], item["normalized_path"])
-        for item in tuning_reference_evidence.get("operations", [])
-    }
-    tuning_permissions_reference_operation_keys = {
-        canonical_operation_key(item["method"], item["normalized_path"])
-        for item in tuning_permissions_reference_evidence.get("operations", [])
     }
     guide_documented_operation_keys = {
         canonical_operation_key(item["method"], item["normalized_path"])
@@ -134,66 +122,12 @@ def main() -> None:
         for item in undocumented_in_docs
         if item in documented_reference_alias_paths
     ]
-    # Tuning reference operations that are in the spec but not in all-methods
-    documented_tuning_reference_only = [
-        {
-            "operation": item,
-            "reason": (
-                "This tunedModels operation is documented on the dedicated tuning "
-                "reference page, but it does not appear in the all-methods index."
-            ),
-            "docs_sources": [tuning_reference_evidence.get("source", "")],
-        }
-        for item in undocumented_in_docs
-        if item in tuning_reference_operation_keys
-    ]
-    documented_tuning_permissions_reference_only = [
-        {
-            "operation": item,
-            "reason": (
-                "This tunedModels permissions operation is documented on the tuning "
-                "permissions reference page, but it does not appear in the all-methods index."
-            ),
-            "docs_sources": [tuning_permissions_reference_evidence.get("source", "")],
-        }
-        for item in undocumented_in_docs
-        if item in tuning_permissions_reference_operation_keys
-    ]
-    # Operations sourced from discovery (tunedModels CRUD not on any reference page)
-    all_tuning_keys = tuning_reference_operation_keys | tuning_permissions_reference_operation_keys
-    discovery_sourced_tuning_keys = {
-        item
-        for item in undocumented_in_docs
-        if item not in all_tuning_keys
-        and item not in documented_alias_paths
-        and item not in guide_documented_operation_keys
-        and item not in documented_reference_alias_paths
-        and any(
-            resource in item
-            for resource in ("tunedModels", "permissions")
-        )
-    }
-    documented_discovery_sourced_tuning = [
-        {
-            "operation": item,
-            "reason": (
-                "This tunedModels CRUD operation is sourced from the upstream "
-                "discovery export."
-            ),
-            "docs_sources": ["discovery"],
-        }
-        for item in sorted(discovery_sourced_tuning_keys)
-    ]
-
     undocumented_in_docs_unclassified = [
         item
         for item in undocumented_in_docs
         if item not in documented_alias_paths
         and item not in guide_documented_operation_keys
         and item not in documented_reference_alias_paths
-        and item not in tuning_reference_operation_keys
-        and item not in tuning_permissions_reference_operation_keys
-        and item not in discovery_sourced_tuning_keys
     ]
     native_generic_operations = []
     selected_keys = selected_native_operation_keys()
@@ -349,20 +283,10 @@ def main() -> None:
                 "POST /v1beta/models/{model}:streamGenerateContent (missing checked-in alt=sse evidence)"
             )
 
-    # Enforce tuning reference operations are present in the spec
-    tuning_ref_missing_from_spec = sorted(tuning_reference_operation_keys - spec_keys)
-    tuning_perm_ref_missing_from_spec = sorted(
-        tuning_permissions_reference_operation_keys - spec_keys
-    )
-
     # Coverage summary: count operations by source
     all_methods_covered = len(doc_keys & spec_keys)
     guide_covered = len(
         (documented_alias_paths | guide_documented_operation_keys | documented_reference_alias_paths)
-        & spec_keys
-    )
-    tuning_covered = len(
-        (tuning_reference_operation_keys | tuning_permissions_reference_operation_keys)
         & spec_keys
     )
     all_source_keys = (
@@ -370,8 +294,6 @@ def main() -> None:
         | documented_alias_paths
         | guide_documented_operation_keys
         | documented_reference_alias_paths
-        | tuning_reference_operation_keys
-        | tuning_permissions_reference_operation_keys
     )
     coverage_pct = (
         len(all_source_keys & spec_keys) / len(all_source_keys) * 100
@@ -391,11 +313,6 @@ def main() -> None:
         "documented_guide_only_aliases": documented_guide_only_aliases,
         "documented_guide_only_operations": documented_guide_only_operations,
         "documented_reference_only_aliases": documented_reference_only_aliases,
-        "documented_tuning_reference_only": documented_tuning_reference_only,
-        "documented_tuning_permissions_reference_only": documented_tuning_permissions_reference_only,
-        "documented_discovery_sourced_tuning": documented_discovery_sourced_tuning,
-        "tuning_ref_missing_from_spec": tuning_ref_missing_from_spec,
-        "tuning_perm_ref_missing_from_spec": tuning_perm_ref_missing_from_spec,
         "invalid_guide_backed_operations": invalid_guide_backed_operations,
         "invalid_streaming_operations": invalid_streaming_operations,
         "unconcretized_selected_operations": unconcretized_selected_operations,
@@ -406,10 +323,6 @@ def main() -> None:
                 documented_alias_paths | guide_documented_operation_keys | documented_reference_alias_paths
             ),
             "guide_covered": guide_covered,
-            "tuning_reference_operations": len(
-                tuning_reference_operation_keys | tuning_permissions_reference_operation_keys
-            ),
-            "tuning_covered": tuning_covered,
             "total_documented_operations": len(all_source_keys),
             "total_spec_operations": len(spec_keys),
             "coverage_percent": round(coverage_pct, 1),
@@ -447,18 +360,6 @@ def main() -> None:
             print(f"  {item}")
         raise SystemExit(1)
 
-    if tuning_ref_missing_from_spec:
-        print("Tuning reference operations missing from native spec:")
-        for item in tuning_ref_missing_from_spec:
-            print(f"  {item}")
-        raise SystemExit(1)
-
-    if tuning_perm_ref_missing_from_spec:
-        print("Tuning permissions reference operations missing from native spec:")
-        for item in tuning_perm_ref_missing_from_spec:
-            print(f"  {item}")
-        raise SystemExit(1)
-
     cs = report["coverage_summary"]
     print("Surface validation passed")
     print(
@@ -468,8 +369,7 @@ def main() -> None:
     )
     print(
         f"  all-methods: {cs['all_methods_covered']}/{cs['all_methods_operations']}, "
-        f"guides: {cs['guide_covered']}/{cs['guide_operations']}, "
-        f"tuning: {cs['tuning_covered']}/{cs['tuning_reference_operations']}"
+        f"guides: {cs['guide_covered']}/{cs['guide_operations']}"
     )
     if undocumented_in_docs_unclassified:
         print("Spec has extra operations not present in current docs:")
@@ -486,18 +386,6 @@ def main() -> None:
     if documented_reference_only_aliases:
         print("Spec has reference-documented aliases not listed in the all-methods index:")
         for item in documented_reference_only_aliases:
-            print(f"  {item['operation']}")
-    if documented_tuning_reference_only:
-        print("Spec has tuning-reference-documented operations not in the all-methods index:")
-        for item in documented_tuning_reference_only:
-            print(f"  {item['operation']}")
-    if documented_tuning_permissions_reference_only:
-        print("Spec has tuning-permissions-reference operations not in the all-methods index:")
-        for item in documented_tuning_permissions_reference_only:
-            print(f"  {item['operation']}")
-    if documented_discovery_sourced_tuning:
-        print("Spec has discovery-sourced tunedModels CRUD operations:")
-        for item in documented_discovery_sourced_tuning:
             print(f"  {item['operation']}")
 
 

@@ -36,8 +36,8 @@
     }
   ],
   "docs_vs_discovery": {
-    "extra_in_discovery_after_version_normalization_count": 6,
-    "missing_from_discovery_after_version_normalization_count": 38
+    "extra_in_discovery_after_version_normalization_count": 17,
+    "missing_from_discovery_after_version_normalization_count": 36
   },
   "native": {
     "doc_operation_count": 44,
@@ -45,7 +45,7 @@
     "guide_only_alias_count": 1,
     "guide_only_operation_count": 1,
     "reference_only_alias_count": 1,
-    "spec_operation_count": 60
+    "spec_operation_count": 47
   },
   "sdk_vs_native": {
     "paths_missing_from_docs_count": 2,

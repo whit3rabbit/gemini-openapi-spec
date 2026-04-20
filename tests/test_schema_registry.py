@@ -24,35 +24,6 @@ class TestBuildNativeComponents:
         for name in expected:
             assert name in components, f"Missing schema: {name}"
 
-    def test_has_tuning_schemas(self):
-        components = build_native_components()
-        expected = [
-            "TunedModel",
-            "TuningTask",
-            "TuningSnapshot",
-            "TuningExample",
-            "TuningExamples",
-            "Dataset",
-            "Hyperparameters",
-            "TunedModelSource",
-            "CreateTunedModelMetadata",
-            "CreateTunedModelOperation",
-            "ListTunedModelsResponse",
-            "Permission",
-            "ListPermissionsResponse",
-            "TransferOwnershipRequest",
-            "TransferOwnershipResponse",
-        ]
-        for name in expected:
-            assert name in components, f"Missing tuning schema: {name}"
-
-    def test_create_tuned_model_operation_has_typed_fields(self):
-        components = build_native_components()
-        op = components["CreateTunedModelOperation"]
-        props = op["properties"]
-        assert props["metadata"] == {"$ref": "#/components/schemas/CreateTunedModelMetadata"}
-        assert props["response"] == {"$ref": "#/components/schemas/TunedModel"}
-
     def test_generation_config_response_schema_refs_api_schema(self):
         components = build_native_components()
         gen_config = components["GenerationConfig"]
@@ -110,18 +81,3 @@ class TestSelectedNativeOperationKeys:
         valid_methods = {"GET", "POST", "PATCH", "DELETE", "PUT"}
         for method, path in selected_native_operation_keys():
             assert method in valid_methods, f"Invalid method {method} in key"
-
-    def test_includes_tuned_model_keys(self):
-        keys = selected_native_operation_keys()
-        expected_tuned = [
-            ("POST", "/v1beta/tunedModels"),
-            ("GET", "/v1beta/tunedModels"),
-            ("GET", "/v1beta/tunedModels/{tunedModel}"),
-            ("PATCH", "/v1beta/tunedModels/{tunedModel}"),
-            ("DELETE", "/v1beta/tunedModels/{tunedModel}"),
-            ("POST", "/v1beta/tunedModels/{tunedModel}:generateContent"),
-            ("POST", "/v1beta/tunedModels/{tunedModel}/permissions"),
-            ("GET", "/v1beta/tunedModels/{tunedModel}/permissions"),
-        ]
-        for key in expected_tuned:
-            assert key in keys, f"Missing tunedModels key: {key}"

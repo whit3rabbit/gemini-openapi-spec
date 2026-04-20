@@ -17,8 +17,6 @@ from _gemini_common import (
     OPENAI_DIR,
     OPENAI_UPSTREAM_SPEC_URL,
     TOKENS_REF_URL,
-    TUNING_REF_URL,
-    TUNING_PERMISSIONS_REF_URL,
     ensure_dirs,
     fetch_json,
     fetch_text,
@@ -30,8 +28,6 @@ from _gemini_common import (
     parse_generate_content_reference_html,
     parse_models_reference_html,
     parse_tokens_reference_html,
-    parse_tuning_reference_html,
-    parse_tuning_permissions_reference_html,
     write_json,
 )
 
@@ -98,22 +94,6 @@ def main() -> None:
         parse_file_search_documents_reference_html(file_search_documents_ref_html),
     )
 
-    tuning_ref_html = fetch_text(TUNING_REF_URL)
-    (DOCS_DIR / "tuning-reference.html").write_text(tuning_ref_html, encoding="utf-8")
-    write_json(
-        DOCS_DIR / "tuning-reference.json",
-        parse_tuning_reference_html(tuning_ref_html),
-    )
-
-    tuning_permissions_ref_html = fetch_text(TUNING_PERMISSIONS_REF_URL)
-    (DOCS_DIR / "tuning-permissions-reference.html").write_text(
-        tuning_permissions_ref_html, encoding="utf-8"
-    )
-    write_json(
-        DOCS_DIR / "tuning-permissions-reference.json",
-        parse_tuning_permissions_reference_html(tuning_permissions_ref_html),
-    )
-
     compat_html = fetch_text(OPENAI_COMPAT_URL)
     (DOCS_DIR / "openai-compat.html").write_text(compat_html, encoding="utf-8")
 
@@ -138,14 +118,6 @@ def main() -> None:
     print(
         f"Saved File Search Documents reference snapshot to "
         f"{DOCS_DIR / 'file-search-documents-reference.html'}"
-    )
-    print(
-        f"Saved Tuning reference snapshot to "
-        f"{DOCS_DIR / 'tuning-reference.html'}"
-    )
-    print(
-        f"Saved Tuning Permissions reference snapshot to "
-        f"{DOCS_DIR / 'tuning-permissions-reference.html'}"
     )
     print(f"Saved OpenAI compatibility docs to {DOCS_DIR / 'openai-compat.html'}")
     print(f"Saved OpenAI upstream spec to {OPENAI_DIR / 'openapi.yaml'}")

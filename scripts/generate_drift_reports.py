@@ -10,8 +10,6 @@ from _gemini_common import (
     load_batch_guide_evidence,
     load_doc_operations,
     load_files_guide_evidence,
-    load_tuning_reference_evidence,
-    load_tuning_permissions_reference_evidence,
     read_json,
     write_json,
 )
@@ -243,15 +241,7 @@ def _sdk_candidate_path(module_name: str, fragment: str) -> tuple[str | None, st
         return None, "vertex-only operations surface"
 
     if module_name == "tunings.py":
-        if fragment == "tuningJobs":
-            return None, "vertex-only tuningJobs surface"
-        if fragment == "tunedModels":
-            return "/v1beta/tunedModels", "medium"
-        if fragment == "{name}":
-            return "/v1beta/tunedModels/{tunedModel}", "medium"
-        if fragment == "{name}:cancel":
-            return None, "no documented Gemini Developer cancel route for tunedModels"
-        return None, "ambiguous tuning placeholder"
+        return None, "tuning deprecated in Gemini Developer API (Vertex AI only)"
 
     if module_name == "tokens.py":
         return f"/v1beta/{fragment}", "medium"
@@ -270,22 +260,10 @@ def main() -> None:
     compat_diff = read_json(REPORTS_DIR / "openai-compat-diff-report.json")
     compat_validation = read_json(REPORTS_DIR / "openai-compat-validation-report.json")
 
-    tuning_evidence = load_tuning_reference_evidence()
-    tuning_permissions_evidence = load_tuning_permissions_reference_evidence()
-
     doc_operation_keys = {
         canonical_operation_key(operation.method, operation.normalized_path)
         for operation in doc_operations
     }
-    # Include tuning reference operations alongside all-methods
-    tuning_operation_keys = {
-        canonical_operation_key(item["method"], item["normalized_path"])
-        for item in tuning_evidence.get("operations", [])
-    } | {
-        canonical_operation_key(item["method"], item["normalized_path"])
-        for item in tuning_permissions_evidence.get("operations", [])
-    }
-    all_documented_operation_keys = doc_operation_keys | tuning_operation_keys
     doc_paths = sorted({operation.normalized_path for operation in doc_operations})
 
     discovery_exact_operation_keys: set[str] = set()
@@ -429,10 +407,10 @@ def main() -> None:
                 discovery_version_normalized_operation_keys
             ),
             "missing_from_discovery_after_version_normalization": sorted(
-                all_documented_operation_keys - discovery_version_normalized_operation_keys
+                doc_operation_keys - discovery_version_normalized_operation_keys
             ),
             "extra_in_discovery_after_version_normalization": sorted(
-                discovery_version_normalized_operation_keys - all_documented_operation_keys
+                discovery_version_normalized_operation_keys - doc_operation_keys
             ),
             "discovery_version": discovery["info"]["version"],
             "discovery_revision": discovery["info"].get("x-google-revision"),

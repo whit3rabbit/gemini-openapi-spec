@@ -5,12 +5,10 @@ from __future__ import annotations
 from collections import defaultdict
 
 from _gemini_common import (
-    DOCS_DIR,
-    DocOperation,
+    DISCOVERY_DIR,
     OPENAPI_DIR,
     build_operation_id,
     load_doc_operations,
-    normalize_google_path,
     read_json,
     singularize,
     write_json,
@@ -46,94 +44,9 @@ def _derive_segment_pattern(pattern: str, openapi_name: str) -> str:
     return pattern
 
 
-def _load_tuning_supplemental_operations(discovery: dict) -> list[DocOperation]:
-    """Load tunedModels operations from tuning reference pages and discovery."""
-    supplemental: list[DocOperation] = []
-    seen: set[tuple[str, str]] = set()
-
-    # Doc-sourced: tuning reference and permissions reference
-    for json_file in ("tuning-reference.json", "tuning-permissions-reference.json"):
-        path = DOCS_DIR / json_file
-        if not path.exists():
-            continue
-        data = read_json(path)
-        for item in data.get("operations", []):
-            key = (item["method"], item["normalized_path"])
-            if key not in seen:
-                seen.add(key)
-                supplemental.append(
-                    DocOperation(
-                        resource=item["resource"],
-                        name=item["name"],
-                        method=item["method"],
-                        raw_path=item["raw_path"],
-                        normalized_path=item["normalized_path"],
-                        description=item.get("description", ""),
-                        path_parameters=item["path_parameters"],
-                    )
-                )
-
-    # Discovery-sourced: CRUD operations not on the tuning reference pages
-    if discovery:
-        # Map discovery v1beta3 tunedModels paths to v1beta
-        method_map = {"get": "GET", "post": "POST", "patch": "PATCH", "delete": "DELETE"}
-        for raw_disc_path, path_item in discovery.get("paths", {}).items():
-            if "tunedModels" not in raw_disc_path:
-                continue
-            # Normalize v1beta3 -> v1beta
-            raw_path = raw_disc_path.replace("/v1beta3/", "/v1beta/")
-            for http_method_lower, operation in path_item.items():
-                if http_method_lower not in method_map:
-                    continue
-                http_method = method_map[http_method_lower]
-                normalized_path, parameters = normalize_google_path(raw_path)
-                key = (http_method, normalized_path)
-                if key in seen:
-                    continue
-                seen.add(key)
-                name = operation.get("x-google-operation-name", "")
-                # PaLM was decommissioned but Google still ships GenerateText in
-                # the discovery export. Drop it so it does not land in the spec.
-                if name == "GenerateText":
-                    continue
-                if name.startswith("List"):
-                    name = "list"
-                elif name.startswith("Get"):
-                    name = "get"
-                elif name.startswith("Create"):
-                    name = "create"
-                elif name.startswith("Update"):
-                    name = "patch"
-                elif name.startswith("Delete"):
-                    name = "delete"
-                else:
-                    # camelCase the operation name
-                    name = name[0].lower() + name[1:] if name else http_method_lower
-
-                if "/permissions" in raw_path:
-                    resource = "v1beta.tunedModels.permissions"
-                else:
-                    resource = "v1beta.tunedModels"
-
-                supplemental.append(
-                    DocOperation(
-                        resource=resource,
-                        name=name,
-                        method=http_method,
-                        raw_path=raw_path,
-                        normalized_path=normalized_path,
-                        description=operation.get("description", ""),
-                        path_parameters=parameters,
-                    )
-                )
-
-    return supplemental
-
-
 def build_spec() -> dict:
     operations = load_doc_operations()
-    discovery = read_json(DOCS_DIR.parent / "discovery" / "openapi3_0.json")
-    operations.extend(_load_tuning_supplemental_operations(discovery))
+    discovery = read_json(DISCOVERY_DIR / "openapi3_0.json")
     paths: dict[str, dict] = defaultdict(dict)
 
     for operation in operations:
@@ -242,9 +155,8 @@ def build_spec() -> dict:
             "description": (
                 "Generated working OpenAPI spec for the documented Gemini Developer API "
                 "surface. Path and method coverage come primarily from the live "
-                "`all-methods` docs, with guide-documented extras and tuning reference "
-                "endpoints added from their dedicated reference pages. Discovery-sourced "
-                "CRUD operations for tunedModels are also included."
+                "`all-methods` docs, with guide-documented extras added from their "
+                "dedicated reference pages."
             ),
             "x-upstream-discovery-version": discovery["info"]["version"],
             "x-upstream-discovery-revision": discovery["info"].get("x-google-revision"),
