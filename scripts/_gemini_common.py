@@ -26,7 +26,6 @@ FILES_GUIDE_URL = "https://ai.google.dev/gemini-api/docs/files"
 BATCH_GUIDE_URL = "https://ai.google.dev/gemini-api/docs/batch-api"
 MODELS_REF_URL = "https://ai.google.dev/api/models"
 TOKENS_REF_URL = "https://ai.google.dev/api/tokens"
-PALM_REF_URL = "https://ai.google.dev/api/palm"
 GENERATE_CONTENT_REF_URL = "https://ai.google.dev/api/generate-content"
 FILE_SEARCH_STORES_REF_URL = "https://ai.google.dev/api/file-search/file-search-stores"
 FILE_SEARCH_DOCUMENTS_REF_URL = "https://ai.google.dev/api/file-search/documents"
@@ -354,31 +353,6 @@ def parse_tokens_reference_html(html: str) -> dict[str, Any]:
     return {
         "source": TOKENS_REF_URL,
         "last_updated": last_updated,
-    }
-
-
-def parse_palm_reference_html(html: str) -> dict[str, Any]:
-    lines = extract_text_lines(html)
-    last_updated = next(
-        (line for line in lines if line.startswith("Last updated ")),
-        None,
-    )
-    documented_legacy_methods = [
-        method
-        for method in [
-            "models.countTextTokens",
-            "models.countMessageTokens",
-            "models.embedText",
-            "models.batchEmbedText",
-            "models.generateText",
-            "models.generateMessage",
-        ]
-        if method in html
-    ]
-    return {
-        "source": PALM_REF_URL,
-        "last_updated": last_updated,
-        "documented_legacy_methods": documented_legacy_methods,
     }
 
 

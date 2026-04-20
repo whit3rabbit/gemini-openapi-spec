@@ -92,7 +92,8 @@ def _load_tuning_supplemental_operations(discovery: dict) -> list[DocOperation]:
                     continue
                 seen.add(key)
                 name = operation.get("x-google-operation-name", "")
-                # Skip PaLM legacy endpoint not on current tuning reference page
+                # PaLM was decommissioned but Google still ships GenerateText in
+                # the discovery export. Drop it so it does not land in the spec.
                 if name == "GenerateText":
                     continue
                 if name.startswith("List"):

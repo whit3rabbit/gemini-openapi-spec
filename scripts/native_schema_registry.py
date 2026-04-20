@@ -2117,7 +2117,7 @@ def build_native_components() -> dict:
             "type": "object",
             "description": (
                 "Permission resource grants user, group or the rest of the world access "
-                "to a PaLM API resource (e.g. a tuned model)."
+                "to a tuned model."
             ),
             "properties": {
                 "name": {"type": "string"},

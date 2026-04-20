@@ -16,7 +16,6 @@ from _gemini_common import (
     OPENAI_COMPAT_URL,
     OPENAI_DIR,
     OPENAI_UPSTREAM_SPEC_URL,
-    PALM_REF_URL,
     TOKENS_REF_URL,
     TUNING_REF_URL,
     TUNING_PERMISSIONS_REF_URL,
@@ -30,7 +29,6 @@ from _gemini_common import (
     parse_files_guide_html,
     parse_generate_content_reference_html,
     parse_models_reference_html,
-    parse_palm_reference_html,
     parse_tokens_reference_html,
     parse_tuning_reference_html,
     parse_tuning_permissions_reference_html,
@@ -72,10 +70,6 @@ def main() -> None:
     tokens_ref_html = fetch_text(TOKENS_REF_URL)
     (DOCS_DIR / "tokens-reference.html").write_text(tokens_ref_html, encoding="utf-8")
     write_json(DOCS_DIR / "tokens-reference.json", parse_tokens_reference_html(tokens_ref_html))
-
-    palm_ref_html = fetch_text(PALM_REF_URL)
-    (DOCS_DIR / "palm-reference.html").write_text(palm_ref_html, encoding="utf-8")
-    write_json(DOCS_DIR / "palm-reference.json", parse_palm_reference_html(palm_ref_html))
 
     generate_content_ref_html = fetch_text(GENERATE_CONTENT_REF_URL)
     (DOCS_DIR / "generate-content-reference.html").write_text(
@@ -133,7 +127,6 @@ def main() -> None:
     print(f"Saved Batch guide snapshot to {DOCS_DIR / 'batch-guide.html'}")
     print(f"Saved Models reference snapshot to {DOCS_DIR / 'models-reference.html'}")
     print(f"Saved Tokens reference snapshot to {DOCS_DIR / 'tokens-reference.html'}")
-    print(f"Saved PaLM legacy reference snapshot to {DOCS_DIR / 'palm-reference.html'}")
     print(
         f"Saved Generate Content reference snapshot to "
         f"{DOCS_DIR / 'generate-content-reference.html'}"

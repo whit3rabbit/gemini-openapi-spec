@@ -170,7 +170,7 @@ The validation report (`reports/validation-report.json`) contains a `coverage_su
 
 - **Corpora / Semantic Retrieval** -- deprecated September 2025, replaced by File Search Stores.
 - **generateAnswer** -- not documented in any current API reference page.
-- **tunedModels:generateText** -- PaLM legacy endpoint present in the discovery export but absent from the current tuning reference page.
+- **tunedModels:generateText** -- decommissioned PaLM endpoint still present in Google's discovery export; filtered out during build.
 
 </details>
 
