@@ -33,7 +33,9 @@ def _lint(spec_path: str, skip_rules: list[str]) -> dict:
         spec_path,
         *[item for rule in skip_rules for item in ("--skip-rule", rule)],
     ]
-    env = {**os.environ, "NO_COLOR": "1"}
+    # Setting CI=1 suppresses Redocly's update-notifier banner, which would
+    # otherwise create spurious diffs between local rebuilds and CI.
+    env = {**os.environ, "NO_COLOR": "1", "CI": "1"}
     result = subprocess.run(command, capture_output=True, text=True, env=env)
     combined_output = (result.stdout + "\n" + result.stderr).strip()
     match = re.search(r"Validation failed with (\d+) errors?(?: and (\d+) warnings?)?", combined_output)
