@@ -180,37 +180,6 @@
         },
         "type": "object"
       },
-      "BatchEmbedTextRequest": {
-        "additionalProperties": false,
-        "properties": {
-          "requests": {
-            "items": {
-              "$ref": "#/components/schemas/EmbedTextRequest"
-            },
-            "type": "array"
-          },
-          "texts": {
-            "items": {
-              "type": "string"
-            },
-            "maxItems": 100,
-            "type": "array"
-          }
-        },
-        "type": "object"
-      },
-      "BatchEmbedTextResponse": {
-        "additionalProperties": false,
-        "properties": {
-          "embeddings": {
-            "items": {
-              "$ref": "#/components/schemas/Embedding"
-            },
-            "type": "array"
-          }
-        },
-        "type": "object"
-      },
       "BatchGenerateContentInputConfig": {
         "additionalProperties": false,
         "properties": {
@@ -422,14 +391,6 @@
         ],
         "type": "object"
       },
-      "BlockedReason": {
-        "enum": [
-          "BLOCKED_REASON_UNSPECIFIED",
-          "SAFETY",
-          "OTHER"
-        ],
-        "type": "string"
-      },
       "CachedContent": {
         "additionalProperties": false,
         "properties": {
@@ -599,42 +560,6 @@
             "type": "array"
           }
         },
-        "type": "object"
-      },
-      "ContentFilter": {
-        "additionalProperties": false,
-        "properties": {
-          "message": {
-            "type": "string"
-          },
-          "reason": {
-            "$ref": "#/components/schemas/BlockedReason"
-          }
-        },
-        "type": "object"
-      },
-      "CountMessageTokensRequest": {
-        "additionalProperties": false,
-        "properties": {
-          "prompt": {
-            "$ref": "#/components/schemas/MessagePrompt"
-          }
-        },
-        "required": [
-          "prompt"
-        ],
-        "type": "object"
-      },
-      "CountTextTokensRequest": {
-        "additionalProperties": false,
-        "properties": {
-          "prompt": {
-            "$ref": "#/components/schemas/TextPrompt"
-          }
-        },
-        "required": [
-          "prompt"
-        ],
         "type": "object"
       },
       "CountTokensRequest": {
@@ -881,39 +806,6 @@
         "properties": {
           "embedding": {
             "$ref": "#/components/schemas/ContentEmbedding"
-          }
-        },
-        "type": "object"
-      },
-      "EmbedTextRequest": {
-        "additionalProperties": false,
-        "properties": {
-          "model": {
-            "type": "string"
-          },
-          "text": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "EmbedTextResponse": {
-        "additionalProperties": false,
-        "properties": {
-          "embedding": {
-            "$ref": "#/components/schemas/Embedding"
-          }
-        },
-        "type": "object"
-      },
-      "Embedding": {
-        "additionalProperties": false,
-        "properties": {
-          "value": {
-            "items": {
-              "type": "number"
-            },
-            "type": "array"
           }
         },
         "type": "object"
@@ -1431,122 +1323,6 @@
           },
           "totalTokenCount": {
             "type": "integer"
-          }
-        },
-        "type": "object"
-      },
-      "GenerateMessageRequest": {
-        "additionalProperties": false,
-        "properties": {
-          "candidateCount": {
-            "maximum": 8,
-            "minimum": 1,
-            "type": "integer"
-          },
-          "prompt": {
-            "$ref": "#/components/schemas/MessagePrompt"
-          },
-          "temperature": {
-            "type": "number"
-          },
-          "topK": {
-            "type": "integer"
-          },
-          "topP": {
-            "type": "number"
-          }
-        },
-        "required": [
-          "prompt"
-        ],
-        "type": "object"
-      },
-      "GenerateMessageResponse": {
-        "additionalProperties": false,
-        "properties": {
-          "candidates": {
-            "items": {
-              "$ref": "#/components/schemas/LegacyMessage"
-            },
-            "type": "array"
-          },
-          "filters": {
-            "items": {
-              "$ref": "#/components/schemas/ContentFilter"
-            },
-            "type": "array"
-          },
-          "messages": {
-            "items": {
-              "$ref": "#/components/schemas/LegacyMessage"
-            },
-            "type": "array"
-          }
-        },
-        "type": "object"
-      },
-      "GenerateTextRequest": {
-        "additionalProperties": false,
-        "properties": {
-          "candidateCount": {
-            "maximum": 8,
-            "minimum": 1,
-            "type": "integer"
-          },
-          "maxOutputTokens": {
-            "type": "integer"
-          },
-          "prompt": {
-            "$ref": "#/components/schemas/TextPrompt"
-          },
-          "safetySettings": {
-            "items": {
-              "$ref": "#/components/schemas/SafetySetting"
-            },
-            "type": "array"
-          },
-          "stopSequences": {
-            "items": {
-              "type": "string"
-            },
-            "maxItems": 5,
-            "type": "array"
-          },
-          "temperature": {
-            "type": "number"
-          },
-          "topK": {
-            "type": "integer"
-          },
-          "topP": {
-            "type": "number"
-          }
-        },
-        "required": [
-          "prompt"
-        ],
-        "type": "object"
-      },
-      "GenerateTextResponse": {
-        "additionalProperties": false,
-        "properties": {
-          "candidates": {
-            "items": {
-              "$ref": "#/components/schemas/TextCompletion"
-            },
-            "type": "array"
-          },
-          "filters": {
-            "items": {
-              "$ref": "#/components/schemas/ContentFilter"
-            },
-            "type": "array"
-          },
-          "safetyFeedback": {
-            "items": {
-              "$ref": "#/components/schemas/SafetyFeedback"
-            },
-            "type": "array"
           }
         },
         "type": "object"
@@ -2169,49 +1945,6 @@
         },
         "type": "object"
       },
-      "LegacyExample": {
-        "additionalProperties": false,
-        "properties": {
-          "input": {
-            "$ref": "#/components/schemas/LegacyMessage"
-          },
-          "output": {
-            "$ref": "#/components/schemas/LegacyMessage"
-          }
-        },
-        "required": [
-          "input",
-          "output"
-        ],
-        "type": "object"
-      },
-      "LegacyMessage": {
-        "additionalProperties": false,
-        "properties": {
-          "author": {
-            "type": "string"
-          },
-          "citationMetadata": {
-            "$ref": "#/components/schemas/CitationMetadata"
-          },
-          "content": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "content"
-        ],
-        "type": "object"
-      },
-      "LegacyTokenCountResponse": {
-        "additionalProperties": false,
-        "properties": {
-          "tokenCount": {
-            "type": "integer"
-          }
-        },
-        "type": "object"
-      },
       "ListBatchesResponse": {
         "additionalProperties": false,
         "properties": {
@@ -2421,30 +2154,6 @@
             "$ref": "#/components/schemas/File"
           }
         },
-        "type": "object"
-      },
-      "MessagePrompt": {
-        "additionalProperties": false,
-        "properties": {
-          "context": {
-            "type": "string"
-          },
-          "examples": {
-            "items": {
-              "$ref": "#/components/schemas/LegacyExample"
-            },
-            "type": "array"
-          },
-          "messages": {
-            "items": {
-              "$ref": "#/components/schemas/LegacyMessage"
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "messages"
-        ],
         "type": "object"
       },
       "ModalityTokenCount": {
@@ -2690,18 +2399,6 @@
         },
         "type": "object"
       },
-      "SafetyFeedback": {
-        "additionalProperties": false,
-        "properties": {
-          "rating": {
-            "$ref": "#/components/schemas/SafetyRating"
-          },
-          "setting": {
-            "$ref": "#/components/schemas/SafetySetting"
-          }
-        },
-        "type": "object"
-      },
       "SafetyRating": {
         "additionalProperties": false,
         "properties": {
@@ -2836,36 +2533,6 @@
             "type": "array"
           }
         },
-        "type": "object"
-      },
-      "TextCompletion": {
-        "additionalProperties": false,
-        "properties": {
-          "citationMetadata": {
-            "$ref": "#/components/schemas/CitationMetadata"
-          },
-          "output": {
-            "type": "string"
-          },
-          "safetyRatings": {
-            "items": {
-              "$ref": "#/components/schemas/SafetyRating"
-            },
-            "type": "array"
-          }
-        },
-        "type": "object"
-      },
-      "TextPrompt": {
-        "additionalProperties": false,
-        "properties": {
-          "text": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "text"
-        ],
         "type": "object"
       },
       "ThinkingConfig": {
@@ -4637,55 +4304,6 @@
         "x-google-original-path": "/v1beta/{model=models/*}:batchEmbedContents"
       }
     },
-    "/v1beta/models/{model}:batchEmbedText": {
-      "post": {
-        "description": "Generates multiple embeddings from the model given input text in a synchronous call.",
-        "operationId": "v1beta_models_batchEmbedText",
-        "parameters": [
-          {
-            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original binding token: `{model=models/*}`",
-            "in": "path",
-            "name": "model",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/BatchEmbedTextRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BatchEmbedTextResponse"
-                }
-              }
-            },
-            "description": "Successful response"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ],
-        "summary": "batchEmbedText",
-        "tags": [
-          "v1beta.models"
-        ],
-        "x-google-original-path": "/v1beta/{model=models/*}:batchEmbedText"
-      }
-    },
     "/v1beta/models/{model}:batchGenerateContent": {
       "post": {
         "description": "Enqueues a batch of",
@@ -4733,104 +4351,6 @@
           "v1beta.models"
         ],
         "x-google-original-path": "/v1beta/{batch.model=models/*}:batchGenerateContent"
-      }
-    },
-    "/v1beta/models/{model}:countMessageTokens": {
-      "post": {
-        "description": "Runs a model's tokenizer on a string and returns the token count.",
-        "operationId": "v1beta_models_countMessageTokens",
-        "parameters": [
-          {
-            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original binding token: `{model=models/*}`",
-            "in": "path",
-            "name": "model",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CountMessageTokensRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LegacyTokenCountResponse"
-                }
-              }
-            },
-            "description": "Successful response"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ],
-        "summary": "countMessageTokens",
-        "tags": [
-          "v1beta.models"
-        ],
-        "x-google-original-path": "/v1beta/{model=models/*}:countMessageTokens"
-      }
-    },
-    "/v1beta/models/{model}:countTextTokens": {
-      "post": {
-        "description": "Runs a model's tokenizer on a text and returns the token count.",
-        "operationId": "v1beta_models_countTextTokens",
-        "parameters": [
-          {
-            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original binding token: `{model=models/*}`",
-            "in": "path",
-            "name": "model",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CountTextTokensRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LegacyTokenCountResponse"
-                }
-              }
-            },
-            "description": "Successful response"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ],
-        "summary": "countTextTokens",
-        "tags": [
-          "v1beta.models"
-        ],
-        "x-google-original-path": "/v1beta/{model=models/*}:countTextTokens"
       }
     },
     "/v1beta/models/{model}:countTokens": {
@@ -4931,55 +4451,6 @@
         "x-google-original-path": "/v1beta/{model=models/*}:embedContent"
       }
     },
-    "/v1beta/models/{model}:embedText": {
-      "post": {
-        "description": "Generates an embedding from the model given an input message.",
-        "operationId": "v1beta_models_embedText",
-        "parameters": [
-          {
-            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original binding token: `{model=models/*}`",
-            "in": "path",
-            "name": "model",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EmbedTextRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EmbedTextResponse"
-                }
-              }
-            },
-            "description": "Successful response"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ],
-        "summary": "embedText",
-        "tags": [
-          "v1beta.models"
-        ],
-        "x-google-original-path": "/v1beta/{model=models/*}:embedText"
-      }
-    },
     "/v1beta/models/{model}:generateContent": {
       "post": {
         "description": "Generates a model response given an input",
@@ -5027,104 +4498,6 @@
           "v1beta.models"
         ],
         "x-google-original-path": "/v1beta/{model=models/*}:generateContent"
-      }
-    },
-    "/v1beta/models/{model}:generateMessage": {
-      "post": {
-        "description": "Generates a response from the model given an input",
-        "operationId": "v1beta_models_generateMessage",
-        "parameters": [
-          {
-            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original binding token: `{model=models/*}`",
-            "in": "path",
-            "name": "model",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GenerateMessageRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GenerateMessageResponse"
-                }
-              }
-            },
-            "description": "Successful response"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ],
-        "summary": "generateMessage",
-        "tags": [
-          "v1beta.models"
-        ],
-        "x-google-original-path": "/v1beta/{model=models/*}:generateMessage"
-      }
-    },
-    "/v1beta/models/{model}:generateText": {
-      "post": {
-        "description": "Generates a response from the model given an input message.",
-        "operationId": "v1beta_models_generateText",
-        "parameters": [
-          {
-            "description": "ID within the `models` collection. Pass just the resource ID, not the full path. Original binding token: `{model=models/*}`",
-            "in": "path",
-            "name": "model",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GenerateTextRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GenerateTextResponse"
-                }
-              }
-            },
-            "description": "Successful response"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ],
-        "summary": "generateText",
-        "tags": [
-          "v1beta.models"
-        ],
-        "x-google-original-path": "/v1beta/{model=models/*}:generateText"
       }
     },
     "/v1beta/models/{model}:predict": {

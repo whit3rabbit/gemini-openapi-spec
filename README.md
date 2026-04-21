@@ -15,7 +15,7 @@ Both are OpenAPI 3.1 JSON files. Download them directly or point your tooling at
 
 Google's API surface is spread across four source categories that do not fully agree:
 
-1. **All-methods index** -- the current `v1beta` surface at [ai.google.dev/api/all-methods](https://ai.google.dev/api/all-methods) (44 operations)
+1. **All-methods index** -- the current `v1beta` surface at [ai.google.dev/api/all-methods](https://ai.google.dev/api/all-methods) (38 operations)
 2. **Guide/reference pages** -- official guides (Files, Batch, File Search Stores) that document routes not listed in the all-methods index (3 operations)
 3. **Discovery export** -- machine-readable but reports an older `v1beta3` surface (used for cross-referencing)
 4. **Python SDK** -- the [`google-genai`](https://github.com/googleapis/python-genai) package (used for drift analysis)
@@ -152,8 +152,8 @@ tests/                                # pytest unit tests
 Run `python3 scripts/validate_surface.py` to verify 100% coverage. The output includes:
 
 ```
-Coverage: 47 spec operations, 47 documented across all sources, 100.0% documented coverage
-  all-methods: 44/44, guides: 3/3
+Coverage: 41 spec operations, 41 documented across all sources, 100.0% documented coverage
+  all-methods: 38/38, guides: 3/3
 ```
 
 The validation report (`reports/validation-report.json`) contains a `coverage_summary` object with per-source breakdowns. The script fails on any of:
@@ -168,6 +168,7 @@ The validation report (`reports/validation-report.json`) contains a `coverage_su
 - **Corpora / Semantic Retrieval** -- deprecated September 2025, replaced by File Search Stores.
 - **generateAnswer** -- not documented in any current API reference page.
 - **tunedModels + tunedModels.permissions** -- fine-tuning was deprecated in the Gemini API / AI Studio in May 2025; available only in Vertex AI. The tunedModels permissions surface is decommissioned.
+- **PaLM legacy model methods** -- `generateText`, `generateMessage`, `embedText`, `batchEmbedText`, `countTextTokens`, `countMessageTokens` are flagged "PaLM (decomissioned)" in Google's docs and no longer appear in the live all-methods index.
 
 </details>
 

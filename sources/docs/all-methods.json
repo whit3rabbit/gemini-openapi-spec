@@ -1,5 +1,5 @@
 {
-  "operation_count": 44,
+  "operation_count": 38,
   "operations": [
     {
       "description": "Starts asynchronous cancellation on a long-running operation.",
@@ -459,23 +459,6 @@
       "resource": "v1beta.models"
     },
     {
-      "description": "Generates multiple embeddings from the model given input text in a synchronous call.",
-      "method": "POST",
-      "name": "batchEmbedText",
-      "normalized_path": "/v1beta/models/{model}:batchEmbedText",
-      "path_parameters": [
-        {
-          "binding_token": "model=models/*",
-          "name": "model",
-          "openapi_name": "model",
-          "pattern": "models/*",
-          "segment_pattern": "models/*"
-        }
-      ],
-      "raw_path": "/v1beta/{model=models/*}:batchEmbedText",
-      "resource": "v1beta.models"
-    },
-    {
       "description": "Enqueues a batch of",
       "method": "POST",
       "name": "batchGenerateContent",
@@ -490,40 +473,6 @@
         }
       ],
       "raw_path": "/v1beta/{batch.model=models/*}:batchGenerateContent",
-      "resource": "v1beta.models"
-    },
-    {
-      "description": "Runs a model's tokenizer on a string and returns the token count.",
-      "method": "POST",
-      "name": "countMessageTokens",
-      "normalized_path": "/v1beta/models/{model}:countMessageTokens",
-      "path_parameters": [
-        {
-          "binding_token": "model=models/*",
-          "name": "model",
-          "openapi_name": "model",
-          "pattern": "models/*",
-          "segment_pattern": "models/*"
-        }
-      ],
-      "raw_path": "/v1beta/{model=models/*}:countMessageTokens",
-      "resource": "v1beta.models"
-    },
-    {
-      "description": "Runs a model's tokenizer on a text and returns the token count.",
-      "method": "POST",
-      "name": "countTextTokens",
-      "normalized_path": "/v1beta/models/{model}:countTextTokens",
-      "path_parameters": [
-        {
-          "binding_token": "model=models/*",
-          "name": "model",
-          "openapi_name": "model",
-          "pattern": "models/*",
-          "segment_pattern": "models/*"
-        }
-      ],
-      "raw_path": "/v1beta/{model=models/*}:countTextTokens",
       "resource": "v1beta.models"
     },
     {
@@ -561,23 +510,6 @@
       "resource": "v1beta.models"
     },
     {
-      "description": "Generates an embedding from the model given an input message.",
-      "method": "POST",
-      "name": "embedText",
-      "normalized_path": "/v1beta/models/{model}:embedText",
-      "path_parameters": [
-        {
-          "binding_token": "model=models/*",
-          "name": "model",
-          "openapi_name": "model",
-          "pattern": "models/*",
-          "segment_pattern": "models/*"
-        }
-      ],
-      "raw_path": "/v1beta/{model=models/*}:embedText",
-      "resource": "v1beta.models"
-    },
-    {
       "description": "Generates a model response given an input",
       "method": "POST",
       "name": "generateContent",
@@ -592,40 +524,6 @@
         }
       ],
       "raw_path": "/v1beta/{model=models/*}:generateContent",
-      "resource": "v1beta.models"
-    },
-    {
-      "description": "Generates a response from the model given an input",
-      "method": "POST",
-      "name": "generateMessage",
-      "normalized_path": "/v1beta/models/{model}:generateMessage",
-      "path_parameters": [
-        {
-          "binding_token": "model=models/*",
-          "name": "model",
-          "openapi_name": "model",
-          "pattern": "models/*",
-          "segment_pattern": "models/*"
-        }
-      ],
-      "raw_path": "/v1beta/{model=models/*}:generateMessage",
-      "resource": "v1beta.models"
-    },
-    {
-      "description": "Generates a response from the model given an input message.",
-      "method": "POST",
-      "name": "generateText",
-      "normalized_path": "/v1beta/models/{model}:generateText",
-      "path_parameters": [
-        {
-          "binding_token": "model=models/*",
-          "name": "model",
-          "openapi_name": "model",
-          "pattern": "models/*",
-          "segment_pattern": "models/*"
-        }
-      ],
-      "raw_path": "/v1beta/{model=models/*}:generateText",
       "resource": "v1beta.models"
     },
     {

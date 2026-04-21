@@ -222,7 +222,7 @@
     "discovery_revision": "20260410",
     "discovery_version": "v1beta3",
     "discovery_version_normalized_operation_count": 25,
-    "doc_operation_count": 44,
+    "doc_operation_count": 38,
     "extra_in_discovery_after_version_normalization": [
       "DELETE /v1beta/corpora/{corpus}/permissions/{permission}",
       "DELETE /v1beta/tunedModels/{tunedModel}",
@@ -237,6 +237,12 @@
       "PATCH /v1beta/tunedModels/{tunedModel}",
       "PATCH /v1beta/tunedModels/{tunedModel}/permissions/{permission}",
       "POST /v1beta/corpora/{corpus}/permissions",
+      "POST /v1beta/models/{model}:batchEmbedText",
+      "POST /v1beta/models/{model}:countMessageTokens",
+      "POST /v1beta/models/{model}:countTextTokens",
+      "POST /v1beta/models/{model}:embedText",
+      "POST /v1beta/models/{model}:generateMessage",
+      "POST /v1beta/models/{model}:generateText",
       "POST /v1beta/tunedModels",
       "POST /v1beta/tunedModels/{tunedModel}/permissions",
       "POST /v1beta/tunedModels/{tunedModel}:generateText",
@@ -307,13 +313,7 @@
       "/v1beta/fileSearchStores/{fileSearchStore}/operations/{operation}",
       "/v1beta/fileSearchStores/{fileSearchStore}/upload/operations/{operation}",
       "/v1beta/fileSearchStores/{fileSearchStore}:uploadToFileSearchStore",
-      "/v1beta/models/{model}:batchEmbedText",
-      "/v1beta/models/{model}:countMessageTokens",
-      "/v1beta/models/{model}:countTextTokens",
-      "/v1beta/models/{model}:embedContent",
-      "/v1beta/models/{model}:embedText",
-      "/v1beta/models/{model}:generateMessage",
-      "/v1beta/models/{model}:generateText"
+      "/v1beta/models/{model}:embedContent"
     ],
     "documented_guide_only_aliases": [
       {
