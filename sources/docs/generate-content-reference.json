@@ -1,5 +1,5 @@
 {
-  "last_updated": "Last updated 2026-04-17 UTC.",
+  "last_updated": "Last updated 2026-04-24 UTC.",
   "source": "https://ai.google.dev/api/generate-content",
   "stream_generate_content": {
     "alt_sse_evidence": "alt=sse",
