@@ -219,7 +219,7 @@
   },
   "docs_vs_discovery": {
     "discovery_exact_operation_count": 25,
-    "discovery_revision": "20260426",
+    "discovery_revision": "20260501",
     "discovery_version": "v1beta3",
     "discovery_version_normalized_operation_count": 25,
     "doc_operation_count": 38,
@@ -302,7 +302,6 @@
   "sdk_vs_native": {
     "developer_api_only_modules": [
       "documents.py",
-      "file_search_stores.py",
       "tokens.py"
     ],
     "docs_paths_missing_from_sdk_high_confidence": [
@@ -325,7 +324,7 @@
         "reason": "This upload alias is documented in the official Gemini Files guide, but it does not appear as a standalone operation in the all-methods index."
       }
     ],
-    "high_confidence_path_count": 23,
+    "high_confidence_path_count": 24,
     "intentional_docs_first_exclusions": [
       {
         "docs_sources": [
@@ -346,17 +345,24 @@
     ],
     "mixed_with_shared_helper_modules": [
       "_test_api_client.py",
+      "file_search_stores.py",
       "files.py"
     ],
     "paths_missing_from_docs": [
       "/upload/v1beta/files",
-      "/v1beta/files/{file}:download"
+      "/v1beta/files/{file}:download",
+      "/v1beta/{clean_id}?alt=media"
     ],
-    "paths_missing_from_docs_unclassified": [],
+    "paths_missing_from_docs_unclassified": [
+      "/v1beta/{clean_id}?alt=media"
+    ],
     "paths_missing_from_native_spec": [
-      "/v1beta/files/{file}:download"
+      "/v1beta/files/{file}:download",
+      "/v1beta/{clean_id}?alt=media"
     ],
-    "paths_missing_from_native_spec_unclassified": [],
+    "paths_missing_from_native_spec_unclassified": [
+      "/v1beta/{clean_id}?alt=media"
+    ],
     "skipped_fragments": [
       {
         "fragment": "test/path",

@@ -48,7 +48,7 @@
     "spec_operation_count": 41
   },
   "sdk_vs_native": {
-    "paths_missing_from_docs_count": 2,
-    "paths_missing_from_native_spec_count": 1
+    "paths_missing_from_docs_count": 3,
+    "paths_missing_from_native_spec_count": 2
   }
 }

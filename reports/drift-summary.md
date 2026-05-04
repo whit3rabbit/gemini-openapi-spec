@@ -13,8 +13,8 @@
 - Extra in discovery after version normalization: 23
 
 ## SDK vs Native
-- High-confidence SDK paths missing from docs: 2
-- High-confidence SDK paths missing from native spec: 1
+- High-confidence SDK paths missing from docs: 3
+- High-confidence SDK paths missing from native spec: 2
 
 ## Compat
 - Compat generic operations: 0
