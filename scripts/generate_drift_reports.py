@@ -223,6 +223,8 @@ def _sdk_candidate_path(module_name: str, fragment: str) -> tuple[str | None, st
     if module_name == "file_search_stores.py":
         if fragment == "fileSearchStores":
             return "/v1beta/fileSearchStores", "high"
+        if fragment == "{clean_id}?alt=media":
+            return "/v1beta/fileSearchStores/{fileSearchStore}/media/{media}", "high"
         if fragment == "{file_search_store_name}:importFile":
             return "/v1beta/fileSearchStores/{fileSearchStore}:importFile", "high"
         if fragment == "{name}":

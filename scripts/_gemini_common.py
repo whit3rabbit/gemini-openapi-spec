@@ -154,7 +154,7 @@ def normalize_google_path(path: str) -> tuple[str, list[dict[str, str]]]:
         wildcard_name_counts: dict[str, int] = {}
 
         for segment in pattern_segments:
-            if segment == "*":
+            if segment in {"*", "**"}:
                 context = literal_segments[-1] if literal_segments else name
                 base_name = sanitize(singularize(context))
                 occurrence = wildcard_name_counts.get(base_name, 0) + 1
@@ -162,7 +162,7 @@ def normalize_google_path(path: str) -> tuple[str, list[dict[str, str]]]:
                 openapi_name = base_name if occurrence == 1 else f"{base_name}_{occurrence}"
                 # Per-wildcard segment pattern (e.g. "documents/*") so
                 # descriptions can reference the specific collection.
-                segment_pattern = f"{context}/*"
+                segment_pattern = f"{context}/{segment}"
                 parameters.append(
                     {
                         "name": name,

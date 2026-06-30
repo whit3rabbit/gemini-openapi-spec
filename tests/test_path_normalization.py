@@ -21,6 +21,17 @@ class TestNormalizeGooglePath:
         assert params[0]["openapi_name"] == "fileSearchStore"
         assert params[1]["openapi_name"] == "document"
 
+    def test_deep_wildcard(self):
+        path, params = normalize_google_path(
+            "/v1beta/{name=fileSearchStores/*/media/**}"
+        )
+        assert path == "/v1beta/fileSearchStores/{fileSearchStore}/media/{media}"
+        assert len(params) == 2
+        assert params[0]["openapi_name"] == "fileSearchStore"
+        assert params[0]["segment_pattern"] == "fileSearchStores/*"
+        assert params[1]["openapi_name"] == "media"
+        assert params[1]["segment_pattern"] == "media/**"
+
     def test_no_binding_pattern(self):
         """Simple {param} without = should stay as-is."""
         path, params = normalize_google_path("/v1beta/models/{model}")

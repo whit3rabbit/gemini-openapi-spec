@@ -28,7 +28,7 @@ def _derive_segment_pattern(pattern: str, openapi_name: str) -> str:
     if not pattern:
         return ""
     segments = pattern.split("/")
-    wildcards = [i for i, s in enumerate(segments) if s == "*"]
+    wildcards = [i for i, s in enumerate(segments) if s in {"*", "**"}]
     if len(wildcards) <= 1:
         # Single wildcard: the whole pattern is the segment.
         return pattern
@@ -39,7 +39,7 @@ def _derive_segment_pattern(pattern: str, openapi_name: str) -> str:
         if wi > 0:
             literal = segments[wi - 1]
             if singularize(literal) == openapi_name:
-                return f"{literal}/*"
+                return f"{literal}/{segments[wi]}"
     # Fallback: return the full pattern.
     return pattern
 
@@ -69,10 +69,16 @@ def build_spec() -> dict:
                 seg = _derive_segment_pattern(pat, oname)
             if seg:
                 collection = seg.rstrip("/*").rstrip("/")
-                description = (
-                    f"ID within the `{collection}` collection. "
-                    f"Pass just the resource ID, not the full path"
-                )
+                if seg.endswith("/**"):
+                    description = (
+                        f"Path within the `{collection}` collection. "
+                        f"Pass the path segment after `{collection}/`, not the full resource name"
+                    )
+                else:
+                    description = (
+                        f"ID within the `{collection}` collection. "
+                        f"Pass just the resource ID, not the full path"
+                    )
             else:
                 description = "Google API path binding"
             if parameter["name"] != parameter["openapi_name"]:

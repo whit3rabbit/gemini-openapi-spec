@@ -1904,6 +1904,27 @@ def apply_native_operation_overrides(operation, path_item: dict) -> tuple[dict, 
         response_ref = "LongRunningOperation"
         needs_file_search_upload_alias = True
     elif key == (
+        "v1beta.files",
+        "download",
+        "GET",
+        "/v1beta/{name=fileSearchStores/*/media/**}",
+    ):
+        path_item["description"] = "Downloads media from a FileSearchStore."
+        path_item["x-gemini-doc-source"] = (
+            "https://ai.google.dev/api/file-search/file-search-stores"
+        )
+        path_item["responses"] = {
+            "200": {
+                "description": "Successful media download",
+                "content": {
+                    "application/octet-stream": {
+                        "schema": {"type": "string", "format": "binary"}
+                    }
+                },
+            }
+        }
+        path_item.pop("requestBody", None)
+    elif key == (
         "v1beta.fileSearchStores.operations",
         "get",
         "GET",
@@ -2256,6 +2277,7 @@ def selected_native_operation_keys() -> set[tuple[str, str]]:
         ("POST", "/v1beta/fileSearchStores/{fileSearchStore}:importFile"),
         ("POST", "/v1beta/fileSearchStores/{fileSearchStore}:uploadToFileSearchStore"),
         ("POST", "/upload/v1beta/fileSearchStores/{fileSearchStore}:uploadToFileSearchStore"),
+        ("GET", "/v1beta/fileSearchStores/{fileSearchStore}/media/{media}"),
         ("GET", "/v1beta/fileSearchStores/{fileSearchStore}/documents"),
         ("GET", "/v1beta/fileSearchStores/{fileSearchStore}/documents/{document}"),
         ("DELETE", "/v1beta/fileSearchStores/{fileSearchStore}/documents/{document}"),

@@ -1,5 +1,5 @@
 {
-  "operation_count": 38,
+  "operation_count": 39,
   "operations": [
     {
       "description": "Starts asynchronous cancellation on a long-running operation.",
@@ -396,6 +396,30 @@
       "normalized_path": "/v1beta/files:register",
       "path_parameters": [],
       "raw_path": "/v1beta/files:register",
+      "resource": "v1beta.files"
+    },
+    {
+      "description": "Downloads media from a",
+      "method": "GET",
+      "name": "download",
+      "normalized_path": "/v1beta/fileSearchStores/{fileSearchStore}/media/{media}",
+      "path_parameters": [
+        {
+          "binding_token": "name=fileSearchStores/*/media/**",
+          "name": "name",
+          "openapi_name": "fileSearchStore",
+          "pattern": "fileSearchStores/*/media/**",
+          "segment_pattern": "fileSearchStores/*"
+        },
+        {
+          "binding_token": "name=fileSearchStores/*/media/**",
+          "name": "name",
+          "openapi_name": "media",
+          "pattern": "fileSearchStores/*/media/**",
+          "segment_pattern": "media/**"
+        }
+      ],
+      "raw_path": "/v1beta/{name=fileSearchStores/*/media/**}",
       "resource": "v1beta.files"
     },
     {

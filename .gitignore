@@ -25,6 +25,7 @@ node_modules/
 ci-artifacts/
 
 # AI agent artifacts
+.syntext/
 CLAUDE.md
 .claude/
 .claude.local.md

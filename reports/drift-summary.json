@@ -37,18 +37,18 @@
   ],
   "docs_vs_discovery": {
     "extra_in_discovery_after_version_normalization_count": 23,
-    "missing_from_discovery_after_version_normalization_count": 36
+    "missing_from_discovery_after_version_normalization_count": 37
   },
   "native": {
-    "doc_operation_count": 38,
+    "doc_operation_count": 39,
     "generic_operation_count": 0,
     "guide_only_alias_count": 1,
     "guide_only_operation_count": 1,
     "reference_only_alias_count": 1,
-    "spec_operation_count": 41
+    "spec_operation_count": 42
   },
   "sdk_vs_native": {
-    "paths_missing_from_docs_count": 3,
-    "paths_missing_from_native_spec_count": 2
+    "paths_missing_from_docs_count": 2,
+    "paths_missing_from_native_spec_count": 1
   }
 }

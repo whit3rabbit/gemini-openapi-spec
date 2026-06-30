@@ -1,14 +1,14 @@
 {
   "coverage_summary": {
-    "all_methods_covered": 38,
-    "all_methods_operations": 38,
+    "all_methods_covered": 39,
+    "all_methods_operations": 39,
     "coverage_percent": 100.0,
     "guide_covered": 3,
     "guide_operations": 3,
-    "total_documented_operations": 41,
-    "total_spec_operations": 41
+    "total_documented_operations": 42,
+    "total_spec_operations": 42
   },
-  "doc_operation_count": 38,
+  "doc_operation_count": 39,
   "documented_guide_only_aliases": [
     {
       "docs_sources": [
@@ -45,7 +45,7 @@
   "missing_from_spec": [],
   "native_generic_operation_count": 0,
   "native_generic_operations": [],
-  "spec_operation_count": 41,
+  "spec_operation_count": 42,
   "unconcretized_selected_operations": [],
   "undocumented_in_docs": [
     "GET /download/v1beta/files/{file}:download",
