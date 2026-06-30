@@ -498,6 +498,11 @@
         "fragment": "{name}:cancel",
         "module": "tunings.py",
         "reason": "vertexai-only branch"
+      },
+      {
+        "fragment": "{parent}/tuningJobs:validateReinforcementTuningReward",
+        "module": "tunings.py",
+        "reason": "vertexai-only branch"
       }
     ],
     "vertexai_only_modules": []
