@@ -1164,14 +1164,14 @@
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "_edit_image",
-        "line": 7509,
+        "line": 7496,
         "path_fragment": "{model}:predict"
       },
       {
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "_edit_image",
-        "line": 7511,
+        "line": 7498,
         "path_fragment": "{model}:predict"
       },
       {
@@ -1192,14 +1192,14 @@
         "branch": "developer_api",
         "classification": "developer_api_only",
         "function": "_embed_content",
-        "line": 7330,
+        "line": 7317,
         "path_fragment": "{model}:batchEmbedContents"
       },
       {
         "branch": "developer_api",
         "classification": "developer_api_only",
         "function": "_embed_content",
-        "line": 7332,
+        "line": 7319,
         "path_fragment": "{model}:batchEmbedContents"
       },
       {
@@ -1220,14 +1220,14 @@
         "branch": "developer_api",
         "classification": "developer_api_only",
         "function": "_generate_content",
-        "line": 7096,
+        "line": 7083,
         "path_fragment": "{model}:generateContent"
       },
       {
         "branch": "developer_api",
         "classification": "developer_api_only",
         "function": "_generate_content",
-        "line": 7098,
+        "line": 7085,
         "path_fragment": "{model}:generateContent"
       },
       {
@@ -1248,14 +1248,14 @@
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "_generate_content",
-        "line": 7087,
+        "line": 7074,
         "path_fragment": "{model}:generateContent"
       },
       {
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "_generate_content",
-        "line": 7089,
+        "line": 7076,
         "path_fragment": "{model}:generateContent"
       },
       {
@@ -1276,14 +1276,14 @@
         "branch": "developer_api",
         "classification": "developer_api_only",
         "function": "_generate_content_stream",
-        "line": 7194,
+        "line": 7181,
         "path_fragment": "{model}:streamGenerateContent?alt=sse"
       },
       {
         "branch": "developer_api",
         "classification": "developer_api_only",
         "function": "_generate_content_stream",
-        "line": 7198,
+        "line": 7185,
         "path_fragment": "{model}:streamGenerateContent?alt=sse"
       },
       {
@@ -1304,14 +1304,14 @@
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "_generate_content_stream",
-        "line": 7183,
+        "line": 7170,
         "path_fragment": "{model}:streamGenerateContent?alt=sse"
       },
       {
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "_generate_content_stream",
-        "line": 7187,
+        "line": 7174,
         "path_fragment": "{model}:streamGenerateContent?alt=sse"
       },
       {
@@ -1332,14 +1332,14 @@
         "branch": "developer_api",
         "classification": "developer_api_only",
         "function": "_generate_images",
-        "line": 7421,
+        "line": 7408,
         "path_fragment": "{model}:predict"
       },
       {
         "branch": "developer_api",
         "classification": "developer_api_only",
         "function": "_generate_images",
-        "line": 7423,
+        "line": 7410,
         "path_fragment": "{model}:predict"
       },
       {
@@ -1360,14 +1360,14 @@
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "_generate_images",
-        "line": 7412,
+        "line": 7399,
         "path_fragment": "{model}:predict"
       },
       {
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "_generate_images",
-        "line": 7414,
+        "line": 7401,
         "path_fragment": "{model}:predict"
       },
       {
@@ -1388,14 +1388,14 @@
         "branch": "developer_api",
         "classification": "developer_api_only",
         "function": "_generate_videos",
-        "line": 8448,
+        "line": 8435,
         "path_fragment": "{model}:predictLongRunning"
       },
       {
         "branch": "developer_api",
         "classification": "developer_api_only",
         "function": "_generate_videos",
-        "line": 8450,
+        "line": 8437,
         "path_fragment": "{model}:predictLongRunning"
       },
       {
@@ -1416,14 +1416,14 @@
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "_generate_videos",
-        "line": 8439,
+        "line": 8426,
         "path_fragment": "{model}:predictLongRunning"
       },
       {
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "_generate_videos",
-        "line": 8441,
+        "line": 8428,
         "path_fragment": "{model}:predictLongRunning"
       },
       {
@@ -1444,14 +1444,14 @@
         "branch": "developer_api",
         "classification": "developer_api_only",
         "function": "_list",
-        "line": 7966,
+        "line": 7953,
         "path_fragment": "{models_url}"
       },
       {
         "branch": "developer_api",
         "classification": "developer_api_only",
         "function": "_list",
-        "line": 7968,
+        "line": 7955,
         "path_fragment": "{models_url}"
       },
       {
@@ -1472,14 +1472,14 @@
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "_list",
-        "line": 7957,
+        "line": 7944,
         "path_fragment": "{models_url}"
       },
       {
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "_list",
-        "line": 7959,
+        "line": 7946,
         "path_fragment": "{models_url}"
       },
       {
@@ -1500,14 +1500,14 @@
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "_upscale_image",
-        "line": 7593,
+        "line": 7580,
         "path_fragment": "{model}:predict"
       },
       {
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "_upscale_image",
-        "line": 7595,
+        "line": 7582,
         "path_fragment": "{model}:predict"
       },
       {
@@ -1528,14 +1528,14 @@
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "compute_tokens",
-        "line": 8355,
+        "line": 8342,
         "path_fragment": "{model}:computeTokens"
       },
       {
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "compute_tokens",
-        "line": 8357,
+        "line": 8344,
         "path_fragment": "{model}:computeTokens"
       },
       {
@@ -1556,14 +1556,14 @@
         "branch": "developer_api",
         "classification": "developer_api_only",
         "function": "count_tokens",
-        "line": 8249,
+        "line": 8236,
         "path_fragment": "{model}:countTokens"
       },
       {
         "branch": "developer_api",
         "classification": "developer_api_only",
         "function": "count_tokens",
-        "line": 8251,
+        "line": 8238,
         "path_fragment": "{model}:countTokens"
       },
       {
@@ -1584,14 +1584,14 @@
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "count_tokens",
-        "line": 8240,
+        "line": 8227,
         "path_fragment": "{model}:countTokens"
       },
       {
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "count_tokens",
-        "line": 8242,
+        "line": 8229,
         "path_fragment": "{model}:countTokens"
       },
       {
@@ -1612,14 +1612,14 @@
         "branch": "developer_api",
         "classification": "developer_api_only",
         "function": "delete",
-        "line": 8139,
+        "line": 8126,
         "path_fragment": "{name}"
       },
       {
         "branch": "developer_api",
         "classification": "developer_api_only",
         "function": "delete",
-        "line": 8141,
+        "line": 8128,
         "path_fragment": "{name}"
       },
       {
@@ -1640,14 +1640,14 @@
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "delete",
-        "line": 8130,
+        "line": 8117,
         "path_fragment": "{name}"
       },
       {
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "delete",
-        "line": 8132,
+        "line": 8119,
         "path_fragment": "{name}"
       },
       {
@@ -1668,14 +1668,14 @@
         "branch": "developer_api",
         "classification": "developer_api_only",
         "function": "get",
-        "line": 7889,
+        "line": 7876,
         "path_fragment": "{name}"
       },
       {
         "branch": "developer_api",
         "classification": "developer_api_only",
         "function": "get",
-        "line": 7891,
+        "line": 7878,
         "path_fragment": "{name}"
       },
       {
@@ -1696,14 +1696,14 @@
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "get",
-        "line": 7880,
+        "line": 7867,
         "path_fragment": "{name}"
       },
       {
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "get",
-        "line": 7882,
+        "line": 7869,
         "path_fragment": "{name}"
       },
       {
@@ -1724,14 +1724,14 @@
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "recontext_image",
-        "line": 7705,
+        "line": 7692,
         "path_fragment": "{model}:predict"
       },
       {
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "recontext_image",
-        "line": 7707,
+        "line": 7694,
         "path_fragment": "{model}:predict"
       },
       {
@@ -1752,14 +1752,14 @@
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "segment_image",
-        "line": 7811,
+        "line": 7798,
         "path_fragment": "{model}:predict"
       },
       {
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "segment_image",
-        "line": 7813,
+        "line": 7800,
         "path_fragment": "{model}:predict"
       },
       {
@@ -1780,14 +1780,14 @@
         "branch": "developer_api",
         "classification": "developer_api_only",
         "function": "update",
-        "line": 8058,
+        "line": 8045,
         "path_fragment": "{name}"
       },
       {
         "branch": "developer_api",
         "classification": "developer_api_only",
         "function": "update",
-        "line": 8060,
+        "line": 8047,
         "path_fragment": "{name}"
       },
       {
@@ -1808,14 +1808,14 @@
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "update",
-        "line": 8049,
+        "line": 8036,
         "path_fragment": "{model}"
       },
       {
         "branch": "vertexai",
         "classification": "vertexai_only",
         "function": "update",
-        "line": 8051,
+        "line": 8038,
         "path_fragment": "{model}"
       }
     ],
