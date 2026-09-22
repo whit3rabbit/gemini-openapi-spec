@@ -69,6 +69,30 @@
         },
         "type": "object"
       },
+      "AuthToken": {
+        "additionalProperties": false,
+        "description": "Ephemeral token that constrains BidiGenerateContent (Live API) sessions created with it.",
+        "properties": {
+          "expireTime": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "name": {
+            "description": "Auth token name in the form `auth_tokens/{token}`. Pass it as the API key when connecting to BidiGenerateContent sessions.",
+            "type": "string"
+          },
+          "newSessionExpireTime": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "uses": {
+            "description": "Remaining number of times the token can be used. Resuming a session does not count as a use.",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
       "AutomaticFunctionCallingConfig": {
         "additionalProperties": false,
         "properties": {
@@ -370,6 +394,17 @@
         },
         "type": "object"
       },
+      "BidiGenerateContentSetup": {
+        "additionalProperties": true,
+        "description": "Locked BidiGenerateContent (Live API) session parameters applied to every session created with the token. Mirrors the Live API `setup` message.",
+        "properties": {
+          "model": {
+            "description": "ID of the model to configure for Live API sessions.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "Blob": {
         "additionalProperties": false,
         "description": "Inline bytes for image, audio, or video content.",
@@ -601,6 +636,30 @@
         },
         "type": "object"
       },
+      "CreateAuthTokenRequest": {
+        "additionalProperties": false,
+        "description": "Request for `auth_tokens.create`. Field names follow the python-genai SDK wire format.",
+        "properties": {
+          "bidiGenerateContentSetup": {
+            "$ref": "#/components/schemas/BidiGenerateContentSetup"
+          },
+          "expireTime": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "fieldMask": {
+            "description": "Comma-separated list of Live API setup fields locked by the token. Absent means the whole setup is locked.",
+            "type": "string"
+          },
+          "newSessionExpireTime": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "uses": {
+            "description": "Number of times the token can be used. Zero means no limit. Resuming a session does not count as a use. Defaults to 1.",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
       "CreateBatchEmbedContentRequest": {
         "additionalProperties": false,
         "properties": {
@@ -812,6 +871,42 @@
       },
       "EmptyObject": {
         "additionalProperties": false,
+        "type": "object"
+      },
+      "EnvironmentFile": {
+        "additionalProperties": false,
+        "description": "Metadata for a file or directory within a Code Execution environment snapshot. Unlike the proto-JSON surfaces, this endpoint serializes fields in snake_case (matching the python-genai GAOS wire format).",
+        "properties": {
+          "created": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "mime_type": {
+            "description": "MIME type of the file. Empty for directories.",
+            "type": "string"
+          },
+          "modified": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "name": {
+            "type": "string"
+          },
+          "path": {
+            "description": "Full relative path within the environment, e.g. `workspace/src/main.py`.",
+            "type": "string"
+          },
+          "size_bytes": {
+            "description": "Size of the file or directory in bytes.",
+            "format": "int64",
+            "type": "integer"
+          },
+          "type": {
+            "enum": [
+              "file",
+              "directory"
+            ],
+            "type": "string"
+          }
+        },
         "type": "object"
       },
       "ExecutableCode": {
@@ -1404,6 +1499,22 @@
       "GenericJsonObject": {
         "additionalProperties": true,
         "description": "Placeholder schema. This repo only promotes request and response shapes to concrete schemas when they are verified against a current machine-readable upstream source.",
+        "type": "object"
+      },
+      "GetEnvironmentFilesResponse": {
+        "additionalProperties": false,
+        "description": "Response for retrieving files from an environment snapshot. When the requested path is a directory this contains its contents; when it is a file this contains a single metadata entry. Fields are snake_case, matching the python-genai GAOS wire format.",
+        "properties": {
+          "files": {
+            "items": {
+              "$ref": "#/components/schemas/EnvironmentFile"
+            },
+            "type": "array"
+          },
+          "next_page_token": {
+            "type": "string"
+          }
+        },
         "type": "object"
       },
       "GoogleDuration": {
@@ -2738,7 +2849,7 @@
     "description": "Generated working OpenAPI spec for the documented Gemini Developer API surface. Path and method coverage come primarily from the live `all-methods` docs, with guide-documented extras added from their dedicated reference pages.",
     "title": "Gemini Developer API",
     "version": "v1beta",
-    "x-upstream-discovery-revision": "20260717",
+    "x-upstream-discovery-revision": "20260922",
     "x-upstream-discovery-version": "v1beta3"
   },
   "openapi": "3.1.0",
@@ -2898,6 +3009,45 @@
         ],
         "x-gemini-doc-source": "https://ai.google.dev/gemini-api/docs/files",
         "x-google-original-path": "/upload/v1beta/files"
+      }
+    },
+    "/v1beta/auth_tokens": {
+      "post": {
+        "description": "Creates a token that can be used to constrain the behavior of a BidiGenerateContent session.",
+        "operationId": "v1beta_auth_tokens_create",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAuthTokenRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthToken"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "create",
+        "tags": [
+          "v1beta.auth_tokens"
+        ],
+        "x-google-original-path": "/v1beta/auth_tokens"
       }
     },
     "/v1beta/batches": {
@@ -3405,6 +3555,72 @@
         "x-google-original-path": "/v1beta/{cachedContent.name=cachedContents/*}"
       }
     },
+    "/v1beta/environments/{environment}/files": {
+      "get": {
+        "description": "Retrieves a file or directory from a Code Execution environment snapshot. Google SDKs address a specific file by appending its relative path as a trailing path segment (`/v1beta/environments/{environment}/files/{path}`); the all-methods reference documents the collection URL only.",
+        "operationId": "v1beta_files_download",
+        "parameters": [
+          {
+            "description": "ID within the `environments` collection. Pass just the resource ID, not the full path. Original parameter name: `parent`. Original binding token: `{parent=environments/*}`",
+            "in": "path",
+            "name": "environment",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Maximum number of entries to return per page (for directory listing).",
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Pagination token for directory listing.",
+            "in": "query",
+            "name": "page_token",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true and the path is a directory, recursively lists all files.",
+            "in": "query",
+            "name": "recursive",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEnvironmentFilesResponse"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "download",
+        "tags": [
+          "v1beta.files"
+        ],
+        "x-google-original-path": "/v1beta/{parent=environments/*}/files"
+      }
+    },
     "/v1beta/fileSearchStores": {
       "get": {
         "description": "Lists all",
@@ -3727,56 +3943,6 @@
           "v1beta.fileSearchStores.documents"
         ],
         "x-google-original-path": "/v1beta/{name=fileSearchStores/*/documents/*}"
-      }
-    },
-    "/v1beta/fileSearchStores/{fileSearchStore}/media/{media}": {
-      "get": {
-        "description": "Downloads media from a FileSearchStore.",
-        "operationId": "v1beta_files_download",
-        "parameters": [
-          {
-            "description": "ID within the `fileSearchStores` collection. Pass just the resource ID, not the full path. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*/media/**}`",
-            "in": "path",
-            "name": "fileSearchStore",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Path within the `media` collection. Pass the path segment after `media/`, not the full resource name. Original parameter name: `name`. Original binding token: `{name=fileSearchStores/*/media/**}`",
-            "in": "path",
-            "name": "media",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/octet-stream": {
-                "schema": {
-                  "format": "binary",
-                  "type": "string"
-                }
-              }
-            },
-            "description": "Successful media download"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ],
-        "summary": "download",
-        "tags": [
-          "v1beta.files"
-        ],
-        "x-gemini-doc-source": "https://ai.google.dev/api/file-search/file-search-stores",
-        "x-google-original-path": "/v1beta/{name=fileSearchStores/*/media/**}"
       }
     },
     "/v1beta/fileSearchStores/{fileSearchStore}/operations/{operation}": {

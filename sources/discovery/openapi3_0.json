@@ -1252,6 +1252,68 @@
           "trainingData"
         ],
         "type": "object"
+      },
+      "V1mainCreateTunedModelMetadata": {
+        "description": "Metadata about the state and progress of creating a tuned model returned from\nthe long-running operation",
+        "properties": {
+          "completedPercent": {
+            "description": "The completed percentage for the tuning operation.",
+            "format": "float",
+            "type": "number"
+          },
+          "completedSteps": {
+            "description": "The number of steps completed.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "snapshots": {
+            "description": "Metrics collected during tuning.",
+            "items": {
+              "$ref": "#/components/schemas/V1mainTuningSnapshot"
+            },
+            "type": "array"
+          },
+          "totalSteps": {
+            "description": "The total number of tuning steps.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "tunedModel": {
+            "description": "Name of the tuned model associated with the tuning operation.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "V1mainTuningSnapshot": {
+        "description": "Record for a single tuning step.",
+        "properties": {
+          "computeTime": {
+            "description": "Output only. The timestamp when this metric was computed.",
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          },
+          "epoch": {
+            "description": "Output only. The epoch this step was part of.",
+            "format": "int32",
+            "readOnly": true,
+            "type": "integer"
+          },
+          "meanLoss": {
+            "description": "Output only. The mean loss of the training examples for this step.",
+            "format": "float",
+            "readOnly": true,
+            "type": "number"
+          },
+          "step": {
+            "description": "Output only. The tuning step.",
+            "format": "int32",
+            "readOnly": true,
+            "type": "integer"
+          }
+        },
+        "type": "object"
       }
     },
     "securitySchemes": {}
@@ -1264,7 +1326,7 @@
     "description": "The Gemini API allows developers to build generative AI applications using Gemini models. Gemini is our most capable model, built from the ground up to be multimodal. It can generalize and seamlessly understand, operate across, and combine different types of information including language, images, audio, video, and code. You can use the Gemini API for use cases like reasoning across text and images, content generation, dialogue agents, summarization and classification systems, and more.",
     "title": "Gemini API",
     "version": "v1beta3",
-    "x-google-revision": "20260717"
+    "x-google-revision": "20260922"
   },
   "openapi": "3.0.3",
   "paths": {

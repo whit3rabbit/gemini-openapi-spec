@@ -1611,6 +1611,126 @@ def build_native_components() -> dict:
             },
             "additionalProperties": False,
         },
+        "AuthToken": {
+            "type": "object",
+            "description": (
+                "Ephemeral token that constrains BidiGenerateContent (Live API) "
+                "sessions created with it."
+            ),
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": (
+                        "Auth token name in the form `auth_tokens/{token}`. Pass it "
+                        "as the API key when connecting to BidiGenerateContent "
+                        "sessions."
+                    ),
+                },
+                "expireTime": _ref("GoogleTimestamp"),
+                "newSessionExpireTime": _ref("GoogleTimestamp"),
+                "uses": {
+                    "type": "integer",
+                    "description": (
+                        "Remaining number of times the token can be used. Resuming "
+                        "a session does not count as a use."
+                    ),
+                },
+            },
+            "required": ["name"],
+            "additionalProperties": False,
+        },
+        "CreateAuthTokenRequest": {
+            "type": "object",
+            "description": (
+                "Request for `auth_tokens.create`. Field names follow the "
+                "python-genai SDK wire format."
+            ),
+            "properties": {
+                "expireTime": _ref("GoogleTimestamp"),
+                "newSessionExpireTime": _ref("GoogleTimestamp"),
+                "uses": {
+                    "type": "integer",
+                    "description": (
+                        "Number of times the token can be used. Zero means no "
+                        "limit. Resuming a session does not count as a use. "
+                        "Defaults to 1."
+                    ),
+                },
+                "bidiGenerateContentSetup": _ref("BidiGenerateContentSetup"),
+                "fieldMask": {
+                    "type": "string",
+                    "description": (
+                        "Comma-separated list of Live API setup fields locked by "
+                        "the token. Absent means the whole setup is locked."
+                    ),
+                },
+            },
+            "additionalProperties": False,
+        },
+        "BidiGenerateContentSetup": {
+            "type": "object",
+            "description": (
+                "Locked BidiGenerateContent (Live API) session parameters applied "
+                "to every session created with the token. Mirrors the Live API "
+                "`setup` message."
+            ),
+            "properties": {
+                "model": {
+                    "type": "string",
+                    "description": "ID of the model to configure for Live API sessions.",
+                },
+            },
+            "additionalProperties": True,
+        },
+        "EnvironmentFile": {
+            "type": "object",
+            "description": (
+                "Metadata for a file or directory within a Code Execution "
+                "environment snapshot. Unlike the proto-JSON surfaces, this "
+                "endpoint serializes fields in snake_case (matching the "
+                "python-genai GAOS wire format)."
+            ),
+            "properties": {
+                "name": {"type": "string"},
+                "path": {
+                    "type": "string",
+                    "description": "Full relative path within the environment, e.g. `workspace/src/main.py`.",
+                },
+                "type": {
+                    "type": "string",
+                    "enum": ["file", "directory"],
+                },
+                "mime_type": {
+                    "type": "string",
+                    "description": "MIME type of the file. Empty for directories.",
+                },
+                "size_bytes": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Size of the file or directory in bytes.",
+                },
+                "created": _ref("GoogleTimestamp"),
+                "modified": _ref("GoogleTimestamp"),
+            },
+            "additionalProperties": False,
+        },
+        "GetEnvironmentFilesResponse": {
+            "type": "object",
+            "description": (
+                "Response for retrieving files from an environment snapshot. When "
+                "the requested path is a directory this contains its contents; "
+                "when it is a file this contains a single metadata entry. Fields "
+                "are snake_case, matching the python-genai GAOS wire format."
+            ),
+            "properties": {
+                "files": {
+                    "type": "array",
+                    "items": _ref("EnvironmentFile"),
+                },
+                "next_page_token": {"type": "string"},
+            },
+            "additionalProperties": False,
+        },
         "CountTokensRequest": {
             "type": "object",
             "properties": {
@@ -1904,26 +2024,52 @@ def apply_native_operation_overrides(operation, path_item: dict) -> tuple[dict, 
         response_ref = "LongRunningOperation"
         needs_file_search_upload_alias = True
     elif key == (
+        "v1beta.auth_tokens",
+        "create",
+        "POST",
+        "/v1beta/auth_tokens",
+    ):
+        request_ref = "CreateAuthTokenRequest"
+        response_ref = "AuthToken"
+    elif key == (
         "v1beta.files",
         "download",
         "GET",
-        "/v1beta/{name=fileSearchStores/*/media/**}",
+        "/v1beta/{parent=environments/*}/files",
     ):
-        path_item["description"] = "Downloads media from a FileSearchStore."
-        path_item["x-gemini-doc-source"] = (
-            "https://ai.google.dev/api/file-search/file-search-stores"
+        path_item["description"] = (
+            "Retrieves a file or directory from a Code Execution environment "
+            "snapshot. Google SDKs address a specific file by appending its "
+            "relative path as a trailing path segment "
+            "(`/v1beta/environments/{environment}/files/{path}`); the all-methods "
+            "reference documents the collection URL only."
         )
-        path_item["responses"] = {
-            "200": {
-                "description": "Successful media download",
-                "content": {
-                    "application/octet-stream": {
-                        "schema": {"type": "string", "format": "binary"}
-                    }
+        response_ref = "GetEnvironmentFilesResponse"
+        extra_parameters.extend(
+            [
+                {
+                    "name": "page_size",
+                    "in": "query",
+                    "required": False,
+                    "schema": {"type": "integer"},
+                    "description": "Maximum number of entries to return per page (for directory listing).",
                 },
-            }
-        }
-        path_item.pop("requestBody", None)
+                {
+                    "name": "page_token",
+                    "in": "query",
+                    "required": False,
+                    "schema": {"type": "string"},
+                    "description": "Pagination token for directory listing.",
+                },
+                {
+                    "name": "recursive",
+                    "in": "query",
+                    "required": False,
+                    "schema": {"type": "boolean"},
+                    "description": "If true and the path is a directory, recursively lists all files.",
+                },
+            ]
+        )
     elif key == (
         "v1beta.fileSearchStores.operations",
         "get",
@@ -2270,6 +2416,7 @@ def selected_native_operation_keys() -> set[tuple[str, str]]:
         ("PATCH", "/v1beta/batches/{batch}:updateGenerateContentBatch"),
         ("POST", "/v1beta/models/{model}:asyncBatchEmbedContent"),
         ("POST", "/v1beta/models/{model}:batchGenerateContent"),
+        ("POST", "/v1beta/auth_tokens"),
         ("POST", "/v1beta/fileSearchStores"),
         ("GET", "/v1beta/fileSearchStores"),
         ("GET", "/v1beta/fileSearchStores/{fileSearchStore}"),
@@ -2277,7 +2424,7 @@ def selected_native_operation_keys() -> set[tuple[str, str]]:
         ("POST", "/v1beta/fileSearchStores/{fileSearchStore}:importFile"),
         ("POST", "/v1beta/fileSearchStores/{fileSearchStore}:uploadToFileSearchStore"),
         ("POST", "/upload/v1beta/fileSearchStores/{fileSearchStore}:uploadToFileSearchStore"),
-        ("GET", "/v1beta/fileSearchStores/{fileSearchStore}/media/{media}"),
+        ("GET", "/v1beta/environments/{environment}/files"),
         ("GET", "/v1beta/fileSearchStores/{fileSearchStore}/documents"),
         ("GET", "/v1beta/fileSearchStores/{fileSearchStore}/documents/{document}"),
         ("DELETE", "/v1beta/fileSearchStores/{fileSearchStore}/documents/{document}"),

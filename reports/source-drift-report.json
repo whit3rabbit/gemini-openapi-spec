@@ -219,10 +219,10 @@
   },
   "docs_vs_discovery": {
     "discovery_exact_operation_count": 25,
-    "discovery_revision": "20260717",
+    "discovery_revision": "20260922",
     "discovery_version": "v1beta3",
     "discovery_version_normalized_operation_count": 25,
-    "doc_operation_count": 39,
+    "doc_operation_count": 40,
     "extra_in_discovery_after_version_normalization": [
       "DELETE /v1beta/corpora/{corpus}/permissions/{permission}",
       "DELETE /v1beta/tunedModels/{tunedModel}",
@@ -258,11 +258,11 @@
       "GET /v1beta/batches/{batch}",
       "GET /v1beta/cachedContents",
       "GET /v1beta/cachedContents/{cachedContent}",
+      "GET /v1beta/environments/{environment}/files",
       "GET /v1beta/fileSearchStores",
       "GET /v1beta/fileSearchStores/{fileSearchStore}",
       "GET /v1beta/fileSearchStores/{fileSearchStore}/documents",
       "GET /v1beta/fileSearchStores/{fileSearchStore}/documents/{document}",
-      "GET /v1beta/fileSearchStores/{fileSearchStore}/media/{media}",
       "GET /v1beta/fileSearchStores/{fileSearchStore}/operations/{operation}",
       "GET /v1beta/fileSearchStores/{fileSearchStore}/upload/operations/{operation}",
       "GET /v1beta/files",
@@ -270,6 +270,7 @@
       "PATCH /v1beta/batches/{batch}:updateEmbedContentBatch",
       "PATCH /v1beta/batches/{batch}:updateGenerateContentBatch",
       "PATCH /v1beta/cachedContents/{cachedContent}",
+      "POST /v1beta/auth_tokens",
       "POST /v1beta/batches/{batch}:cancel",
       "POST /v1beta/cachedContents",
       "POST /v1beta/fileSearchStores",
@@ -306,14 +307,17 @@
       "tokens.py"
     ],
     "docs_paths_missing_from_sdk_high_confidence": [
+      "/v1beta/auth_tokens",
       "/v1beta/batches/{batch}:updateEmbedContentBatch",
       "/v1beta/batches/{batch}:updateGenerateContentBatch",
+      "/v1beta/environments/{environment}/files",
       "/v1beta/fileSearchStores/{fileSearchStore}/documents",
       "/v1beta/fileSearchStores/{fileSearchStore}/documents/{document}",
       "/v1beta/fileSearchStores/{fileSearchStore}/operations/{operation}",
       "/v1beta/fileSearchStores/{fileSearchStore}/upload/operations/{operation}",
       "/v1beta/fileSearchStores/{fileSearchStore}:uploadToFileSearchStore",
-      "/v1beta/models/{model}:embedContent"
+      "/v1beta/models/{model}:embedContent",
+      "/v1beta/models/{model}:predict"
     ],
     "documented_guide_only_aliases": [
       {
@@ -325,17 +329,8 @@
         "reason": "This upload alias is documented in the official Gemini Files guide, but it does not appear as a standalone operation in the all-methods index."
       }
     ],
-    "high_confidence_path_count": 24,
-    "intentional_docs_first_exclusions": [
-      {
-        "docs_sources": [
-          "https://ai.google.dev/gemini-api/docs/files"
-        ],
-        "guide_evidence": "You can use the Files API to upload and interact with media files. The Files API\nlets you store up to 20\u00a0GB of files per project, with a per-file maximum\nsize of 2\u00a0GB. Files are stored for 48 hours. During that time, you can\nuse the API to get metadata about the files, but you can't download the files.\nThe Files API is available at no cost in all regions where the Gemini API is\navailable.",
-        "path": "/v1beta/files/{file}:download",
-        "reason": "The python-genai Gemini Developer client exposes this route, but the official Gemini Files guide says uploaded files cannot be downloaded."
-      }
-    ],
+    "high_confidence_path_count": 23,
+    "intentional_docs_first_exclusions": [],
     "medium_confidence_path_count": 2,
     "mixed_surface_modules": [
       "batches.py",
@@ -351,13 +346,21 @@
     ],
     "paths_missing_from_docs": [
       "/upload/v1beta/files",
+      "/v1beta/fileSearchStores/{fileSearchStore}/media/{media}",
       "/v1beta/files/{file}:download"
     ],
-    "paths_missing_from_docs_unclassified": [],
+    "paths_missing_from_docs_unclassified": [
+      "/v1beta/fileSearchStores/{fileSearchStore}/media/{media}",
+      "/v1beta/files/{file}:download"
+    ],
     "paths_missing_from_native_spec": [
+      "/v1beta/fileSearchStores/{fileSearchStore}/media/{media}",
       "/v1beta/files/{file}:download"
     ],
-    "paths_missing_from_native_spec_unclassified": [],
+    "paths_missing_from_native_spec_unclassified": [
+      "/v1beta/fileSearchStores/{fileSearchStore}/media/{media}",
+      "/v1beta/files/{file}:download"
+    ],
     "skipped_fragments": [
       {
         "fragment": "test/path",

@@ -2,19 +2,19 @@
 
 ## Native
 - Native generic operations: 0
-- Live docs operations: 39
-- Native spec operations: 42
+- Live docs operations: 40
+- Native spec operations: 43
 - Guide-only aliases: 1
 - Guide-only operations: 1
 - Reference-only aliases: 1
 
 ## Docs vs Discovery
-- Missing from discovery after version normalization: 37
+- Missing from discovery after version normalization: 38
 - Extra in discovery after version normalization: 23
 
 ## SDK vs Native
-- High-confidence SDK paths missing from docs: 2
-- High-confidence SDK paths missing from native spec: 1
+- High-confidence SDK paths missing from docs: 3
+- High-confidence SDK paths missing from native spec: 2
 
 ## Compat
 - Compat generic operations: 0

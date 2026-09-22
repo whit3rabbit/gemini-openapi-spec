@@ -1,6 +1,15 @@
 {
-  "operation_count": 39,
+  "operation_count": 40,
   "operations": [
+    {
+      "description": "Creates a token that can be used to constrain the behavior of a BidiGenerateContent session.",
+      "method": "POST",
+      "name": "create",
+      "normalized_path": "/v1beta/auth_tokens",
+      "path_parameters": [],
+      "raw_path": "/v1beta/auth_tokens",
+      "resource": "v1beta.auth_tokens"
+    },
     {
       "description": "Starts asynchronous cancellation on a long-running operation.",
       "method": "POST",
@@ -399,27 +408,20 @@
       "resource": "v1beta.files"
     },
     {
-      "description": "Downloads media from a",
+      "description": "Retrieves a file or directory from an environment's snapshot (HTTP endpoint).",
       "method": "GET",
       "name": "download",
-      "normalized_path": "/v1beta/fileSearchStores/{fileSearchStore}/media/{media}",
+      "normalized_path": "/v1beta/environments/{environment}/files",
       "path_parameters": [
         {
-          "binding_token": "name=fileSearchStores/*/media/**",
-          "name": "name",
-          "openapi_name": "fileSearchStore",
-          "pattern": "fileSearchStores/*/media/**",
-          "segment_pattern": "fileSearchStores/*"
-        },
-        {
-          "binding_token": "name=fileSearchStores/*/media/**",
-          "name": "name",
-          "openapi_name": "media",
-          "pattern": "fileSearchStores/*/media/**",
-          "segment_pattern": "media/**"
+          "binding_token": "parent=environments/*",
+          "name": "parent",
+          "openapi_name": "environment",
+          "pattern": "environments/*",
+          "segment_pattern": "environments/*"
         }
       ],
-      "raw_path": "/v1beta/{name=fileSearchStores/*/media/**}",
+      "raw_path": "/v1beta/{parent=environments/*}/files",
       "resource": "v1beta.files"
     },
     {
