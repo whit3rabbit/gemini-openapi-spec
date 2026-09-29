@@ -25,11 +25,11 @@
     <link rel="preconnect" href="//fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="//www.google-analytics.com" crossorigin><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Google+Sans:400,500|Roboto:400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Inter:400,500|Inter+Tight:300,500,600&display=swap">
       <link rel="stylesheet"
-            href="//fonts.googleapis.com/css2?family=Material+Icons&family=Material+Symbols+Outlined&display=block"><link rel="stylesheet" href="https://www.gstatic.com/devrel-devsite/prod/v826fb839c0b38141980abf47020a61dc3ff340cbde624f57178f4c01d184ef87/googledevai/css/app.css">
+            href="//fonts.googleapis.com/css2?family=Material+Icons&family=Material+Symbols+Outlined&display=block"><link rel="stylesheet" href="https://www.gstatic.com/devrel-devsite/prod/vfdb441d2e08dbd9d3e48d8cd72b242388a87bcf7626bf5fb9df50c2bdd4a70fd/googledevai/css/app.css">
       
-        <link rel="stylesheet" href="https://www.gstatic.com/devrel-devsite/prod/v826fb839c0b38141980abf47020a61dc3ff340cbde624f57178f4c01d184ef87/googledevai/css/dark-theme.css" disabled>
-      <link rel="shortcut icon" href="https://www.gstatic.com/devrel-devsite/prod/v826fb839c0b38141980abf47020a61dc3ff340cbde624f57178f4c01d184ef87/googledevai/images/favicon-new.png">
-    <link rel="apple-touch-icon" href="https://www.gstatic.com/devrel-devsite/prod/v826fb839c0b38141980abf47020a61dc3ff340cbde624f57178f4c01d184ef87/googledevai/images/touchicon-180-new.png"><link rel="canonical" href="https://ai.google.dev/api/generate-content"><link rel="search" type="application/opensearchdescription+xml"
+        <link rel="stylesheet" href="https://www.gstatic.com/devrel-devsite/prod/vfdb441d2e08dbd9d3e48d8cd72b242388a87bcf7626bf5fb9df50c2bdd4a70fd/googledevai/css/dark-theme.css" disabled>
+      <link rel="shortcut icon" href="https://www.gstatic.com/devrel-devsite/prod/vfdb441d2e08dbd9d3e48d8cd72b242388a87bcf7626bf5fb9df50c2bdd4a70fd/googledevai/images/favicon-new.png">
+    <link rel="apple-touch-icon" href="https://www.gstatic.com/devrel-devsite/prod/vfdb441d2e08dbd9d3e48d8cd72b242388a87bcf7626bf5fb9df50c2bdd4a70fd/googledevai/images/touchicon-180-new.png"><link rel="canonical" href="https://ai.google.dev/api/generate-content"><link rel="search" type="application/opensearchdescription+xml"
             title="Google AI for Developers" href="https://ai.google.dev/s/opensearch.xml">
       <link rel="alternate" hreflang="en"
           href="https://ai.google.dev/api/generate-content" /><link rel="alternate" hreflang="x-default" href="https://ai.google.dev/api/generate-content" /><link rel="alternate" hreflang="ar"
@@ -923,6 +923,14 @@
         class="devsite-nav-title"
       ><span class="devsite-nav-text" tooltip>Environments</span></a></li>
 
+  <li class="devsite-nav-item"><a href="/api/voices"
+        class="devsite-nav-title"
+      ><span class="devsite-nav-text" tooltip>Voices</span></a></li>
+
+  <li class="devsite-nav-item"><a href="/api/credentials"
+        class="devsite-nav-title"
+      ><span class="devsite-nav-text" tooltip>Credentials</span></a></li>
+
   <li class="devsite-nav-item"><a href="/api/batch-api"
         class="devsite-nav-title"
       ><span class="devsite-nav-text" tooltip>Batch API</span></a></li>
@@ -1209,7 +1217,7 @@
   product-id="5292923"
   bucket="documentation"
   context=""
-  version="t-devsite-webserver-20260915-r00-rc00.480402789142597247"
+  version="t-devsite-webserver-20260924-r00-rc00.480666405826496382"
   data-label="Send Feedback Button"
   track-type="feedback"
   track-name="sendFeedbackLink"
@@ -1219,7 +1227,7 @@
   
   
   
-    project-icon="https://www.gstatic.com/devrel-devsite/prod/v826fb839c0b38141980abf47020a61dc3ff340cbde624f57178f4c01d184ef87/googledevai/images/touchicon-180-new.png"
+    project-icon="https://www.gstatic.com/devrel-devsite/prod/vfdb441d2e08dbd9d3e48d8cd72b242388a87bcf7626bf5fb9df50c2bdd4a70fd/googledevai/images/touchicon-180-new.png"
   
   
   
@@ -1566,6 +1574,21 @@
 </div>
 <div class="field-description">
 <p>Optional. A list of unique <code translate="no" dir="ltr">SafetySetting</code> instances for blocking unsafe content.</p><p>This will be enforced on the <code translate="no" dir="ltr">GenerateContentRequest.contents</code> and <code translate="no" dir="ltr">GenerateContentResponse.candidates</code>. There should not be more than one setting for each <code translate="no" dir="ltr">SafetyCategory</code> type. The API will block any contents and responses that fail to meet the thresholds set by these settings. This list overrides the default settings for each <code translate="no" dir="ltr">SafetyCategory</code> specified in the safetySettings. If there is no <code translate="no" dir="ltr">SafetySetting</code> for a given <code translate="no" dir="ltr">SafetyCategory</code> provided in the list, the API will use the default safety setting for that category. Harm categories HARM_CATEGORY_HATE_SPEECH, HARM_CATEGORY_SEXUALLY_EXPLICIT, HARM_CATEGORY_DANGEROUS_CONTENT, HARM_CATEGORY_HARASSMENT, HARM_CATEGORY_CIVIC_INTEGRITY, HARM_CATEGORY_JAILBREAK are supported. Refer to the <a href="https://ai.google.dev/gemini-api/docs/safety-settings">guide</a> for detailed information on available safety settings. Also refer to the <a href="https://ai.google.dev/gemini-api/docs/safety-guidance">Safety guidance</a> to learn how to incorporate safety considerations in your AI applications.</p>
+</div>
+</div>
+</section>
+<section id="body.request_body.FIELDS.labels">
+<div class="field-entry">
+<div class="signature">
+<span class="field-name">
+<td><code translate="no" dir="ltr">labels</code></td>
+</span>
+<span class="field-type">
+<code translate="no" dir="ltr">map (key: string, value: string)</code>
+</span>
+</div>
+<div class="field-description">
+<p>Optional. Labels with user-defined metadata for the request.</p><p>Optional. Labels must follow standard unified Cloud label requirements: - Label keys must start with a letter. - Label keys and values can be no longer than 63 characters (Unicode  codepoints) and can only contain lowercase letters, numeric characters,  underscores, and dashes. - International characters are allowed.</p><p>Usage: - Safety identifiers from aggregators: Use the key <code translate="no" dir="ltr">safety_identifier</code>  (e.g. <code translate="no" dir="ltr">{"safety_identifier": "user_session_123"}</code>)</p><p>An object containing a list of <code translate="no" dir="ltr">"key": value</code> pairs. Example: <code translate="no" dir="ltr">{ "name": "wrench", "mass": "1.3kg", "count": "3" }</code>.</p>
 </div>
 </div>
 </section>
@@ -9022,6 +9045,21 @@ curl<span class="devsite-syntax-w"> </span><span class="devsite-syntax-s2">"http
 </div>
 </div>
 </section>
+<section id="body.request_body.FIELDS.labels">
+<div class="field-entry">
+<div class="signature">
+<span class="field-name">
+<td><code translate="no" dir="ltr">labels</code></td>
+</span>
+<span class="field-type">
+<code translate="no" dir="ltr">map (key: string, value: string)</code>
+</span>
+</div>
+<div class="field-description">
+<p>Optional. Labels with user-defined metadata for the request.</p><p>Optional. Labels must follow standard unified Cloud label requirements: - Label keys must start with a letter. - Label keys and values can be no longer than 63 characters (Unicode  codepoints) and can only contain lowercase letters, numeric characters,  underscores, and dashes. - International characters are allowed.</p><p>Usage: - Safety identifiers from aggregators: Use the key <code translate="no" dir="ltr">safety_identifier</code>  (e.g. <code translate="no" dir="ltr">{"safety_identifier": "user_session_123"}</code>)</p><p>An object containing a list of <code translate="no" dir="ltr">"key": value</code> pairs. Example: <code translate="no" dir="ltr">{ "name": "wrench", "mass": "1.3kg", "count": "3" }</code>.</p>
+</div>
+</div>
+</section>
 <section id="body.request_body.FIELDS.system_instruction">
 <div class="field-entry">
 <div class="signature">
@@ -13105,6 +13143,10 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
 <td><code class="apitype" translate="no" dir="ltr">ESCALATION</code></td>
 <td>Request was filtered by an escalation rule.</td>
 </tr>
+<tr id="FinishReason.ENUM_VALUES.PUP_LIMITED_DISABLED">
+<td><code class="apitype" translate="no" dir="ltr">PUP_LIMITED_DISABLED</code></td>
+<td>Indicates that token generation stopped because the user account is limited or disabled due to Prohibited Use Policy (PUP) violations.</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -15767,7 +15809,19 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
 <ul>
 <li><a href="#MediaResolution.SCHEMA_REPRESENTATION">JSON representation</a></li>
 </ul>
-</li><li><a href="#Level">Level</a></li><li><a href="#MediaProcessing">MediaProcessing</a></li>
+</li><li><a href="#Level">Level</a></li><li><a href="#MediaProcessing">MediaProcessing</a></li><li><a href="#AudioTranscription">AudioTranscription</a>
+<ul>
+<li><a href="#AudioTranscription.SCHEMA_REPRESENTATION">JSON representation</a></li>
+</ul>
+</li><li><a href="#WordInfo">WordInfo</a>
+<ul>
+<li><a href="#WordInfo.SCHEMA_REPRESENTATION">JSON representation</a></li>
+</ul>
+</li><li><a href="#SpeechMetadata">SpeechMetadata</a>
+<ul>
+<li><a href="#SpeechMetadata.SCHEMA_REPRESENTATION">JSON representation</a></li>
+</ul>
+</li>
 </ul>
 <div class="column-container">
 <div class="reference">
@@ -15920,6 +15974,36 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
 </div>
 <div class="field-description">
 <p>Optional. How the model processes this part's media for understanding. Only meaningful for video parts (<code translate="no" dir="ltr">inlineData</code> or <code translate="no" dir="ltr">fileData</code> with video mime). Non-video parts ignore this field.</p>
+</div>
+</div>
+</section>
+<section id="Part.FIELDS.audio_transcription">
+<div class="field-entry">
+<div class="signature">
+<span class="field-name">
+<td><code translate="no" dir="ltr">audioTranscription</code></td>
+</span>
+<span class="field-type">
+<code translate="no" dir="ltr">object (<code translate="no" dir="ltr"><a href="/api/generate-content#AudioTranscription">AudioTranscription</a></code>)</code>
+</span>
+</div>
+<div class="field-description">
+<p>Optional. Audio (input or output) transcription. This is only set when this Part contains audio data.</p>
+</div>
+</div>
+</section>
+<section id="Part.FIELDS.speech_metadata">
+<div class="field-entry">
+<div class="signature">
+<span class="field-name">
+<td><code translate="no" dir="ltr">speechMetadata</code></td>
+</span>
+<span class="field-type">
+<code translate="no" dir="ltr">object (<code translate="no" dir="ltr"><a href="/api/generate-content#SpeechMetadata">SpeechMetadata</a></code>)</code>
+</span>
+</div>
+<div class="field-description">
+<p>Optional. Metadata applied to text parts to customize how they should be spoken or synthesized, such as specifying speaker identity or speaking style.</p>
 </div>
 </div>
 </section>
@@ -16127,6 +16211,12 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
     <span class="kwd">object (<code translate="no" dir="ltr"><a href="/api/generate-content#MediaResolution">MediaResolution</a></code>)</span>
   <span class="pun">}</span><span class="pun">,</span>
   <span class="str">"mediaProcessing"</span><span class="pun">: </span><span class="kwd">enum (<code translate="no" dir="ltr"><a href="/api/generate-content#MediaProcessing">MediaProcessing</a></code>)</span><span class="pun">,</span>
+  <span class="str">"audioTranscription"</span><span class="pun">: </span><span class="pun">{</span>
+    <span class="kwd">object (<code translate="no" dir="ltr"><a href="/api/generate-content#AudioTranscription">AudioTranscription</a></code>)</span>
+  <span class="pun">}</span><span class="pun">,</span>
+  <span class="str">"speechMetadata"</span><span class="pun">: </span><span class="pun">{</span>
+    <span class="kwd">object (<code translate="no" dir="ltr"><a href="/api/generate-content#SpeechMetadata">SpeechMetadata</a></code>)</span>
+  <span class="pun">}</span><span class="pun">,</span>
 
   <span class="com">// data</span>
   <span class="str">"text"</span><span class="pun">: </span><span class="kwd">string</span><span class="pun">,</span>
@@ -16210,6 +16300,21 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
 </div>
 </div>
 </section>
+<section id="Blob.FIELDS.display_name">
+<div class="field-entry">
+<div class="signature">
+<span class="field-name">
+<td><code translate="no" dir="ltr">displayName</code></td>
+</span>
+<span class="field-type">
+<code translate="no" dir="ltr">string</code>
+</span>
+</div>
+<div class="field-description">
+<p>Optional. Specifies the name used to refer to this blob to the model (e.g. "my_blob.png"). Used as the blob reference identifier when <code translate="no" dir="ltr">verbalizationMode</code> is set to <code translate="no" dir="ltr">REFERENCE_ONLY</code>.</p>
+</div>
+</div>
+</section>
 </section>
 </div>
 <div class="second-column">
@@ -16224,7 +16329,8 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
 <tr>
 <td style="margin:0;padding:0;"><div></div><devsite-code><pre style="border: 0;margin: 0;" translate="no" dir="ltr" is-upgraded><span class="pun">{</span>
   <span class="str">"mimeType"</span><span class="pun">: </span><span class="kwd">string</span><span class="pun">,</span>
-  <span class="str">"data"</span><span class="pun">: </span><span class="kwd">string</span>
+  <span class="str">"data"</span><span class="pun">: </span><span class="kwd">string</span><span class="pun">,</span>
+  <span class="str">"displayName"</span><span class="pun">: </span><span class="kwd">string</span>
 <span class="pun">}</span></pre></devsite-code></td>
 </tr>
 </tbody>
@@ -16658,6 +16764,21 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
 </div>
 </div>
 </section>
+<section id="FileData.FIELDS.display_name">
+<div class="field-entry">
+<div class="signature">
+<span class="field-name">
+<td><code translate="no" dir="ltr">displayName</code></td>
+</span>
+<span class="field-type">
+<code translate="no" dir="ltr">string</code>
+</span>
+</div>
+<div class="field-description">
+<p>Optional. Specifies the name used to refer to this file to the model (e.g. "my_file.pdf"). Used as the file reference identifier when <code translate="no" dir="ltr">verbalizationMode</code> is set to <code translate="no" dir="ltr">REFERENCE_ONLY</code>.</p>
+</div>
+</div>
+</section>
 </section>
 </div>
 <div class="second-column">
@@ -16672,7 +16793,8 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
 <tr>
 <td style="margin:0;padding:0;"><div></div><devsite-code><pre style="border: 0;margin: 0;" translate="no" dir="ltr" is-upgraded><span class="pun">{</span>
   <span class="str">"mimeType"</span><span class="pun">: </span><span class="kwd">string</span><span class="pun">,</span>
-  <span class="str">"fileUri"</span><span class="pun">: </span><span class="kwd">string</span>
+  <span class="str">"fileUri"</span><span class="pun">: </span><span class="kwd">string</span><span class="pun">,</span>
+  <span class="str">"displayName"</span><span class="pun">: </span><span class="kwd">string</span>
 <span class="pun">}</span></pre></devsite-code></td>
 </tr>
 </tbody>
@@ -17345,6 +17467,234 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
 </tbody>
 </table>
 </section>
+<h2 id="AudioTranscription" data-text="AudioTranscription" tabindex="-1">AudioTranscription</h2>
+<div class="column-container">
+<div class="reference">
+<section id="AudioTranscription.description">
+<p>The transcription of an audio part. For multi-speaker audio, each speaker segment is a separate Part with its own AudioTranscription carrying the speakerLabel.</p>
+</section>
+<section id="AudioTranscription.FIELDS">
+<thead>
+<tr>
+<th colspan="2">Fields</th>
+</tr>
+</thead>
+<section id="AudioTranscription.FIELDS.text">
+<div class="field-entry">
+<div class="signature">
+<span class="field-name">
+<td><code translate="no" dir="ltr">text</code></td>
+</span>
+<span class="field-type">
+<code translate="no" dir="ltr">string</code>
+</span>
+</div>
+<div class="field-description">
+<p>Required. The transcription text of this audio segment.</p>
+</div>
+</div>
+</section>
+<section id="AudioTranscription.FIELDS.speaker_label">
+<div class="field-entry">
+<div class="signature">
+<span class="field-name">
+<td><code translate="no" dir="ltr">speakerLabel</code></td>
+</span>
+<span class="field-type">
+<code translate="no" dir="ltr">string</code>
+</span>
+</div>
+<div class="field-description">
+<p>Optional. A label identifying the speaker of this audio segment (e.g. "spk_1", "spk_2"). Present when diarization is set.</p>
+</div>
+</div>
+</section>
+<section id="AudioTranscription.FIELDS.words">
+<div class="field-entry">
+<div class="signature">
+<span class="field-name">
+<td><code translate="no" dir="ltr">words[]</code></td>
+</span>
+<span class="field-type">
+<code translate="no" dir="ltr">object (<code translate="no" dir="ltr"><a href="/api/generate-content#WordInfo">WordInfo</a></code>)</code>
+</span>
+</div>
+<div class="field-description">
+<p>Optional. Detailed word-level transcriptions and timing details. Present when wordTimestamp is set.</p>
+</div>
+</div>
+</section>
+</section>
+</div>
+<div class="second-column">
+<section id="AudioTranscription.SCHEMA_REPRESENTATION">
+<table class="properties responsive fixed">
+<thead>
+<tr>
+<th>JSON representation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="margin:0;padding:0;"><div></div><devsite-code><pre style="border: 0;margin: 0;" translate="no" dir="ltr" is-upgraded><span class="pun">{</span>
+  <span class="str">"text"</span><span class="pun">: </span><span class="kwd">string</span><span class="pun">,</span>
+  <span class="str">"speakerLabel"</span><span class="pun">: </span><span class="kwd">string</span><span class="pun">,</span>
+  <span class="str">"words"</span><span class="pun">: </span><span class="pun">[</span>
+    <span class="pun">{</span>
+      <span class="kwd">object (<code translate="no" dir="ltr"><a href="/api/generate-content#WordInfo">WordInfo</a></code>)</span>
+    <span class="pun">}</span>
+  <span class="pun">]</span>
+<span class="pun">}</span></pre></devsite-code></td>
+</tr>
+</tbody>
+</table>
+</section>
+</div>
+</div>
+<h2 id="WordInfo" data-text="WordInfo" tabindex="-1">WordInfo</h2>
+<div class="column-container">
+<div class="reference">
+<section id="WordInfo.description">
+<p>Information about a single recognized word.</p>
+</section>
+<section id="WordInfo.FIELDS">
+<thead>
+<tr>
+<th colspan="2">Fields</th>
+</tr>
+</thead>
+<section id="WordInfo.FIELDS.word">
+<div class="field-entry">
+<div class="signature">
+<span class="field-name">
+<td><code translate="no" dir="ltr">word</code></td>
+</span>
+<span class="field-type">
+<code translate="no" dir="ltr">string</code>
+</span>
+</div>
+<div class="field-description">
+<p>Required. Transcript of the word.</p>
+</div>
+</div>
+</section>
+<section id="WordInfo.FIELDS.start_offset">
+<div class="field-entry">
+<div class="signature">
+<span class="field-name">
+<td><code translate="no" dir="ltr">startOffset</code></td>
+</span>
+<span class="field-type">
+<code translate="no" dir="ltr">string (<code translate="no" dir="ltr"><a href="https://protobuf.dev/reference/protobuf/google.protobuf/#duration">Duration</a></code> format)</code>
+</span>
+</div>
+<div class="field-description">
+<p>Optional. Start offset in time of the word relative to the start of the audio.</p><p>A duration in seconds with up to nine fractional digits, ending with '<code translate="no" dir="ltr">s</code>'. Example: <code translate="no" dir="ltr">"3.5s"</code>.</p>
+</div>
+</div>
+</section>
+<section id="WordInfo.FIELDS.end_offset">
+<div class="field-entry">
+<div class="signature">
+<span class="field-name">
+<td><code translate="no" dir="ltr">endOffset</code></td>
+</span>
+<span class="field-type">
+<code translate="no" dir="ltr">string (<code translate="no" dir="ltr"><a href="https://protobuf.dev/reference/protobuf/google.protobuf/#duration">Duration</a></code> format)</code>
+</span>
+</div>
+<div class="field-description">
+<p>Optional. End offset in time of the word relative to the start of the audio.</p><p>A duration in seconds with up to nine fractional digits, ending with '<code translate="no" dir="ltr">s</code>'. Example: <code translate="no" dir="ltr">"3.5s"</code>.</p>
+</div>
+</div>
+</section>
+</section>
+</div>
+<div class="second-column">
+<section id="WordInfo.SCHEMA_REPRESENTATION">
+<table class="properties responsive fixed">
+<thead>
+<tr>
+<th>JSON representation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="margin:0;padding:0;"><div></div><devsite-code><pre style="border: 0;margin: 0;" translate="no" dir="ltr" is-upgraded><span class="pun">{</span>
+  <span class="str">"word"</span><span class="pun">: </span><span class="kwd">string</span><span class="pun">,</span>
+  <span class="str">"startOffset"</span><span class="pun">: </span><span class="kwd">string</span><span class="pun">,</span>
+  <span class="str">"endOffset"</span><span class="pun">: </span><span class="kwd">string</span>
+<span class="pun">}</span></pre></devsite-code></td>
+</tr>
+</tbody>
+</table>
+</section>
+</div>
+</div>
+<h2 id="SpeechMetadata" data-text="SpeechMetadata" tabindex="-1">SpeechMetadata</h2>
+<div class="column-container">
+<div class="reference">
+<section id="SpeechMetadata.description">
+<p>Speech metadata for <code translate="no" dir="ltr">text</code> parts.</p>
+</section>
+<section id="SpeechMetadata.FIELDS">
+<thead>
+<tr>
+<th colspan="2">Fields</th>
+</tr>
+</thead>
+<section id="SpeechMetadata.FIELDS.speaker">
+<div class="field-entry">
+<div class="signature">
+<span class="field-name">
+<td><code translate="no" dir="ltr">speaker</code></td>
+</span>
+<span class="field-type">
+<code translate="no" dir="ltr">string</code>
+</span>
+</div>
+<div class="field-description">
+<p>Optional. Optional speaker name for multi-speaker synthesis.</p>
+</div>
+</div>
+</section>
+<section id="SpeechMetadata.FIELDS.style">
+<div class="field-entry">
+<div class="signature">
+<span class="field-name">
+<td><code translate="no" dir="ltr">style</code></td>
+</span>
+<span class="field-type">
+<code translate="no" dir="ltr">string</code>
+</span>
+</div>
+<div class="field-description">
+<p>Optional. Optional style instruction for the speech synthesis.</p>
+</div>
+</div>
+</section>
+</section>
+</div>
+<div class="second-column">
+<section id="SpeechMetadata.SCHEMA_REPRESENTATION">
+<table class="properties responsive fixed">
+<thead>
+<tr>
+<th>JSON representation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="margin:0;padding:0;"><div></div><devsite-code><pre style="border: 0;margin: 0;" translate="no" dir="ltr" is-upgraded><span class="pun">{</span>
+  <span class="str">"speaker"</span><span class="pun">: </span><span class="kwd">string</span><span class="pun">,</span>
+  <span class="str">"style"</span><span class="pun">: </span><span class="kwd">string</span>
+<span class="pun">}</span></pre></devsite-code></td>
+</tr>
+</tbody>
+</table>
+</section>
+</div>
+</div>
 </section>
 </div><div itemscope="" itemtype="http://developers.google.com/ReferenceObject"><h2 id="environment" data-text="Environment" tabindex="-1">Environment</h2><a name="v1beta.Environment"></a>
 <meta content="Environment" itemprop="name"/>
@@ -19848,6 +20198,21 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
 </div>
 </div>
 </section>
+<section id="BidiGenerateContentSetup.FIELDS.labels">
+<div class="field-entry">
+<div class="signature">
+<span class="field-name">
+<td><code translate="no" dir="ltr">labels</code></td>
+</span>
+<span class="field-type">
+<code translate="no" dir="ltr">map (key: string, value: string)</code>
+</span>
+</div>
+<div class="field-description">
+<p>Optional. Labels with user-defined metadata for the request.</p><p>Optional. Labels must follow standard unified Cloud label requirements: - Label keys must start with a letter. - Label keys and values can be no longer than 63 characters (Unicode  codepoints) and can only contain lowercase letters, numeric characters,  underscores, and dashes. - International characters are allowed.</p><p>Usage: - Safety identifiers from aggregators: Use the key <code translate="no" dir="ltr">safety_identifier</code>  (e.g. <code translate="no" dir="ltr">{"safety_identifier": "user_session_123"}</code>)</p><p>An object containing a list of <code translate="no" dir="ltr">"key": value</code> pairs. Example: <code translate="no" dir="ltr">{ "name": "wrench", "mass": "1.3kg", "count": "3" }</code>.</p>
+</div>
+</div>
+</section>
 </section>
 </div>
 <div class="second-column">
@@ -19890,6 +20255,10 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
   <span class="pun">}</span><span class="pun">,</span>
   <span class="str">"historyConfig"</span><span class="pun">: </span><span class="pun">{</span>
     <span class="kwd">object (<code translate="no" dir="ltr"><a href="/api/generate-content#HistoryConfig">HistoryConfig</a></code>)</span>
+  <span class="pun">}</span><span class="pun">,</span>
+  <span class="str">"labels"</span><span class="pun">: </span><span class="pun">{</span>
+    <span class="str">string</span><span class="pun">: </span><span class="kwd">string</span><span class="pun">,</span>
+    <span class="kwd">...</span>
   <span class="pun">}</span>
 <span class="pun">}</span></pre></devsite-code></td>
 </tr>
@@ -19954,7 +20323,7 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
 </div>
 <div class="field-description">
 <aside class="warning"><p>This item is deprecated!</p></aside>
-<p>Optional. Output schema of the generated candidate text. Schemas must be a subset of the <a href="https://spec.openapis.org/oas/v3.0.3#schema">OpenAPI schema</a> and can be objects, primitives or arrays.</p><p>If set, a compatible <code translate="no" dir="ltr">responseMimeType</code> must also be set. Compatible MIME types: <code translate="no" dir="ltr">application/json</code>: Schema for JSON response. Refer to the <a href="https://ai.google.dev/gemini-api/docs/json-mode">JSON text generation guide</a> for more details.</p>
+<p>Optional. Output schema of the generated candidate text. Schemas must be a subset of the <a href="https://spec.openapis.org/oas/v3.0.3#schema">OpenAPI schema</a> and can be objects, primitives or arrays.</p><p>If set, a compatible <code translate="no" dir="ltr">responseMimeType</code> must also be set. Compatible MIME types: <code translate="no" dir="ltr">application/json</code>: Schema for JSON response. Refer to the <a href="https://ai.google.dev/gemini-api/docs/json-mode">JSON text generation guide</a> for more details.</p><p>Deprecated. Use <code translate="no" dir="ltr">responseFormat</code> instead.</p>
 </div>
 </div>
 </section>
@@ -19992,7 +20361,7 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
 <li><code translate="no" dir="ltr">properties</code></li>
 <li><code translate="no" dir="ltr">additionalProperties</code></li>
 <li><code translate="no" dir="ltr">required</code></li>
-</ul><p>The non-standard <code translate="no" dir="ltr">propertyOrdering</code> property may also be set.</p><p>Cyclic references are unrolled to a limited degree and, as such, may only be used within non-required properties. (Nullable properties are not sufficient.) If <code translate="no" dir="ltr">$ref</code> is set on a sub-schema, no other properties, except for than those starting as a <code translate="no" dir="ltr">$</code>, may be set.</p>
+</ul><p>The non-standard <code translate="no" dir="ltr">propertyOrdering</code> property may also be set.</p><p>Cyclic references are unrolled to a limited degree and, as such, may only be used within non-required properties. (Nullable properties are not sufficient.) If <code translate="no" dir="ltr">$ref</code> is set on a sub-schema, no other properties, except for than those starting as a <code translate="no" dir="ltr">$</code>, may be set.</p><p>Deprecated. Use <code translate="no" dir="ltr">responseFormat</code> instead.</p>
 </div>
 </div>
 </section>
@@ -20538,6 +20907,26 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
 </div>
 </div>
 </section>
+<section id="VoiceConfig.FIELDS.voice">
+<div class="field-entry">
+<div class="signature">
+<span class="field-name">
+<td><code translate="no" dir="ltr">voice</code></td>
+</span>
+<span class="field-type">
+<code translate="no" dir="ltr">string</code>
+</span>
+</div>
+<div class="field-description">
+<p>Optional. The speaker identifier for synthesis. Supported formats:</p>
+<ul>
+<li>Speaker name for prebuilt voices (for example, <code translate="no" dir="ltr">Orus</code> or <code translate="no" dir="ltr">Kore</code>).</li>
+<li>Voice ID for stored voices (for example, <code translate="no" dir="ltr">voice_xxx</code>).</li>
+<li>Voice replication key (for example, <code translate="no" dir="ltr">voicekey_xxx</code>).</li>
+</ul>
+</div>
+</div>
+</section>
 <div>End of mutually exclusive fields.</div>
 </div>
 </div>
@@ -20559,7 +20948,8 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
   <span class="com">// voice_config</span>
   <span class="str">"prebuiltVoiceConfig"</span><span class="pun">: </span><span class="pun">{</span>
     <span class="kwd">object (<code translate="no" dir="ltr"><a href="/api/generate-content#PrebuiltVoiceConfig">PrebuiltVoiceConfig</a></code>)</span>
-  <span class="pun">}</span>
+  <span class="pun">}</span><span class="pun">,</span>
+  <span class="str">"voice"</span><span class="pun">: </span><span class="kwd">string</span>
   <span class="com">// Union type</span>
 <span class="pun">}</span></pre></devsite-code></td>
 </tr>
@@ -22712,7 +23102,7 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
   product-id="5292923"
   bucket="documentation"
   context=""
-  version="t-devsite-webserver-20260915-r00-rc00.480402789142597247"
+  version="t-devsite-webserver-20260924-r00-rc00.480666405826496382"
   data-label="Send Feedback Button"
   track-type="feedback"
   track-name="sendFeedbackLink"
@@ -22722,7 +23112,7 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
   
   
   
-    project-icon="https://www.gstatic.com/devrel-devsite/prod/v826fb839c0b38141980abf47020a61dc3ff340cbde624f57178f4c01d184ef87/googledevai/images/touchicon-180-new.png"
+    project-icon="https://www.gstatic.com/devrel-devsite/prod/vfdb441d2e08dbd9d3e48d8cd72b242388a87bcf7626bf5fb9df50c2bdd4a70fd/googledevai/images/touchicon-180-new.png"
   
   
   
@@ -22745,7 +23135,7 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
 
 <devsite-content-footer class="nocontent" data-nosnippet>
   <p>Except as otherwise noted, the content of this page is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 License</a>, and code samples are licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 License</a>. For details, see the <a href="https://developers.google.com/site-policies">Google Developers Site Policies</a>. Java is a registered trademark of Oracle and/or its affiliates.</p>
-  <p>Last updated 2026-08-28 UTC.</p>
+  <p>Last updated 2026-09-23 UTC.</p>
 </devsite-content-footer>
 
 
@@ -22766,7 +23156,7 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
   product-id="5292923"
   bucket="documentation"
   context=""
-  version="t-devsite-webserver-20260915-r00-rc00.480402789142597247"
+  version="t-devsite-webserver-20260924-r00-rc00.480666405826496382"
   data-label="Send Feedback Button"
   track-type="feedback"
   track-name="sendFeedbackLink"
@@ -22776,7 +23166,7 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
   
   
   
-    project-icon="https://www.gstatic.com/devrel-devsite/prod/v826fb839c0b38141980abf47020a61dc3ff340cbde624f57178f4c01d184ef87/googledevai/images/touchicon-180-new.png"
+    project-icon="https://www.gstatic.com/devrel-devsite/prod/vfdb441d2e08dbd9d3e48d8cd72b242388a87bcf7626bf5fb9df50c2bdd4a70fd/googledevai/images/touchicon-180-new.png"
   
   
   
@@ -22792,7 +23182,7 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
   
   
     <template class="devsite-content-data-template">
-      [[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Missing the information I need","missingTheInformationINeed","thumb-down"],["Too complicated / too many steps","tooComplicatedTooManySteps","thumb-down"],["Out of date","outOfDate","thumb-down"],["Samples / code issue","samplesCodeIssue","thumb-down"],["Other","otherDown","thumb-down"]],["Last updated 2026-08-28 UTC."],[],[]]
+      [[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Missing the information I need","missingTheInformationINeed","thumb-down"],["Too complicated / too many steps","tooComplicatedTooManySteps","thumb-down"],["Out of date","outOfDate","thumb-down"],["Samples / code issue","samplesCodeIssue","thumb-down"],["Other","otherDown","thumb-down"]],["Last updated 2026-09-23 UTC."],[],[]]
     </template>
   
 </div>
@@ -23016,12 +23406,12 @@ echo<div class="devsite-github-link nocode no-select nocontent"><a target="_top"
     
     
     
-<script nonce="bmn6XfRZILrH4085WRfYGJ1u7agah/">
+<script nonce="YS1475ACvOe7XXRSxdVpehLiy5ycNN">
   
   (function(d,e,v,s,i,t,E){d['GoogleDevelopersObject']=i;
     t=e.createElement(v);t.async=1;t.src=s;E=e.getElementsByTagName(v)[0];
     E.parentNode.insertBefore(t,E);})(window, document, 'script',
-    'https://www.gstatic.com/devrel-devsite/prod/v826fb839c0b38141980abf47020a61dc3ff340cbde624f57178f4c01d184ef87/googledevai/js/app_loader.js', '[59,"en",null,"/js/devsite_app_module.js","https://www.gstatic.com/devrel-devsite/prod/v826fb839c0b38141980abf47020a61dc3ff340cbde624f57178f4c01d184ef87","https://www.gstatic.com/devrel-devsite/prod/v826fb839c0b38141980abf47020a61dc3ff340cbde624f57178f4c01d184ef87/googledevai","https://googledevai-dot-devsite-v2-prod-3p.appspot.com",null,null,["/_pwa/googledevai/manifest.json","https://www.gstatic.com/devrel-devsite/prod/v826fb839c0b38141980abf47020a61dc3ff340cbde624f57178f4c01d184ef87/images/video-placeholder.svg","https://www.gstatic.com/devrel-devsite/prod/v826fb839c0b38141980abf47020a61dc3ff340cbde624f57178f4c01d184ef87/googledevai/images/favicon-new.png","/_static/googledevai/images/gemini-api-logo.svg","https://fonts.googleapis.com/css?family=Google+Sans:400,500|Roboto:400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Inter:400,500|Inter+Tight:300,500,600&display=swap"],1,null,[1,6,8,12,14,17,21,25,50,52,63,70,75,76,80,87,91,92,93,97,98,100,101,102,103,104,105,107,108,109,110,112,113,117,118,120,122,124,125,126,127,129,130,131,132,133,134,135,136,138,140,141,147,148,149,151,152,156,157,158,159,161,163,164,168,169,170,179,180,182,183,186,191,193,196],"AIzaSyCNm9YxQumEXwGJgTDjxoxXK6m1F-9720Q","AIzaSyCc76DZePGtoyUjqKrLdsMGk_ry7sljLbY","ai.google.dev","AIzaSyB9bqgQ2t11WJsOX8qNsCQ6U-w91mmqF-I","AIzaSyAdYnStPdzjcJJtQ0mvIaeaMKj7_t6J_Fg",null,null,null,["Profiles__enable_dashboard_curated_recommendations","DevPro__enable_free_benefits","Search__enable_page_map","MiscFeatureFlags__enable_project_variables","MiscFeatureFlags__enable_view_transitions","Profiles__enable_user_type","DevPro__enable_enterprise","Profiles__enable_playlist_community_acl","EngEduTelemetry__enable_engedu_telemetry","TpcFeatures__proxy_prod_host","Profiles__enable_profile_collections","Concierge__enable_actions_menu","DevPro__enable_embed_profile_creation","Cloud__enable_cloud_dlp_service","Profiles__enable_stripe_subscription_management","Cloud__cache_serialized_dynamic_content","SignIn__enable_l1_signup_flow","Profiles__enable_callout_notifications","Profiles__enable_complete_playlist_endpoint","Concierge__enable_devsite_llm_tools","Concierge__enable_remove_info_panel_tags","DevPro__enable_credits_banner","Cloud__fast_free_trial","Profiles__enable_targeted_hero","CloudShell__cloud_shell_button","OnSwitch__enable","MiscFeatureFlags__developers_footer_dark_image","DevPro__enable_vertex_credit_card","Profiles__enable_auto_apply_credits","DevPro__enable_g1_ineligible_redirect","MiscFeatureFlags__enable_llms_txt","DevPro__enable_google_payments_buyflow","Search__enable_suggestions_from_borg","MiscFeatureFlags__enable_explain_this_code","Cloud__enable_cloud_shell","MiscFeatureFlags__enable_explicit_template_dependencies","CloudShell__cloud_code_overflow_menu","DevPro__enable_code_assist","Profiles__enable_developer_profiles_callout","Profiles__require_profile_eligibility_for_signin","Profiles__enable_awarding_url","Cloud__enable_legacy_calculator_redirect","Profiles__enable_recognition_badges","DevPro__enable_g1_integration","DevPro__enable_devpro_offers","DevPro__enable_google_one_card","Profiles__enable_purchase_prompts","Profiles__enable_developer_profile_benefits_ui_redesign","MiscFeatureFlags__remove_cross_domain_tracking_params","Profiles__enable_completecodelab_endpoint","Profiles__enable_completequiz_endpoint","Profiles__enable_public_developer_profiles","MiscFeatureFlags__enable_firebase_utm","Cloud__enable_cloud_shell_fte_user_flow","MiscFeatureFlags__gdp_dashboard_reskin_enabled","Experiments__reqs_query_experiments","Search__enable_ai_search_summaries_for_all","Profiles__enable_page_saving","DevPro__enable_devsite_captcha","DevPro__remove_eu_tax_intake_form","Search__enable_ai_eligibility_checks","Profiles__enable_join_program_group_endpoint","Cloud__enable_cloudx_experiment_ids","MiscFeatureFlags__enable_framebox_badge_methods","Analytics__enable_clearcut_logging","MiscFeatureFlags__fix_lower_breadcrumbs","MiscFeatureFlags__enable_appearance_cookies","DevPro__enable_google_payments","TpcFeatures__enable_unmirrored_page_left_nav","MiscFeatureFlags__enable_variable_operator_index_yaml","MiscFeatureFlags__enable_variable_operator","Cloud__enable_free_trial_server_call","Concierge__enable_pushui","AIStudioInteractionsToggle__interactions_are_default","DevPro__enable_nvidia_credits_card","Analytics__enable_devpro_interaction_logging","DevPro__enable_cloud_innovators_plus","MiscFeatureFlags__developers_footer_image","DevPro__enable_firebase_workspaces_card","Profiles__enable_developer_profile_pages_as_content","DevPro__enable_developer_subscriptions","BookNav__enable_tenant_cache_key","Search__enable_dynamic_content_confidential_banner","Profiles__enable_release_notes_notifications"],null,null,"AIzaSyA58TaKli1DculwmAmbpzLVGuWc8eCQgQc","https://developerscontentserving-pa.googleapis.com","AIzaSyDWBU60w0P9hEkr29kkksYs8Z7gvZ8u_wc","https://developerscontentsearch-pa.googleapis.com",2,4,null,"https://developerprofiles-pa.googleapis.com",[59,"googledevai","Google AI for Developers","ai.google.dev",null,"googledevai-dot-devsite-v2-prod-3p.appspot.com",null,null,[null,1,null,null,null,null,null,null,null,null,null,[1],null,null,null,null,null,null,[1],null,null,null,null,[1],[1,1,null,1,1],null,null,null,null,null,[1]],null,[73,null,null,null,null,null,"/images/lockup-new.svg","/images/touchicon-180-new.png",null,null,null,null,1,1,null,null,null,null,null,null,null,2,null,null,null,"/images/lockup-dark-theme-new.svg",[]],[],null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,[44,2,4,6,7,12,14,15,17,18,20,21,22,23,28,29,32,37,39,40,43],null,[[],[1,1],null,1],[[null,null,null,null,null,["GTM-TC2MQKS8"],null,null,null,null,null,[["GTM-TC2MQKS8",1]],1]],null,4,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,[]],null,null,1,1,"https://developerscontentinsights-pa.googleapis.com","AIzaSyC11xEGtFhkmSh_iF6l_itbxnFz2GrIBOg","AIzaSyAXJ10nRF73mmdSDINgkCNX5bbd2KPcWm8","https://developers.googleapis.com",["https://aistudio.google.com"],null,"AIzaSyCjP0KOnHfv8mwe38sfzZJMOnqE3HvrD4A",null,null,"https://developers.googleapis.com"]')
+    'https://www.gstatic.com/devrel-devsite/prod/vfdb441d2e08dbd9d3e48d8cd72b242388a87bcf7626bf5fb9df50c2bdd4a70fd/googledevai/js/app_loader.js', '[59,"en",null,"/js/devsite_app_module.js","https://www.gstatic.com/devrel-devsite/prod/vfdb441d2e08dbd9d3e48d8cd72b242388a87bcf7626bf5fb9df50c2bdd4a70fd","https://www.gstatic.com/devrel-devsite/prod/vfdb441d2e08dbd9d3e48d8cd72b242388a87bcf7626bf5fb9df50c2bdd4a70fd/googledevai","https://googledevai-dot-devsite-v2-prod-3p.appspot.com",null,null,["/_pwa/googledevai/manifest.json","https://www.gstatic.com/devrel-devsite/prod/vfdb441d2e08dbd9d3e48d8cd72b242388a87bcf7626bf5fb9df50c2bdd4a70fd/images/video-placeholder.svg","https://www.gstatic.com/devrel-devsite/prod/vfdb441d2e08dbd9d3e48d8cd72b242388a87bcf7626bf5fb9df50c2bdd4a70fd/googledevai/images/favicon-new.png","/_static/googledevai/images/gemini-api-logo.svg","https://fonts.googleapis.com/css?family=Google+Sans:400,500|Roboto:400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Inter:400,500|Inter+Tight:300,500,600&display=swap"],1,null,[1,6,8,12,14,17,21,25,50,52,63,70,75,76,80,87,91,92,93,97,98,100,101,102,103,104,105,107,108,109,110,112,113,116,117,118,120,122,124,125,126,127,129,130,131,132,133,134,135,136,138,140,141,147,148,149,151,152,156,157,158,159,161,163,164,168,169,170,179,180,182,183,186,191,193,196],"AIzaSyCNm9YxQumEXwGJgTDjxoxXK6m1F-9720Q","AIzaSyCc76DZePGtoyUjqKrLdsMGk_ry7sljLbY","ai.google.dev","AIzaSyB9bqgQ2t11WJsOX8qNsCQ6U-w91mmqF-I","AIzaSyAdYnStPdzjcJJtQ0mvIaeaMKj7_t6J_Fg",null,null,null,["MiscFeatureFlags__enable_variable_operator","Cloud__enable_legacy_calculator_redirect","Profiles__enable_dashboard_curated_recommendations","Profiles__enable_auto_apply_credits","MiscFeatureFlags__enable_llms_txt","DevPro__enable_cloud_innovators_plus","DevPro__enable_firebase_workspaces_card","Search__enable_page_map","Cloud__enable_cloud_shell_fte_user_flow","MiscFeatureFlags__remove_cross_domain_tracking_params","MiscFeatureFlags__fix_lower_breadcrumbs","Profiles__enable_join_program_group_endpoint","Cloud__enable_cloud_shell","BookNav__enable_tenant_cache_key","Concierge__enable_pushui","Analytics__enable_devpro_interaction_logging","MiscFeatureFlags__developers_footer_image","Analytics__enable_clearcut_logging","DevPro__enable_embed_profile_creation","Profiles__enable_release_notes_notifications","Concierge__enable_actions_menu","DevPro__enable_free_benefits","MiscFeatureFlags__enable_explicit_template_dependencies","DevPro__enable_developer_subscriptions","Profiles__enable_stripe_subscription_management","AIStudioInteractionsToggle__interactions_are_default","MiscFeatureFlags__enable_explain_this_code","Profiles__enable_public_developer_profiles","Profiles__enable_developer_profile_pages_as_content","Profiles__enable_targeted_hero","TpcFeatures__enable_unmirrored_page_left_nav","DevPro__enable_vertex_credit_card","Profiles__enable_playlist_community_acl","DevPro__remove_eu_tax_intake_form","Profiles__enable_user_type","Search__enable_dynamic_content_confidential_banner","DevPro__enable_google_payments","DevPro__enable_google_one_card","DevPro__enable_credits_banner","CloudShell__cloud_code_overflow_menu","SignIn__enable_l1_signup_flow","Profiles__enable_purchase_prompts","Profiles__enable_developer_profile_benefits_ui_redesign","Concierge__enable_devsite_llm_tools","Profiles__enable_awarding_url","DevPro__enable_g1_ineligible_redirect","Profiles__enable_callout_notifications","MiscFeatureFlags__enable_appearance_cookies","DevPro__enable_g1_integration","DevPro__enable_devpro_offers","TpcFeatures__proxy_prod_host","Cloud__enable_free_trial_server_call","DevPro__enable_google_payments_buyflow","DevPro__enable_code_assist","Profiles__enable_profile_collections","MiscFeatureFlags__enable_framebox_badge_methods","OnSwitch__enable","EngEduTelemetry__enable_engedu_telemetry","Cloud__fast_free_trial","Profiles__enable_completequiz_endpoint","Profiles__require_profile_eligibility_for_signin","MiscFeatureFlags__enable_project_variables","Cloud__enable_cloudx_experiment_ids","MiscFeatureFlags__enable_variable_operator_index_yaml","Search__enable_ai_eligibility_checks","Profiles__enable_developer_profiles_callout","Concierge__enable_remove_info_panel_tags","Profiles__enable_recognition_badges","Search__enable_suggestions_from_borg","Profiles__enable_completecodelab_endpoint","Cloud__cache_serialized_dynamic_content","MiscFeatureFlags__developers_footer_dark_image","Profiles__enable_page_saving","MiscFeatureFlags__enable_firebase_utm","MiscFeatureFlags__enable_view_transitions","CloudShell__cloud_shell_button","Profiles__enable_complete_playlist_endpoint","DevPro__enable_enterprise","DevPro__enable_nvidia_credits_card","Search__enable_ai_search_summaries_for_all","DevPro__enable_devsite_captcha","Experiments__reqs_query_experiments","MiscFeatureFlags__gdp_dashboard_reskin_enabled","Cloud__enable_cloud_dlp_service"],null,null,"AIzaSyA58TaKli1DculwmAmbpzLVGuWc8eCQgQc","https://developerscontentserving-pa.googleapis.com","AIzaSyDWBU60w0P9hEkr29kkksYs8Z7gvZ8u_wc","https://developerscontentsearch-pa.googleapis.com",2,4,null,"https://developerprofiles-pa.googleapis.com",[59,"googledevai","Google AI for Developers","ai.google.dev",null,"googledevai-dot-devsite-v2-prod-3p.appspot.com",null,null,[null,1,null,null,null,null,null,null,null,null,null,[1],null,null,null,null,null,null,[1],null,null,null,null,[1],[1,1,null,1,1],null,null,null,null,null,[1]],null,[73,null,null,null,null,null,"/images/lockup-new.svg","/images/touchicon-180-new.png",null,null,null,null,1,1,null,null,null,null,null,null,null,2,null,null,null,"/images/lockup-dark-theme-new.svg",[]],[],null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,[44,2,4,6,7,12,14,15,17,18,20,21,22,23,28,29,32,37,39,40,43],null,[[],[1,1],null,1],[[null,null,null,null,null,["GTM-TC2MQKS8"],null,null,null,null,null,[["GTM-TC2MQKS8",1]],1]],null,4,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,[]],null,null,1,1,"https://developerscontentinsights-pa.googleapis.com","AIzaSyC11xEGtFhkmSh_iF6l_itbxnFz2GrIBOg","AIzaSyAXJ10nRF73mmdSDINgkCNX5bbd2KPcWm8","https://developers.googleapis.com",["https://aistudio.google.com"],null,"AIzaSyCjP0KOnHfv8mwe38sfzZJMOnqE3HvrD4A",null,null,"https://developers.googleapis.com"]')
   
 </script>
 

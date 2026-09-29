@@ -2,14 +2,14 @@
 
 ## Native
 - Native generic operations: 0
-- Live docs operations: 40
-- Native spec operations: 43
+- Live docs operations: 72
+- Native spec operations: 75
 - Guide-only aliases: 1
 - Guide-only operations: 1
 - Reference-only aliases: 1
 
 ## Docs vs Discovery
-- Missing from discovery after version normalization: 38
+- Missing from discovery after version normalization: 70
 - Extra in discovery after version normalization: 23
 
 ## SDK vs Native

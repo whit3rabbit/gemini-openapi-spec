@@ -1,6 +1,212 @@
 {
   "components": {
     "schemas": {
+      "Agent": {
+        "additionalProperties": false,
+        "description": "An agent definition (Agent Platform). Fields are snake_case, matching the python-genai GAOS wire format.",
+        "properties": {
+          "agent_config": {
+            "$ref": "#/components/schemas/AntigravityAgentConfig"
+          },
+          "base_agent": {
+            "description": "The base agent to extend.",
+            "type": "string"
+          },
+          "base_environment": {
+            "description": "The environment configuration for the agent: either an inline remote-environment object or an environment ID.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/InteractionEnvironment"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "description": {
+            "description": "Agent description for developers to quickly read and understand.",
+            "type": "string"
+          },
+          "id": {
+            "description": "The unique identifier for the agent.",
+            "type": "string"
+          },
+          "system_instruction": {
+            "description": "System instruction for the agent.",
+            "type": "string"
+          },
+          "tools": {
+            "description": "The tools available to the agent.",
+            "items": {
+              "$ref": "#/components/schemas/AgentTool"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "AgentCodeExecutionTool": {
+        "additionalProperties": false,
+        "description": "Enables code execution for an agent.",
+        "properties": {
+          "type": {
+            "const": "code_execution"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "type": "object"
+      },
+      "AgentFunctionTool": {
+        "additionalProperties": false,
+        "description": "A function (callable tool) available to an agent.",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "parameters": {
+            "description": "JSON Schema for the function parameters, when the agent calls it with structured arguments."
+          },
+          "type": {
+            "const": "function"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "type": "object"
+      },
+      "AgentGoogleSearchTool": {
+        "additionalProperties": false,
+        "description": "Enables Google Search grounding for an agent.",
+        "properties": {
+          "search_types": {
+            "items": {
+              "enum": [
+                "web_search",
+                "image_search",
+                "enterprise_web_search"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "type": {
+            "const": "google_search"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "type": "object"
+      },
+      "AgentMcpServerTool": {
+        "additionalProperties": false,
+        "description": "An MCP server exposed to an agent as a tool.",
+        "properties": {
+          "allowed_tools": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "mode": {
+                  "description": "Tool choice mode.",
+                  "type": "string"
+                },
+                "tools": {
+                  "description": "Allowed tool names.",
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "headers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "HTTP headers sent to the MCP server.",
+            "type": "object"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "const": "mcp_server"
+          },
+          "url": {
+            "description": "MCP server endpoint URL.",
+            "format": "uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "type": "object"
+      },
+      "AgentTool": {
+        "description": "A tool available to an agent. Discriminated by its `type` field.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/AgentCodeExecutionTool"
+          },
+          {
+            "$ref": "#/components/schemas/AgentUrlContextTool"
+          },
+          {
+            "$ref": "#/components/schemas/AgentGoogleSearchTool"
+          },
+          {
+            "$ref": "#/components/schemas/AgentFunctionTool"
+          },
+          {
+            "$ref": "#/components/schemas/AgentMcpServerTool"
+          }
+        ]
+      },
+      "AgentUrlContextTool": {
+        "additionalProperties": false,
+        "description": "Enables URL context grounding for an agent.",
+        "properties": {
+          "type": {
+            "const": "url_context"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "type": "object"
+      },
+      "AntigravityAgentConfig": {
+        "additionalProperties": false,
+        "description": "Configuration parameters for an Antigravity agent.",
+        "properties": {
+          "max_total_tokens": {
+            "description": "Maximum total tokens for the agent.",
+            "format": "int64",
+            "type": "integer"
+          },
+          "model": {
+            "description": "Model the agent runs with.",
+            "type": "string"
+          },
+          "type": {
+            "const": "antigravity"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "type": "object"
+      },
       "ApiSchema": {
         "additionalProperties": true,
         "description": "Subset of the Gemini Schema object used for function and response schemas.",
@@ -636,6 +842,101 @@
         },
         "type": "object"
       },
+      "CreateAgentInteraction": {
+        "additionalProperties": false,
+        "description": "Request to create an agent-backed interaction. Exactly one of this shape or `CreateModelInteraction` is the body of `POST /v1beta/interactions`.",
+        "properties": {
+          "agent": {
+            "description": "Agent option to run, e.g. `antigravity-preview-05-2026` or a Deep Research agent ID.",
+            "type": "string"
+          },
+          "agent_config": {
+            "additionalProperties": true,
+            "description": "Agent configuration overrides.",
+            "type": "object"
+          },
+          "background": {
+            "description": "Run the interaction in the background.",
+            "type": "boolean"
+          },
+          "environment": {
+            "$ref": "#/components/schemas/InteractionEnvironment"
+          },
+          "input": {
+            "$ref": "#/components/schemas/InteractionsInput"
+          },
+          "labels": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "previous_interaction_id": {
+            "type": "string"
+          },
+          "response_format": {
+            "additionalProperties": true,
+            "description": "Structured output format.",
+            "type": "object"
+          },
+          "response_mime_type": {
+            "type": "string"
+          },
+          "response_modalities": {
+            "items": {
+              "enum": [
+                "text",
+                "image",
+                "audio",
+                "video",
+                "document"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "safety_settings": {
+            "items": {
+              "$ref": "#/components/schemas/InteractionSafetySetting"
+            },
+            "type": "array"
+          },
+          "service_tier": {
+            "enum": [
+              "flex",
+              "standard",
+              "priority",
+              "deferred"
+            ],
+            "type": "string"
+          },
+          "store": {
+            "description": "Whether the interaction is persisted.",
+            "type": "boolean"
+          },
+          "stream": {
+            "description": "If true, the response is a server-sent event stream of interaction events instead of a single JSON object.",
+            "type": "boolean"
+          },
+          "system_instruction": {
+            "type": "string"
+          },
+          "tools": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "webhook_config": {
+            "$ref": "#/components/schemas/InteractionWebhookConfig"
+          }
+        },
+        "required": [
+          "agent"
+        ],
+        "type": "object"
+      },
       "CreateAuthTokenRequest": {
         "additionalProperties": false,
         "description": "Request for `auth_tokens.create`. Field names follow the python-genai SDK wire format.",
@@ -684,6 +985,38 @@
         ],
         "type": "object"
       },
+      "CreateEnvironmentRequest": {
+        "additionalProperties": false,
+        "description": "Request for creating an environment.",
+        "properties": {
+          "from_environment": {
+            "description": "The source environment to copy/fork from. When specified, `sources` must be empty.",
+            "type": "string"
+          },
+          "network": {
+            "description": "Network configuration for the environment.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EnvironmentNetworkEgressAllowlist"
+              },
+              {
+                "enum": [
+                  "disabled"
+                ],
+                "type": "string"
+              }
+            ]
+          },
+          "sources": {
+            "description": "Sources to be mounted into the environment.",
+            "items": {
+              "$ref": "#/components/schemas/EnvironmentSource"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
       "CreateFileRequest": {
         "additionalProperties": false,
         "properties": {
@@ -713,6 +1046,175 @@
           }
         },
         "type": "object"
+      },
+      "CreateInteractionRequest": {
+        "description": "Body of `POST /v1beta/interactions`: either an agent-backed or a model-backed interaction.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/CreateAgentInteraction"
+          },
+          {
+            "$ref": "#/components/schemas/CreateModelInteraction"
+          }
+        ]
+      },
+      "CreateModelInteraction": {
+        "additionalProperties": false,
+        "description": "Request to create a model-backed interaction. Exactly one of this shape or `CreateAgentInteraction` is the body of `POST /v1beta/interactions`.",
+        "properties": {
+          "background": {
+            "description": "Run the interaction in the background.",
+            "type": "boolean"
+          },
+          "cached_content": {
+            "type": "string"
+          },
+          "environment": {
+            "$ref": "#/components/schemas/InteractionEnvironment"
+          },
+          "generation_config": {
+            "$ref": "#/components/schemas/InteractionGenerationConfig"
+          },
+          "input": {
+            "$ref": "#/components/schemas/InteractionsInput"
+          },
+          "labels": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "model": {
+            "description": "Model to run the interaction with.",
+            "type": "string"
+          },
+          "previous_interaction_id": {
+            "type": "string"
+          },
+          "response_format": {
+            "additionalProperties": true,
+            "description": "Structured output format.",
+            "type": "object"
+          },
+          "response_mime_type": {
+            "type": "string"
+          },
+          "response_modalities": {
+            "items": {
+              "enum": [
+                "text",
+                "image",
+                "audio",
+                "video",
+                "document"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "safety_settings": {
+            "items": {
+              "$ref": "#/components/schemas/InteractionSafetySetting"
+            },
+            "type": "array"
+          },
+          "service_tier": {
+            "enum": [
+              "flex",
+              "standard",
+              "priority",
+              "deferred"
+            ],
+            "type": "string"
+          },
+          "store": {
+            "description": "Whether the interaction is persisted.",
+            "type": "boolean"
+          },
+          "stream": {
+            "description": "If true, the response is a server-sent event stream of interaction events instead of a single JSON object.",
+            "type": "boolean"
+          },
+          "system_instruction": {
+            "type": "string"
+          },
+          "tools": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "webhook_config": {
+            "$ref": "#/components/schemas/InteractionWebhookConfig"
+          }
+        },
+        "required": [
+          "model"
+        ],
+        "type": "object"
+      },
+      "Credential": {
+        "additionalProperties": false,
+        "description": "Server-managed credential resource stored in Secret Manager. Fields are snake_case, matching the python-genai GAOS wire format. Secret values are input-only and never returned.",
+        "properties": {
+          "create_time": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "id": {
+            "description": "Output only. Unique identifier for the credential.",
+            "type": "string"
+          },
+          "status": {
+            "description": "Output only. Current status of the credential.",
+            "enum": [
+              "active",
+              "revoked"
+            ],
+            "type": "string"
+          },
+          "type": {
+            "description": "Output only. The type of credential.",
+            "enum": [
+              "bearer_token",
+              "oauth2",
+              "environment_variable"
+            ],
+            "type": "string"
+          },
+          "update_time": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          }
+        },
+        "type": "object"
+      },
+      "CredentialCreateRequest": {
+        "description": "Body of `POST /v1beta/credentials`, discriminated by `type`.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/HttpBearerCredentialConfig"
+          },
+          {
+            "$ref": "#/components/schemas/OAuth2CredentialConfig"
+          },
+          {
+            "$ref": "#/components/schemas/EnvironmentVariableCredentialConfig"
+          }
+        ]
+      },
+      "CredentialUpdateRequest": {
+        "description": "Body of `PATCH /v1beta/credentials/{id}`, discriminated by `type`. Same shapes as the create variants with every field optional.",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/HttpBearerCredentialUpdate"
+          },
+          {
+            "$ref": "#/components/schemas/OAuth2CredentialUpdate"
+          },
+          {
+            "$ref": "#/components/schemas/EnvironmentVariableCredentialUpdate"
+          }
+        ]
       },
       "CustomMetadata": {
         "additionalProperties": false,
@@ -873,6 +1375,52 @@
         "additionalProperties": false,
         "type": "object"
       },
+      "Environment": {
+        "additionalProperties": false,
+        "description": "An execution environment for an agent (Agent Platform). Fields are snake_case, matching the python-genai GAOS wire format.",
+        "properties": {
+          "created": {
+            "description": "Output only. Creation time (ISO 8601).",
+            "format": "date-time",
+            "type": "string"
+          },
+          "file_count": {
+            "description": "Output only. The number of files in the environment.",
+            "type": "integer"
+          },
+          "id": {
+            "description": "Output only. The ID of the environment.",
+            "type": "string"
+          },
+          "last_accessed": {
+            "description": "Output only. Last access time (ISO 8601).",
+            "format": "date-time",
+            "type": "string"
+          },
+          "network": {
+            "description": "Network configuration for the environment."
+          },
+          "size_bytes": {
+            "description": "Output only. Total size of the environment files in bytes.",
+            "format": "int64",
+            "type": "integer"
+          },
+          "status": {
+            "description": "Output only. The status of the environment container.",
+            "enum": [
+              "active",
+              "expired"
+            ],
+            "type": "string"
+          },
+          "updated": {
+            "description": "Output only. Last update time (ISO 8601).",
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "EnvironmentFile": {
         "additionalProperties": false,
         "description": "Metadata for a file or directory within a Code Execution environment snapshot. Unlike the proto-JSON surfaces, this endpoint serializes fields in snake_case (matching the python-genai GAOS wire format).",
@@ -907,6 +1455,136 @@
             "type": "string"
           }
         },
+        "type": "object"
+      },
+      "EnvironmentNetworkEgressAllowlist": {
+        "additionalProperties": false,
+        "description": "Egress allowlist for an environment's network.",
+        "properties": {
+          "allowlist": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "credential": {
+                  "description": "Credential applied to the domain.",
+                  "type": "string"
+                },
+                "domain": {
+                  "description": "Domain requests are allowed to.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "domain"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "EnvironmentSource": {
+        "additionalProperties": false,
+        "description": "A source mounted into an execution environment.",
+        "properties": {
+          "content": {
+            "description": "Inline content (for `inline` sources).",
+            "type": "string"
+          },
+          "encoding": {
+            "description": "Encoding of inline content.",
+            "type": "string"
+          },
+          "source": {
+            "description": "Location of the source (e.g. GCS prefix).",
+            "type": "string"
+          },
+          "target": {
+            "description": "Mount path inside the environment.",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "gcs",
+              "inline",
+              "repository",
+              "skill_registry"
+            ],
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "EnvironmentVariableCredentialConfig": {
+        "additionalProperties": false,
+        "description": "Environment variable credential (create).",
+        "properties": {
+          "id": {
+            "description": "Identifier for the credential.",
+            "type": "string"
+          },
+          "injection_location": {
+            "description": "Locations where the value can be injected.",
+            "enum": [
+              "header",
+              "query",
+              "body"
+            ],
+            "type": "string"
+          },
+          "trusted_domains": {
+            "description": "Domains allowed to receive this environment variable.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "type": {
+            "const": "environment_variable"
+          },
+          "value": {
+            "description": "Input only. Secret value of the environment variable. Write-only; never returned in responses.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "injection_location",
+          "value"
+        ],
+        "type": "object"
+      },
+      "EnvironmentVariableCredentialUpdate": {
+        "additionalProperties": false,
+        "description": "Environment variable credential (update).",
+        "properties": {
+          "injection_location": {
+            "enum": [
+              "header",
+              "query",
+              "body"
+            ],
+            "type": "string"
+          },
+          "trusted_domains": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "type": {
+            "const": "environment_variable"
+          },
+          "value": {
+            "description": "Input only. Secret value of the environment variable.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type"
+        ],
         "type": "object"
       },
       "ExecutableCode": {
@@ -1898,6 +2576,60 @@
         },
         "type": "object"
       },
+      "HttpBearerCredentialConfig": {
+        "additionalProperties": false,
+        "description": "HTTP Bearer token credential (create).",
+        "properties": {
+          "header_name": {
+            "description": "Header name to inject the token into.",
+            "type": "string"
+          },
+          "id": {
+            "description": "Identifier for the credential.",
+            "type": "string"
+          },
+          "prefix": {
+            "description": "Prefix prepended to the token. Defaults to `Bearer`.",
+            "type": "string"
+          },
+          "token": {
+            "description": "Input only. The static bearer token. Write-only; never returned in responses.",
+            "type": "string"
+          },
+          "type": {
+            "const": "bearer_token"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "token"
+        ],
+        "type": "object"
+      },
+      "HttpBearerCredentialUpdate": {
+        "additionalProperties": false,
+        "description": "HTTP Bearer token credential (update).",
+        "properties": {
+          "header_name": {
+            "type": "string"
+          },
+          "prefix": {
+            "type": "string"
+          },
+          "token": {
+            "description": "Input only. The static bearer token.",
+            "type": "string"
+          },
+          "type": {
+            "const": "bearer_token"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "type": "object"
+      },
       "ImageConfig": {
         "additionalProperties": false,
         "properties": {
@@ -2013,6 +2745,448 @@
         },
         "type": "object"
       },
+      "Interaction": {
+        "additionalProperties": false,
+        "description": "An Agent Platform interaction: a stateful execution of an agent or model with inputs, steps, and outputs. Fields are snake_case, matching the python-genai GAOS wire format.",
+        "properties": {
+          "agent": {
+            "description": "Agent option for agent-backed interactions, e.g. `antigravity-preview-05-2026` or a Deep Research agent ID.",
+            "type": "string"
+          },
+          "agent_config": {
+            "additionalProperties": true,
+            "description": "Agent configuration for this interaction.",
+            "type": "object"
+          },
+          "cached_content": {
+            "description": "Cached content resource for model interactions.",
+            "type": "string"
+          },
+          "created": {
+            "description": "Output only. Creation time (ISO 8601).",
+            "format": "date-time",
+            "type": "string"
+          },
+          "environment": {
+            "$ref": "#/components/schemas/InteractionEnvironment"
+          },
+          "environment_id": {
+            "type": "string"
+          },
+          "errors": {
+            "description": "Output only. Errors produced by the interaction.",
+            "items": {
+              "$ref": "#/components/schemas/InteractionError"
+            },
+            "type": "array"
+          },
+          "generation_config": {
+            "$ref": "#/components/schemas/InteractionGenerationConfig"
+          },
+          "id": {
+            "description": "Output only. The ID of the interaction.",
+            "type": "string"
+          },
+          "input": {
+            "$ref": "#/components/schemas/InteractionsInput"
+          },
+          "labels": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "model": {
+            "description": "Model for model-backed interactions.",
+            "type": "string"
+          },
+          "output_audio": {
+            "$ref": "#/components/schemas/InteractionContent"
+          },
+          "output_image": {
+            "$ref": "#/components/schemas/InteractionContent"
+          },
+          "output_text": {
+            "description": "Output only. Convenience text output.",
+            "type": "string"
+          },
+          "output_video": {
+            "$ref": "#/components/schemas/InteractionContent"
+          },
+          "previous_interaction_id": {
+            "description": "ID of the interaction this one continues.",
+            "type": "string"
+          },
+          "response_format": {
+            "additionalProperties": true,
+            "description": "Structured output format for the interaction.",
+            "type": "object"
+          },
+          "response_mime_type": {
+            "type": "string"
+          },
+          "response_modalities": {
+            "items": {
+              "enum": [
+                "text",
+                "image",
+                "audio",
+                "video",
+                "document"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "safety_settings": {
+            "items": {
+              "$ref": "#/components/schemas/InteractionSafetySetting"
+            },
+            "type": "array"
+          },
+          "service_tier": {
+            "enum": [
+              "flex",
+              "standard",
+              "priority",
+              "deferred"
+            ],
+            "type": "string"
+          },
+          "status": {
+            "description": "Output only. The status of the interaction.",
+            "enum": [
+              "in_progress",
+              "requires_action",
+              "completed",
+              "failed",
+              "cancelled",
+              "incomplete",
+              "budget_exceeded",
+              "queued"
+            ],
+            "type": "string"
+          },
+          "steps": {
+            "description": "Output only. The interaction's execution steps.",
+            "items": {
+              "$ref": "#/components/schemas/InteractionStep"
+            },
+            "type": "array"
+          },
+          "system_instruction": {
+            "type": "string"
+          },
+          "tools": {
+            "description": "Tools available to the interaction.",
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "updated": {
+            "description": "Output only. Last update time (ISO 8601).",
+            "format": "date-time",
+            "type": "string"
+          },
+          "usage": {
+            "$ref": "#/components/schemas/InteractionUsage"
+          },
+          "webhook_config": {
+            "$ref": "#/components/schemas/InteractionWebhookConfig"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "type": "object"
+      },
+      "InteractionContent": {
+        "additionalProperties": true,
+        "description": "Typed content part of the interactions API. Discriminated by `type` (`text`, `image`, `audio`, `video`, `document`); this is an open union, so variant-specific fields beyond the common ones below are preserved as-is.",
+        "properties": {
+          "annotations": {
+            "description": "Annotations attached to the content.",
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "data": {
+            "description": "Base64-encoded payload (for media content).",
+            "type": "string"
+          },
+          "mime_type": {
+            "description": "MIME type of the payload.",
+            "type": "string"
+          },
+          "text": {
+            "description": "Text payload (for `text` content).",
+            "type": "string"
+          },
+          "type": {
+            "description": "Content variant, e.g. `text` or `image`.",
+            "type": "string"
+          },
+          "uri": {
+            "description": "URI of the payload when it is not inline.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "InteractionEnvironment": {
+        "additionalProperties": false,
+        "description": "Remote execution environment configuration for an agent or interaction.",
+        "properties": {
+          "env": {
+            "description": "Environment variables: a map of name to value/credential binding, or a serialized string.",
+            "oneOf": [
+              {
+                "additionalProperties": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "credential": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "environment_id": {
+            "description": "ID of an existing environment to reuse.",
+            "type": "string"
+          },
+          "network": {
+            "description": "Network egress configuration for the environment."
+          },
+          "sources": {
+            "description": "Sources mounted into the environment.",
+            "items": {
+              "$ref": "#/components/schemas/EnvironmentSource"
+            },
+            "type": "array"
+          },
+          "type": {
+            "const": "remote"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "type": "object"
+      },
+      "InteractionError": {
+        "additionalProperties": false,
+        "description": "Error message from an interaction.",
+        "properties": {
+          "code": {
+            "description": "A URI that identifies the error type.",
+            "type": "string"
+          },
+          "message": {
+            "description": "A human-readable error message.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "InteractionGenerationConfig": {
+        "additionalProperties": true,
+        "description": "Generation config for model-backed interactions. Covers the documented top-level fields; nested configs (image, speech, video, transcription) follow the interactions wire format.",
+        "properties": {
+          "max_output_tokens": {
+            "type": "integer"
+          },
+          "seed": {
+            "type": "integer"
+          },
+          "stop_sequences": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "temperature": {
+            "type": "number"
+          },
+          "thinking_level": {
+            "type": "string"
+          },
+          "thinking_summaries": {
+            "type": "string"
+          },
+          "top_p": {
+            "type": "number"
+          }
+        },
+        "type": "object"
+      },
+      "InteractionModalityTokens": {
+        "additionalProperties": false,
+        "description": "Token count for one response modality.",
+        "properties": {
+          "modality": {
+            "enum": [
+              "text",
+              "image",
+              "audio",
+              "video",
+              "document"
+            ],
+            "type": "string"
+          },
+          "tokens": {
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "InteractionSafetySetting": {
+        "additionalProperties": false,
+        "description": "Safety setting for an interaction.",
+        "properties": {
+          "method": {
+            "description": "Optional harm-blocking method.",
+            "type": "string"
+          },
+          "threshold": {
+            "description": "Blocking threshold for the category.",
+            "type": "string"
+          },
+          "type": {
+            "description": "Harm category.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "threshold"
+        ],
+        "type": "object"
+      },
+      "InteractionStep": {
+        "additionalProperties": true,
+        "description": "A single execution step of an interaction. Discriminated by `type`; known step types include `user_input`, `thought`, `model_output`, `function_call`, `function_result`, `code_execution_call`, `code_execution_result`, `google_search_call`, `google_search_result`, `google_maps_call`, `google_maps_result`, `file_search_call`, `file_search_result`, `mcp_server_tool_call`, `mcp_server_tool_result`, `processing_call`, `processing_result`, `retrieval_call`, `retrieval_result`, `url_context_call`, and `url_context_result`. This is an open union, so step-specific fields are preserved as-is.",
+        "properties": {
+          "content": {
+            "description": "Content carried by the step, when applicable.",
+            "items": {
+              "$ref": "#/components/schemas/InteractionContent"
+            },
+            "type": "array"
+          },
+          "error": {
+            "additionalProperties": true,
+            "description": "Error status attached to the step.",
+            "type": "object"
+          },
+          "type": {
+            "description": "Step variant.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "InteractionUsage": {
+        "additionalProperties": false,
+        "description": "Statistics on the interaction request's token usage.",
+        "properties": {
+          "cached_tokens_by_modality": {
+            "items": {
+              "$ref": "#/components/schemas/InteractionModalityTokens"
+            },
+            "type": "array"
+          },
+          "grounding_tool_count": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "input_tokens_by_modality": {
+            "items": {
+              "$ref": "#/components/schemas/InteractionModalityTokens"
+            },
+            "type": "array"
+          },
+          "output_tokens_by_modality": {
+            "items": {
+              "$ref": "#/components/schemas/InteractionModalityTokens"
+            },
+            "type": "array"
+          },
+          "tool_use_tokens_by_modality": {
+            "items": {
+              "$ref": "#/components/schemas/InteractionModalityTokens"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "InteractionWebhookConfig": {
+        "additionalProperties": false,
+        "description": "Webhook delivery configuration for an interaction.",
+        "properties": {
+          "uris": {
+            "description": "Webhook URIs that receive interaction events.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "user_metadata": {
+            "additionalProperties": true,
+            "description": "Arbitrary metadata attached to deliveries.",
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "InteractionsInput": {
+        "description": "Input for an interaction: a prompt string, a single content object, a list of content objects, or a list of steps.",
+        "oneOf": [
+          {
+            "type": "string"
+          },
+          {
+            "$ref": "#/components/schemas/InteractionContent"
+          },
+          {
+            "items": {
+              "$ref": "#/components/schemas/InteractionContent"
+            },
+            "type": "array"
+          },
+          {
+            "items": {
+              "$ref": "#/components/schemas/InteractionStep"
+            },
+            "type": "array"
+          }
+        ]
+      },
       "Interval": {
         "additionalProperties": false,
         "properties": {
@@ -2056,6 +3230,23 @@
         },
         "type": "object"
       },
+      "ListAgentsResponse": {
+        "additionalProperties": false,
+        "description": "Response for listing agents.",
+        "properties": {
+          "agents": {
+            "items": {
+              "$ref": "#/components/schemas/Agent"
+            },
+            "type": "array"
+          },
+          "next_page_token": {
+            "description": "A token to retrieve the next page of results.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "ListBatchesResponse": {
         "additionalProperties": false,
         "properties": {
@@ -2092,6 +3283,22 @@
         },
         "type": "object"
       },
+      "ListCredentialsResponse": {
+        "additionalProperties": false,
+        "description": "Response for listing credentials.",
+        "properties": {
+          "credentials": {
+            "items": {
+              "$ref": "#/components/schemas/Credential"
+            },
+            "type": "array"
+          },
+          "next_page_token": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "ListDocumentsResponse": {
         "additionalProperties": false,
         "properties": {
@@ -2102,6 +3309,23 @@
             "type": "array"
           },
           "nextPageToken": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ListEnvironmentsResponse": {
+        "additionalProperties": false,
+        "description": "Response for listing environments.",
+        "properties": {
+          "environments": {
+            "items": {
+              "$ref": "#/components/schemas/Environment"
+            },
+            "type": "array"
+          },
+          "next_page_token": {
+            "description": "Pagination token.",
             "type": "string"
           }
         },
@@ -2148,6 +3372,54 @@
           },
           "nextPageToken": {
             "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ListTriggerExecutionsResponse": {
+        "additionalProperties": false,
+        "description": "Response for listing executions of a trigger.",
+        "properties": {
+          "next_page_token": {
+            "type": "string"
+          },
+          "trigger_executions": {
+            "items": {
+              "$ref": "#/components/schemas/TriggerExecution"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "ListTriggersResponse": {
+        "additionalProperties": false,
+        "description": "Response for listing triggers.",
+        "properties": {
+          "next_page_token": {
+            "type": "string"
+          },
+          "triggers": {
+            "items": {
+              "$ref": "#/components/schemas/Trigger"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "ListWebhooksResponse": {
+        "additionalProperties": false,
+        "description": "Response for listing webhooks.",
+        "properties": {
+          "next_page_token": {
+            "type": "string"
+          },
+          "webhooks": {
+            "items": {
+              "$ref": "#/components/schemas/Webhook"
+            },
+            "type": "array"
           }
         },
         "type": "object"
@@ -2339,6 +3611,84 @@
         },
         "type": "object"
       },
+      "OAuth2CredentialConfig": {
+        "additionalProperties": false,
+        "description": "OAuth2 credential with automatic token refresh (create).",
+        "properties": {
+          "client_id": {
+            "description": "OAuth2 client ID.",
+            "type": "string"
+          },
+          "client_secret": {
+            "description": "Input only. OAuth2 client secret. Write-only; never returned in responses.",
+            "type": "string"
+          },
+          "id": {
+            "description": "Identifier for the credential.",
+            "type": "string"
+          },
+          "refresh_token": {
+            "description": "Input only. OAuth2 refresh token. Write-only; never returned in responses.",
+            "type": "string"
+          },
+          "scopes": {
+            "description": "List of OAuth2 scopes.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "token_url": {
+            "description": "OAuth2 token endpoint URL for refreshing access tokens.",
+            "type": "string"
+          },
+          "type": {
+            "const": "oauth2"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "client_id",
+          "client_secret",
+          "refresh_token",
+          "token_url"
+        ],
+        "type": "object"
+      },
+      "OAuth2CredentialUpdate": {
+        "additionalProperties": false,
+        "description": "OAuth2 credential with automatic token refresh (update).",
+        "properties": {
+          "client_id": {
+            "type": "string"
+          },
+          "client_secret": {
+            "description": "Input only. OAuth2 client secret.",
+            "type": "string"
+          },
+          "refresh_token": {
+            "description": "Input only. OAuth2 refresh token.",
+            "type": "string"
+          },
+          "scopes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "token_url": {
+            "type": "string"
+          },
+          "type": {
+            "const": "oauth2"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "type": "object"
+      },
       "Part": {
         "additionalProperties": false,
         "description": "A single part of a multi-part message.",
@@ -2506,6 +3856,21 @@
         "properties": {
           "googleSearchDynamicRetrievalScore": {
             "type": "number"
+          }
+        },
+        "type": "object"
+      },
+      "RotateSigningSecretRequest": {
+        "additionalProperties": false,
+        "description": "Body of webhook signing-secret rotation.",
+        "properties": {
+          "revocation_behavior": {
+            "description": "The revocation behavior for previous signing secrets.",
+            "enum": [
+              "revoke_previous_secrets_after_h24",
+              "revoke_previous_secrets_immediately"
+            ],
+            "type": "string"
           }
         },
         "type": "object"
@@ -2755,6 +4120,188 @@
         },
         "type": "object"
       },
+      "Trigger": {
+        "additionalProperties": false,
+        "description": "A trigger configuration that is scheduled to run an agent. Fields are snake_case, matching the python-genai GAOS wire format.",
+        "properties": {
+          "consecutive_failure_count": {
+            "description": "Output only. Consecutive failures since the last success.",
+            "type": "integer"
+          },
+          "create_time": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "display_name": {
+            "type": "string"
+          },
+          "environment_id": {
+            "description": "The environment ID for the trigger execution.",
+            "type": "string"
+          },
+          "execution_timeout_seconds": {
+            "description": "The execution timeout for the triggered interaction.",
+            "type": "integer"
+          },
+          "id": {
+            "description": "Output only. The ID of the trigger.",
+            "type": "string"
+          },
+          "interaction": {
+            "$ref": "#/components/schemas/CreateAgentInteraction"
+          },
+          "last_pause_time": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "last_resume_time": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "last_run_time": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "max_consecutive_failures": {
+            "description": "Maximum consecutive failures allowed before the trigger is automatically paused.",
+            "type": "integer"
+          },
+          "next_run_time": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "previous_interaction_id": {
+            "description": "Output only. ID of the last interaction created by this trigger.",
+            "type": "string"
+          },
+          "schedule": {
+            "description": "The cron schedule on which the trigger runs (standard cron format).",
+            "type": "string"
+          },
+          "status": {
+            "description": "Output only. The current status of the trigger.",
+            "enum": [
+              "active",
+              "paused",
+              "error"
+            ],
+            "type": "string"
+          },
+          "time_zone": {
+            "description": "Time zone in which the schedule is interpreted.",
+            "type": "string"
+          },
+          "update_time": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          }
+        },
+        "required": [
+          "id",
+          "interaction",
+          "schedule",
+          "time_zone"
+        ],
+        "type": "object"
+      },
+      "TriggerCreateRequest": {
+        "additionalProperties": false,
+        "description": "Body of `POST /v1beta/triggers`.",
+        "properties": {
+          "display_name": {
+            "type": "string"
+          },
+          "environment_id": {
+            "type": "string"
+          },
+          "execution_timeout_seconds": {
+            "type": "integer"
+          },
+          "interaction": {
+            "$ref": "#/components/schemas/CreateAgentInteraction"
+          },
+          "max_consecutive_failures": {
+            "type": "integer"
+          },
+          "schedule": {
+            "description": "The cron schedule on which the trigger should run.",
+            "type": "string"
+          },
+          "time_zone": {
+            "description": "Time zone in which the schedule should be interpreted.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "interaction",
+          "schedule",
+          "time_zone"
+        ],
+        "type": "object"
+      },
+      "TriggerExecution": {
+        "additionalProperties": false,
+        "description": "An execution instance of a trigger.",
+        "properties": {
+          "end_time": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "environment_id": {
+            "description": "Output only. The environment ID used for the execution.",
+            "type": "string"
+          },
+          "error": {
+            "description": "Output only. The error message if the execution failed.",
+            "type": "string"
+          },
+          "id": {
+            "description": "Output only. The ID of the trigger execution.",
+            "type": "string"
+          },
+          "interaction_id": {
+            "description": "Output only. The ID of the interaction created by this execution.",
+            "type": "string"
+          },
+          "scheduled_time": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "start_time": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "status": {
+            "description": "Output only. The status of the execution.",
+            "enum": [
+              "in_progress",
+              "completed",
+              "failed",
+              "skipped",
+              "timed_out"
+            ],
+            "type": "string"
+          },
+          "trigger_id": {
+            "description": "Output only. The ID of the trigger that created this execution.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "trigger_id"
+        ],
+        "type": "object"
+      },
+      "TriggerUpdateRequest": {
+        "additionalProperties": false,
+        "description": "Body of `PATCH /v1beta/triggers/{id}`.",
+        "properties": {
+          "display_name": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "active",
+              "paused",
+              "error"
+            ],
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "UploadToFileSearchStoreMetadataRequest": {
         "additionalProperties": false,
         "properties": {
@@ -2819,6 +4366,168 @@
         },
         "type": "object"
       },
+      "Webhook": {
+        "additionalProperties": false,
+        "description": "A webhook resource delivering event notifications. Fields are snake_case, matching the python-genai GAOS wire format.",
+        "properties": {
+          "create_time": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "id": {
+            "description": "Output only. The ID of the webhook.",
+            "type": "string"
+          },
+          "name": {
+            "description": "The user-provided name of the webhook.",
+            "type": "string"
+          },
+          "new_signing_secret": {
+            "description": "Output only. The new signing secret. Only populated on create and rotate responses.",
+            "type": "string"
+          },
+          "signing_secrets": {
+            "description": "Output only. The signing secrets of the webhook.",
+            "items": {
+              "$ref": "#/components/schemas/WebhookSigningSecret"
+            },
+            "type": "array"
+          },
+          "state": {
+            "description": "Output only. The state of the webhook.",
+            "enum": [
+              "enabled",
+              "disabled",
+              "disabled_due_to_failed_deliveries"
+            ],
+            "type": "string"
+          },
+          "subscribed_events": {
+            "description": "The events that the webhook is subscribed to.",
+            "items": {
+              "enum": [
+                "batch.succeeded",
+                "batch.expired",
+                "batch.failed",
+                "interaction.requires_action",
+                "interaction.completed",
+                "interaction.failed",
+                "video.generated"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "update_time": {
+            "$ref": "#/components/schemas/GoogleTimestamp"
+          },
+          "uri": {
+            "description": "The URI to which webhook events are sent.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subscribed_events",
+          "uri"
+        ],
+        "type": "object"
+      },
+      "WebhookCreateRequest": {
+        "additionalProperties": false,
+        "description": "Body of `POST /v1beta/webhooks`.",
+        "properties": {
+          "name": {
+            "description": "The user-provided name of the webhook.",
+            "type": "string"
+          },
+          "subscribed_events": {
+            "items": {
+              "enum": [
+                "batch.succeeded",
+                "batch.expired",
+                "batch.failed",
+                "interaction.requires_action",
+                "interaction.completed",
+                "interaction.failed",
+                "video.generated"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "uri": {
+            "description": "The URI to which webhook events will be sent.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subscribed_events",
+          "uri"
+        ],
+        "type": "object"
+      },
+      "WebhookRotateSigningSecretResponse": {
+        "additionalProperties": false,
+        "description": "Response for webhook signing-secret rotation.",
+        "properties": {
+          "secret": {
+            "description": "Output only. The newly generated signing secret.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "WebhookSigningSecret": {
+        "additionalProperties": false,
+        "description": "A signing secret used to verify webhook payloads (truncated form; the full secret is only revealed once).",
+        "properties": {
+          "expire_time": {
+            "description": "Output only. The expiration date of the signing secret.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "truncated_secret": {
+            "description": "Output only. The truncated version of the signing secret.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "WebhookUpdateRequest": {
+        "additionalProperties": false,
+        "description": "Body of `PATCH /v1beta/webhooks/{id}`.",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "enabled",
+              "disabled",
+              "disabled_due_to_failed_deliveries"
+            ],
+            "type": "string"
+          },
+          "subscribed_events": {
+            "items": {
+              "enum": [
+                "batch.succeeded",
+                "batch.expired",
+                "batch.failed",
+                "interaction.requires_action",
+                "interaction.completed",
+                "interaction.failed",
+                "video.generated"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "uri": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "WhiteSpaceConfig": {
         "additionalProperties": false,
         "properties": {
@@ -2849,7 +4558,7 @@
     "description": "Generated working OpenAPI spec for the documented Gemini Developer API surface. Path and method coverage come primarily from the live `all-methods` docs, with guide-documented extras added from their dedicated reference pages.",
     "title": "Gemini Developer API",
     "version": "v1beta",
-    "x-upstream-discovery-revision": "20260922",
+    "x-upstream-discovery-revision": "20260928",
     "x-upstream-discovery-version": "v1beta3"
   },
   "openapi": "3.1.0",
@@ -3009,6 +4718,167 @@
         ],
         "x-gemini-doc-source": "https://ai.google.dev/gemini-api/docs/files",
         "x-google-original-path": "/upload/v1beta/files"
+      }
+    },
+    "/v1beta/agents": {
+      "get": {
+        "description": "Lists all Agents.",
+        "operationId": "v1beta_agents_ListAgents",
+        "parameters": [
+          {
+            "description": "Maximum number of items to return per page.",
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Pagination token from a previous list call.",
+            "in": "query",
+            "name": "page_token",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListAgentsResponse"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "ListAgents",
+        "tags": [
+          "v1beta.agents"
+        ],
+        "x-google-original-path": "/v1beta/agents"
+      },
+      "post": {
+        "description": "Creates a new Agent (Typed version for SDK).",
+        "operationId": "v1beta_agents_CreateAgent",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Agent"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Agent"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "CreateAgent",
+        "tags": [
+          "v1beta.agents"
+        ],
+        "x-google-original-path": "/v1beta/agents"
+      }
+    },
+    "/v1beta/agents/{id}": {
+      "delete": {
+        "description": "Deletes an Agent.",
+        "operationId": "v1beta_agents_DeleteAgent",
+        "parameters": [
+          {
+            "description": "ID within the `agents` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmptyObject"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "DeleteAgent",
+        "tags": [
+          "v1beta.agents"
+        ],
+        "x-google-original-path": "/v1beta/agents/{id}"
+      },
+      "get": {
+        "description": "Gets a specific Agent.",
+        "operationId": "v1beta_agents_GetAgent",
+        "parameters": [
+          {
+            "description": "ID within the `agents` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Agent"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "GetAgent",
+        "tags": [
+          "v1beta.agents"
+        ],
+        "x-google-original-path": "/v1beta/agents/{id}"
       }
     },
     "/v1beta/auth_tokens": {
@@ -3555,6 +5425,299 @@
         "x-google-original-path": "/v1beta/{cachedContent.name=cachedContents/*}"
       }
     },
+    "/v1beta/credentials": {
+      "get": {
+        "description": "Lists credentials for a project.",
+        "operationId": "v1beta_interactions_ListCredentials",
+        "parameters": [
+          {
+            "description": "Maximum number of items to return per page.",
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Pagination token from a previous list call.",
+            "in": "query",
+            "name": "page_token",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListCredentialsResponse"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "ListCredentials",
+        "tags": [
+          "v1beta.interactions"
+        ],
+        "x-google-original-path": "/v1beta/credentials"
+      },
+      "post": {
+        "description": "Creates a credential.",
+        "operationId": "v1beta_interactions_CreateCredential",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CredentialCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Credential"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "CreateCredential",
+        "tags": [
+          "v1beta.interactions"
+        ],
+        "x-google-original-path": "/v1beta/credentials"
+      }
+    },
+    "/v1beta/credentials/{id}": {
+      "delete": {
+        "description": "Deletes a credential.",
+        "operationId": "v1beta_interactions_DeleteCredential",
+        "parameters": [
+          {
+            "description": "ID within the `credentials` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmptyObject"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "DeleteCredential",
+        "tags": [
+          "v1beta.interactions"
+        ],
+        "x-google-original-path": "/v1beta/credentials/{id}"
+      },
+      "get": {
+        "description": "Gets metadata of a single credential (no secret fields).",
+        "operationId": "v1beta_interactions_GetCredential",
+        "parameters": [
+          {
+            "description": "ID within the `credentials` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Credential"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "GetCredential",
+        "tags": [
+          "v1beta.interactions"
+        ],
+        "x-google-original-path": "/v1beta/credentials/{id}"
+      },
+      "patch": {
+        "description": "Updates a credential.",
+        "operationId": "v1beta_interactions_UpdateCredential",
+        "parameters": [
+          {
+            "description": "ID within the `credentials` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CredentialUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Credential"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "UpdateCredential",
+        "tags": [
+          "v1beta.interactions"
+        ],
+        "x-google-original-path": "/v1beta/credentials/{id}"
+      }
+    },
+    "/v1beta/environments": {
+      "get": {
+        "description": "Lists environments.",
+        "operationId": "v1beta_environments_ListEnvironments",
+        "parameters": [
+          {
+            "description": "Maximum number of items to return per page.",
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Pagination token from a previous list call.",
+            "in": "query",
+            "name": "page_token",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListEnvironmentsResponse"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "ListEnvironments",
+        "tags": [
+          "v1beta.environments"
+        ],
+        "x-google-original-path": "/v1beta/environments"
+      },
+      "post": {
+        "description": "Creates an environment.",
+        "operationId": "v1beta_environments_CreateEnvironment",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEnvironmentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Environment"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "CreateEnvironment",
+        "tags": [
+          "v1beta.environments"
+        ],
+        "x-google-original-path": "/v1beta/environments"
+      }
+    },
     "/v1beta/environments/{environment}/files": {
       "get": {
         "description": "Retrieves a file or directory from a Code Execution environment snapshot. Google SDKs address a specific file by appending its relative path as a trailing path segment (`/v1beta/environments/{environment}/files/{path}`); the all-methods reference documents the collection URL only.",
@@ -3619,6 +5782,157 @@
           "v1beta.files"
         ],
         "x-google-original-path": "/v1beta/{parent=environments/*}/files"
+      }
+    },
+    "/v1beta/environments/{environment}/files/{path}": {
+      "get": {
+        "description": "Retrieves file metadata or directory contents from an environment's snapshot.",
+        "operationId": "v1beta_environments_GetEnvironmentFiles",
+        "parameters": [
+          {
+            "description": "ID within the `environments` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "environment",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Relative path of the file or directory within the environment snapshot.",
+            "in": "path",
+            "name": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Maximum number of entries to return per page (for directory listing).",
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Pagination token for directory listing.",
+            "in": "query",
+            "name": "page_token",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true and the path is a directory, recursively lists all files.",
+            "in": "query",
+            "name": "recursive",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEnvironmentFilesResponse"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "GetEnvironmentFiles",
+        "tags": [
+          "v1beta.environments"
+        ],
+        "x-google-original-path": "/v1beta/environments/{environment}/files/{path}"
+      }
+    },
+    "/v1beta/environments/{id}": {
+      "delete": {
+        "description": "Deletes an environment.",
+        "operationId": "v1beta_environments_DeleteEnvironment",
+        "parameters": [
+          {
+            "description": "ID within the `environments` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmptyObject"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "DeleteEnvironment",
+        "tags": [
+          "v1beta.environments"
+        ],
+        "x-google-original-path": "/v1beta/environments/{id}"
+      },
+      "get": {
+        "description": "Gets an environment.",
+        "operationId": "v1beta_environments_GetEnvironment",
+        "parameters": [
+          {
+            "description": "ID within the `environments` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Environment"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "GetEnvironment",
+        "tags": [
+          "v1beta.environments"
+        ],
+        "x-google-original-path": "/v1beta/environments/{id}"
       }
     },
     "/v1beta/fileSearchStores": {
@@ -4337,6 +6651,160 @@
         "x-google-original-path": "/v1beta/files:register"
       }
     },
+    "/v1beta/interactions": {
+      "post": {
+        "description": "Creates a new interaction with either an agent or a model. When the body sets `stream: true`, the response is a server-sent event stream of interaction events rather than a single JSON object.",
+        "operationId": "v1beta_interactions_CreateInteraction",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateInteractionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Interaction"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "CreateInteraction",
+        "tags": [
+          "v1beta.interactions"
+        ],
+        "x-google-original-path": "/v1beta/interactions"
+      }
+    },
+    "/v1beta/interactions/{id}": {
+      "delete": {
+        "description": "Deletes the interaction by id.",
+        "operationId": "v1beta_interactions_deleteInteraction",
+        "parameters": [
+          {
+            "description": "ID within the `interactions` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmptyObject"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "deleteInteraction",
+        "tags": [
+          "v1beta.interactions"
+        ],
+        "x-google-original-path": "/v1beta/interactions/{id}"
+      },
+      "get": {
+        "description": "Retrieves the full details of a single interaction based on its `Interaction.id`.",
+        "operationId": "v1beta_interactions_getInteractionById",
+        "parameters": [
+          {
+            "description": "ID within the `interactions` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Interaction"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "getInteractionById",
+        "tags": [
+          "v1beta.interactions"
+        ],
+        "x-google-original-path": "/v1beta/interactions/{id}"
+      }
+    },
+    "/v1beta/interactions/{id}/cancel": {
+      "post": {
+        "description": "Cancels an interaction by id.",
+        "operationId": "v1beta_interactions_cancelInteractionById",
+        "parameters": [
+          {
+            "description": "ID within the `interactions` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Interaction"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "cancelInteractionById",
+        "tags": [
+          "v1beta.interactions"
+        ],
+        "x-google-original-path": "/v1beta/interactions/{id}/cancel"
+      }
+    },
     "/v1beta/models": {
       "get": {
         "description": "Lists the",
@@ -4877,6 +7345,631 @@
           "$ref": "#/components/schemas/GenerateContentResponse"
         },
         "x-google-original-path": "/v1beta/{model=models/*}:streamGenerateContent"
+      }
+    },
+    "/v1beta/triggers": {
+      "get": {
+        "description": "Lists triggers for a project.",
+        "operationId": "v1beta_triggers_ListTriggers",
+        "parameters": [
+          {
+            "description": "Filter expression (e.g., by state).",
+            "in": "query",
+            "name": "filter",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Maximum number of items to return per page.",
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Pagination token from a previous list call.",
+            "in": "query",
+            "name": "page_token",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListTriggersResponse"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "ListTriggers",
+        "tags": [
+          "v1beta.triggers"
+        ],
+        "x-google-original-path": "/v1beta/triggers"
+      },
+      "post": {
+        "description": "Creates a new trigger that will invoke the specified agent on the given cron schedule.",
+        "operationId": "v1beta_triggers_CreateTrigger",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TriggerCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Trigger"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "CreateTrigger",
+        "tags": [
+          "v1beta.triggers"
+        ],
+        "x-google-original-path": "/v1beta/triggers"
+      }
+    },
+    "/v1beta/triggers/{id}": {
+      "delete": {
+        "description": "Deletes a trigger.",
+        "operationId": "v1beta_triggers_DeleteTrigger",
+        "parameters": [
+          {
+            "description": "ID within the `triggers` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmptyObject"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "DeleteTrigger",
+        "tags": [
+          "v1beta.triggers"
+        ],
+        "x-google-original-path": "/v1beta/triggers/{id}"
+      },
+      "get": {
+        "description": "Gets details of a single trigger.",
+        "operationId": "v1beta_triggers_GetTrigger",
+        "parameters": [
+          {
+            "description": "ID within the `triggers` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Trigger"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "GetTrigger",
+        "tags": [
+          "v1beta.triggers"
+        ],
+        "x-google-original-path": "/v1beta/triggers/{id}"
+      },
+      "patch": {
+        "description": "Updates a trigger.",
+        "operationId": "v1beta_triggers_UpdateTrigger",
+        "parameters": [
+          {
+            "description": "ID within the `triggers` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional list of fields to update.",
+            "in": "query",
+            "name": "update_mask",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TriggerUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Trigger"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "UpdateTrigger",
+        "tags": [
+          "v1beta.triggers"
+        ],
+        "x-google-original-path": "/v1beta/triggers/{id}"
+      }
+    },
+    "/v1beta/triggers/{trigger_id}/executions": {
+      "get": {
+        "description": "Lists executions for a trigger.",
+        "operationId": "v1beta_triggers_ListTriggerExecutions",
+        "parameters": [
+          {
+            "description": "ID within the `triggers` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "trigger_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Maximum number of items to return per page.",
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Pagination token from a previous list call.",
+            "in": "query",
+            "name": "page_token",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListTriggerExecutionsResponse"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "ListTriggerExecutions",
+        "tags": [
+          "v1beta.triggers"
+        ],
+        "x-google-original-path": "/v1beta/triggers/{trigger_id}/executions"
+      },
+      "post": {
+        "description": "Runs a trigger immediately.",
+        "operationId": "v1beta_triggers_RunTrigger",
+        "parameters": [
+          {
+            "description": "ID within the `triggers` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "trigger_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TriggerExecution"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "RunTrigger",
+        "tags": [
+          "v1beta.triggers"
+        ],
+        "x-google-original-path": "/v1beta/triggers/{trigger_id}/executions"
+      }
+    },
+    "/v1beta/webhooks": {
+      "get": {
+        "description": "Lists all Webhooks.",
+        "operationId": "v1beta_webhooks_ListWebhooks",
+        "parameters": [
+          {
+            "description": "Maximum number of items to return per page.",
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Pagination token from a previous list call.",
+            "in": "query",
+            "name": "page_token",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListWebhooksResponse"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "ListWebhooks",
+        "tags": [
+          "v1beta.webhooks"
+        ],
+        "x-google-original-path": "/v1beta/webhooks"
+      },
+      "post": {
+        "description": "Creates a new Webhook.",
+        "operationId": "v1beta_webhooks_CreateWebhook",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WebhookCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Webhook"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "CreateWebhook",
+        "tags": [
+          "v1beta.webhooks"
+        ],
+        "x-google-original-path": "/v1beta/webhooks"
+      }
+    },
+    "/v1beta/webhooks/{id}": {
+      "delete": {
+        "description": "Deletes a Webhook.",
+        "operationId": "v1beta_webhooks_DeleteWebhook",
+        "parameters": [
+          {
+            "description": "ID within the `webhooks` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmptyObject"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "DeleteWebhook",
+        "tags": [
+          "v1beta.webhooks"
+        ],
+        "x-google-original-path": "/v1beta/webhooks/{id}"
+      },
+      "get": {
+        "description": "Gets a specific Webhook.",
+        "operationId": "v1beta_webhooks_GetWebhook",
+        "parameters": [
+          {
+            "description": "ID within the `webhooks` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Webhook"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "GetWebhook",
+        "tags": [
+          "v1beta.webhooks"
+        ],
+        "x-google-original-path": "/v1beta/webhooks/{id}"
+      },
+      "patch": {
+        "description": "Updates an existing Webhook.",
+        "operationId": "v1beta_webhooks_UpdateWebhook",
+        "parameters": [
+          {
+            "description": "ID within the `webhooks` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional list of fields to update.",
+            "in": "query",
+            "name": "update_mask",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WebhookUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Webhook"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "UpdateWebhook",
+        "tags": [
+          "v1beta.webhooks"
+        ],
+        "x-google-original-path": "/v1beta/webhooks/{id}"
+      }
+    },
+    "/v1beta/webhooks/{id}:ping": {
+      "post": {
+        "description": "Sends a ping event to a webhook. The response body is empty; delivery confirmation arrives asynchronously at the webhook URI.",
+        "operationId": "v1beta_webhooks_PingWebhook",
+        "parameters": [
+          {
+            "description": "ID within the `webhooks` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmptyObject"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "PingWebhook",
+        "tags": [
+          "v1beta.webhooks"
+        ],
+        "x-google-original-path": "/v1beta/webhooks/{id}:ping"
+      }
+    },
+    "/v1beta/webhooks/{id}:rotateSigningSecret": {
+      "post": {
+        "description": "Generates a new signing secret for a Webhook.",
+        "operationId": "v1beta_webhooks_RotateSigningSecret",
+        "parameters": [
+          {
+            "description": "ID within the `webhooks` collection. Pass just the resource ID, not the full resource name.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RotateSigningSecretRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebhookRotateSigningSecretResponse"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "RotateSigningSecret",
+        "tags": [
+          "v1beta.webhooks"
+        ],
+        "x-google-original-path": "/v1beta/webhooks/{id}:rotateSigningSecret"
       }
     }
   },

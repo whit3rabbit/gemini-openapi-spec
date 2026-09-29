@@ -1731,6 +1731,1400 @@ def build_native_components() -> dict:
             },
             "additionalProperties": False,
         },
+        # ------------------------------------------------------------------
+        # Agent Platform (GAOS) resources: agents, interactions, credentials,
+        # environments, triggers, and webhooks. Added to the all-methods index
+        # in September 2026. The Discovery export does not cover them, so the
+        # shapes below are modeled from the python-genai SDK GAOS surface
+        # (`google/genai/_gaos`), which serializes snake_case JSON.
+        # ------------------------------------------------------------------
+        "Agent": {
+            "type": "object",
+            "description": (
+                "An agent definition (Agent Platform). Fields are snake_case, "
+                "matching the python-genai GAOS wire format."
+            ),
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The unique identifier for the agent.",
+                },
+                "base_agent": {
+                    "type": "string",
+                    "description": "The base agent to extend.",
+                },
+                "system_instruction": {
+                    "type": "string",
+                    "description": "System instruction for the agent.",
+                },
+                "description": {
+                    "type": "string",
+                    "description": (
+                        "Agent description for developers to quickly read and "
+                        "understand."
+                    ),
+                },
+                "agent_config": _ref("AntigravityAgentConfig"),
+                "base_environment": {
+                    "oneOf": [
+                        _ref("InteractionEnvironment"),
+                        {"type": "string"},
+                    ],
+                    "description": (
+                        "The environment configuration for the agent: either an "
+                        "inline remote-environment object or an environment ID."
+                    ),
+                },
+                "tools": {
+                    "type": "array",
+                    "items": _ref("AgentTool"),
+                    "description": "The tools available to the agent.",
+                },
+            },
+            "additionalProperties": False,
+        },
+        "AntigravityAgentConfig": {
+            "type": "object",
+            "description": "Configuration parameters for an Antigravity agent.",
+            "properties": {
+                "type": {"const": "antigravity"},
+                "model": {
+                    "type": "string",
+                    "description": "Model the agent runs with.",
+                },
+                "max_total_tokens": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Maximum total tokens for the agent.",
+                },
+            },
+            "required": ["type"],
+            "additionalProperties": False,
+        },
+        "AgentTool": {
+            "oneOf": [
+                _ref("AgentCodeExecutionTool"),
+                _ref("AgentUrlContextTool"),
+                _ref("AgentGoogleSearchTool"),
+                _ref("AgentFunctionTool"),
+                _ref("AgentMcpServerTool"),
+            ],
+            "description": (
+                "A tool available to an agent. Discriminated by its `type` field."
+            ),
+        },
+        "AgentCodeExecutionTool": {
+            "type": "object",
+            "description": "Enables code execution for an agent.",
+            "properties": {"type": {"const": "code_execution"}},
+            "required": ["type"],
+            "additionalProperties": False,
+        },
+        "AgentUrlContextTool": {
+            "type": "object",
+            "description": "Enables URL context grounding for an agent.",
+            "properties": {"type": {"const": "url_context"}},
+            "required": ["type"],
+            "additionalProperties": False,
+        },
+        "AgentGoogleSearchTool": {
+            "type": "object",
+            "description": "Enables Google Search grounding for an agent.",
+            "properties": {
+                "type": {"const": "google_search"},
+                "search_types": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "web_search",
+                            "image_search",
+                            "enterprise_web_search",
+                        ],
+                    },
+                },
+            },
+            "required": ["type"],
+            "additionalProperties": False,
+        },
+        "AgentFunctionTool": {
+            "type": "object",
+            "description": "A function (callable tool) available to an agent.",
+            "properties": {
+                "type": {"const": "function"},
+                "name": {"type": "string"},
+                "description": {"type": "string"},
+                "parameters": {
+                    "description": (
+                        "JSON Schema for the function parameters, when the agent "
+                        "calls it with structured arguments."
+                    ),
+                },
+            },
+            "required": ["type"],
+            "additionalProperties": False,
+        },
+        "AgentMcpServerTool": {
+            "type": "object",
+            "description": "An MCP server exposed to an agent as a tool.",
+            "properties": {
+                "type": {"const": "mcp_server"},
+                "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "MCP server endpoint URL.",
+                },
+                "name": {"type": "string"},
+                "headers": {
+                    "type": "object",
+                    "additionalProperties": {"type": "string"},
+                    "description": "HTTP headers sent to the MCP server.",
+                },
+                "allowed_tools": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "mode": {
+                                "type": "string",
+                                "description": "Tool choice mode.",
+                            },
+                            "tools": {
+                                "type": "array",
+                                "items": {"type": "string"},
+                                "description": "Allowed tool names.",
+                            },
+                        },
+                        "additionalProperties": False,
+                    },
+                },
+            },
+            "required": ["type"],
+            "additionalProperties": False,
+        },
+        "ListAgentsResponse": {
+            "type": "object",
+            "description": "Response for listing agents.",
+            "properties": {
+                "agents": {"type": "array", "items": _ref("Agent")},
+                "next_page_token": {
+                    "type": "string",
+                    "description": (
+                        "A token to retrieve the next page of results."
+                    ),
+                },
+            },
+            "additionalProperties": False,
+        },
+        "Interaction": {
+            "type": "object",
+            "description": (
+                "An Agent Platform interaction: a stateful execution of an agent "
+                "or model with inputs, steps, and outputs. Fields are snake_case, "
+                "matching the python-genai GAOS wire format."
+            ),
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Output only. The ID of the interaction.",
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "in_progress",
+                        "requires_action",
+                        "completed",
+                        "failed",
+                        "cancelled",
+                        "incomplete",
+                        "budget_exceeded",
+                        "queued",
+                    ],
+                    "description": "Output only. The status of the interaction.",
+                },
+                "agent": {
+                    "type": "string",
+                    "description": (
+                        "Agent option for agent-backed interactions, e.g. "
+                        "`antigravity-preview-05-2026` or a Deep Research agent ID."
+                    ),
+                },
+                "model": {
+                    "type": "string",
+                    "description": "Model for model-backed interactions.",
+                },
+                "input": _ref("InteractionsInput"),
+                "steps": {
+                    "type": "array",
+                    "items": _ref("InteractionStep"),
+                    "description": "Output only. The interaction's execution steps.",
+                },
+                "output_text": {
+                    "type": "string",
+                    "description": "Output only. Convenience text output.",
+                },
+                "output_audio": _ref("InteractionContent"),
+                "output_image": _ref("InteractionContent"),
+                "output_video": _ref("InteractionContent"),
+                "agent_config": {
+                    "type": "object",
+                    "description": "Agent configuration for this interaction.",
+                    "additionalProperties": True,
+                },
+                "generation_config": _ref("InteractionGenerationConfig"),
+                "cached_content": {
+                    "type": "string",
+                    "description": "Cached content resource for model interactions.",
+                },
+                "created": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Output only. Creation time (ISO 8601).",
+                },
+                "updated": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Output only. Last update time (ISO 8601).",
+                },
+                "environment": _ref("InteractionEnvironment"),
+                "environment_id": {"type": "string"},
+                "errors": {
+                    "type": "array",
+                    "items": _ref("InteractionError"),
+                    "description": "Output only. Errors produced by the interaction.",
+                },
+                "labels": {
+                    "type": "object",
+                    "additionalProperties": {"type": "string"},
+                },
+                "previous_interaction_id": {
+                    "type": "string",
+                    "description": "ID of the interaction this one continues.",
+                },
+                "response_format": {
+                    "type": "object",
+                    "description": "Structured output format for the interaction.",
+                    "additionalProperties": True,
+                },
+                "response_mime_type": {"type": "string"},
+                "response_modalities": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": ["text", "image", "audio", "video", "document"],
+                    },
+                },
+                "safety_settings": {
+                    "type": "array",
+                    "items": _ref("InteractionSafetySetting"),
+                },
+                "service_tier": {
+                    "type": "string",
+                    "enum": ["flex", "standard", "priority", "deferred"],
+                },
+                "system_instruction": {"type": "string"},
+                "tools": {
+                    "type": "array",
+                    "description": "Tools available to the interaction.",
+                    "items": {"type": "object", "additionalProperties": True},
+                },
+                "usage": _ref("InteractionUsage"),
+                "webhook_config": _ref("InteractionWebhookConfig"),
+            },
+            "required": ["status"],
+            "additionalProperties": False,
+        },
+        "InteractionsInput": {
+            "oneOf": [
+                {"type": "string"},
+                _ref("InteractionContent"),
+                {"type": "array", "items": _ref("InteractionContent")},
+                {"type": "array", "items": _ref("InteractionStep")},
+            ],
+            "description": (
+                "Input for an interaction: a prompt string, a single content "
+                "object, a list of content objects, or a list of steps."
+            ),
+        },
+        "InteractionContent": {
+            "type": "object",
+            "description": (
+                "Typed content part of the interactions API. Discriminated by "
+                "`type` (`text`, `image`, `audio`, `video`, `document`); this is "
+                "an open union, so variant-specific fields beyond the common ones "
+                "below are preserved as-is."
+            ),
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "Content variant, e.g. `text` or `image`.",
+                },
+                "text": {
+                    "type": "string",
+                    "description": "Text payload (for `text` content).",
+                },
+                "data": {
+                    "type": "string",
+                    "description": "Base64-encoded payload (for media content).",
+                },
+                "mime_type": {
+                    "type": "string",
+                    "description": "MIME type of the payload.",
+                },
+                "uri": {
+                    "type": "string",
+                    "description": "URI of the payload when it is not inline.",
+                },
+                "annotations": {
+                    "type": "array",
+                    "description": "Annotations attached to the content.",
+                    "items": {"type": "object", "additionalProperties": True},
+                },
+            },
+            "additionalProperties": True,
+        },
+        "InteractionStep": {
+            "type": "object",
+            "description": (
+                "A single execution step of an interaction. Discriminated by "
+                "`type`; known step types include `user_input`, `thought`, "
+                "`model_output`, `function_call`, `function_result`, "
+                "`code_execution_call`, `code_execution_result`, "
+                "`google_search_call`, `google_search_result`, "
+                "`google_maps_call`, `google_maps_result`, `file_search_call`, "
+                "`file_search_result`, `mcp_server_tool_call`, "
+                "`mcp_server_tool_result`, `processing_call`, "
+                "`processing_result`, `retrieval_call`, `retrieval_result`, "
+                "`url_context_call`, and `url_context_result`. This is an open "
+                "union, so step-specific fields are preserved as-is."
+            ),
+            "properties": {
+                "type": {"type": "string", "description": "Step variant."},
+                "content": {
+                    "type": "array",
+                    "items": _ref("InteractionContent"),
+                    "description": "Content carried by the step, when applicable.",
+                },
+                "error": {
+                    "type": "object",
+                    "description": "Error status attached to the step.",
+                    "additionalProperties": True,
+                },
+            },
+            "additionalProperties": True,
+        },
+        "InteractionError": {
+            "type": "object",
+            "description": "Error message from an interaction.",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "description": "A URI that identifies the error type.",
+                },
+                "message": {
+                    "type": "string",
+                    "description": "A human-readable error message.",
+                },
+            },
+            "additionalProperties": False,
+        },
+        "InteractionUsage": {
+            "type": "object",
+            "description": "Statistics on the interaction request's token usage.",
+            "properties": {
+                "cached_tokens_by_modality": {
+                    "type": "array",
+                    "items": _ref("InteractionModalityTokens"),
+                },
+                "grounding_tool_count": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "type": {"type": "string"},
+                            "count": {"type": "integer"},
+                        },
+                        "additionalProperties": False,
+                    },
+                },
+                "input_tokens_by_modality": {
+                    "type": "array",
+                    "items": _ref("InteractionModalityTokens"),
+                },
+                "output_tokens_by_modality": {
+                    "type": "array",
+                    "items": _ref("InteractionModalityTokens"),
+                },
+                "tool_use_tokens_by_modality": {
+                    "type": "array",
+                    "items": _ref("InteractionModalityTokens"),
+                },
+            },
+            "additionalProperties": False,
+        },
+        "InteractionModalityTokens": {
+            "type": "object",
+            "description": "Token count for one response modality.",
+            "properties": {
+                "modality": {
+                    "type": "string",
+                    "enum": ["text", "image", "audio", "video", "document"],
+                },
+                "tokens": {"type": "integer"},
+            },
+            "additionalProperties": False,
+        },
+        "InteractionSafetySetting": {
+            "type": "object",
+            "description": "Safety setting for an interaction.",
+            "properties": {
+                "type": {"type": "string", "description": "Harm category."},
+                "threshold": {
+                    "type": "string",
+                    "description": "Blocking threshold for the category.",
+                },
+                "method": {
+                    "type": "string",
+                    "description": "Optional harm-blocking method.",
+                },
+            },
+            "required": ["type", "threshold"],
+            "additionalProperties": False,
+        },
+        "InteractionGenerationConfig": {
+            "type": "object",
+            "description": (
+                "Generation config for model-backed interactions. Covers the "
+                "documented top-level fields; nested configs (image, speech, "
+                "video, transcription) follow the interactions wire format."
+            ),
+            "properties": {
+                "max_output_tokens": {"type": "integer"},
+                "seed": {"type": "integer"},
+                "stop_sequences": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                },
+                "temperature": {"type": "number"},
+                "thinking_level": {"type": "string"},
+                "thinking_summaries": {"type": "string"},
+                "top_p": {"type": "number"},
+            },
+            "additionalProperties": True,
+        },
+        "InteractionEnvironment": {
+            "type": "object",
+            "description": (
+                "Remote execution environment configuration for an agent or "
+                "interaction."
+            ),
+            "properties": {
+                "type": {"const": "remote"},
+                "environment_id": {
+                    "type": "string",
+                    "description": "ID of an existing environment to reuse.",
+                },
+                "env": {
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object",
+                                "properties": {
+                                    "value": {"type": "string"},
+                                    "credential": {"type": "string"},
+                                },
+                                "additionalProperties": False,
+                            },
+                        },
+                        {"type": "string"},
+                    ],
+                    "description": (
+                        "Environment variables: a map of name to value/credential "
+                        "binding, or a serialized string."
+                    ),
+                },
+                "network": {
+                    "description": (
+                        "Network egress configuration for the environment."
+                    ),
+                },
+                "sources": {
+                    "type": "array",
+                    "items": _ref("EnvironmentSource"),
+                    "description": "Sources mounted into the environment.",
+                },
+            },
+            "required": ["type"],
+            "additionalProperties": False,
+        },
+        "InteractionWebhookConfig": {
+            "type": "object",
+            "description": "Webhook delivery configuration for an interaction.",
+            "properties": {
+                "uris": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Webhook URIs that receive interaction events.",
+                },
+                "user_metadata": {
+                    "type": "object",
+                    "additionalProperties": True,
+                    "description": "Arbitrary metadata attached to deliveries.",
+                },
+            },
+            "additionalProperties": False,
+        },
+        "CreateAgentInteraction": {
+            "type": "object",
+            "description": (
+                "Request to create an agent-backed interaction. Exactly one of "
+                "this shape or `CreateModelInteraction` is the body of "
+                "`POST /v1beta/interactions`."
+            ),
+            "properties": {
+                "agent": {
+                    "type": "string",
+                    "description": (
+                        "Agent option to run, e.g. "
+                        "`antigravity-preview-05-2026` or a Deep Research agent ID."
+                    ),
+                },
+                "agent_config": {
+                    "type": "object",
+                    "additionalProperties": True,
+                    "description": "Agent configuration overrides.",
+                },
+                "background": {
+                    "type": "boolean",
+                    "description": "Run the interaction in the background.",
+                },
+                "environment": _ref("InteractionEnvironment"),
+                "input": _ref("InteractionsInput"),
+                "labels": {
+                    "type": "object",
+                    "additionalProperties": {"type": "string"},
+                },
+                "previous_interaction_id": {"type": "string"},
+                "response_format": {
+                    "type": "object",
+                    "additionalProperties": True,
+                    "description": "Structured output format.",
+                },
+                "response_mime_type": {"type": "string"},
+                "response_modalities": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": ["text", "image", "audio", "video", "document"],
+                    },
+                },
+                "safety_settings": {
+                    "type": "array",
+                    "items": _ref("InteractionSafetySetting"),
+                },
+                "service_tier": {
+                    "type": "string",
+                    "enum": ["flex", "standard", "priority", "deferred"],
+                },
+                "store": {
+                    "type": "boolean",
+                    "description": "Whether the interaction is persisted.",
+                },
+                "stream": {
+                    "type": "boolean",
+                    "description": (
+                        "If true, the response is a server-sent event stream of "
+                        "interaction events instead of a single JSON object."
+                    ),
+                },
+                "system_instruction": {"type": "string"},
+                "tools": {
+                    "type": "array",
+                    "items": {"type": "object", "additionalProperties": True},
+                },
+                "webhook_config": _ref("InteractionWebhookConfig"),
+            },
+            "required": ["agent"],
+            "additionalProperties": False,
+        },
+        "CreateModelInteraction": {
+            "type": "object",
+            "description": (
+                "Request to create a model-backed interaction. Exactly one of "
+                "this shape or `CreateAgentInteraction` is the body of "
+                "`POST /v1beta/interactions`."
+            ),
+            "properties": {
+                "model": {
+                    "type": "string",
+                    "description": "Model to run the interaction with.",
+                },
+                "background": {
+                    "type": "boolean",
+                    "description": "Run the interaction in the background.",
+                },
+                "cached_content": {"type": "string"},
+                "environment": _ref("InteractionEnvironment"),
+                "generation_config": _ref("InteractionGenerationConfig"),
+                "input": _ref("InteractionsInput"),
+                "labels": {
+                    "type": "object",
+                    "additionalProperties": {"type": "string"},
+                },
+                "previous_interaction_id": {"type": "string"},
+                "response_format": {
+                    "type": "object",
+                    "additionalProperties": True,
+                    "description": "Structured output format.",
+                },
+                "response_mime_type": {"type": "string"},
+                "response_modalities": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": ["text", "image", "audio", "video", "document"],
+                    },
+                },
+                "safety_settings": {
+                    "type": "array",
+                    "items": _ref("InteractionSafetySetting"),
+                },
+                "service_tier": {
+                    "type": "string",
+                    "enum": ["flex", "standard", "priority", "deferred"],
+                },
+                "store": {
+                    "type": "boolean",
+                    "description": "Whether the interaction is persisted.",
+                },
+                "stream": {
+                    "type": "boolean",
+                    "description": (
+                        "If true, the response is a server-sent event stream of "
+                        "interaction events instead of a single JSON object."
+                    ),
+                },
+                "system_instruction": {"type": "string"},
+                "tools": {
+                    "type": "array",
+                    "items": {"type": "object", "additionalProperties": True},
+                },
+                "webhook_config": _ref("InteractionWebhookConfig"),
+            },
+            "required": ["model"],
+            "additionalProperties": False,
+        },
+        "CreateInteractionRequest": {
+            "oneOf": [
+                _ref("CreateAgentInteraction"),
+                _ref("CreateModelInteraction"),
+            ],
+            "description": (
+                "Body of `POST /v1beta/interactions`: either an agent-backed or "
+                "a model-backed interaction."
+            ),
+        },
+        "Credential": {
+            "type": "object",
+            "description": (
+                "Server-managed credential resource stored in Secret Manager. "
+                "Fields are snake_case, matching the python-genai GAOS wire "
+                "format. Secret values are input-only and never returned."
+            ),
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Output only. Unique identifier for the credential.",
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "bearer_token",
+                        "oauth2",
+                        "environment_variable",
+                    ],
+                    "description": "Output only. The type of credential.",
+                },
+                "status": {
+                    "type": "string",
+                    "enum": ["active", "revoked"],
+                    "description": "Output only. Current status of the credential.",
+                },
+                "create_time": _ref("GoogleTimestamp"),
+                "update_time": _ref("GoogleTimestamp"),
+            },
+            "additionalProperties": False,
+        },
+        "CredentialCreateRequest": {
+            "oneOf": [
+                _ref("HttpBearerCredentialConfig"),
+                _ref("OAuth2CredentialConfig"),
+                _ref("EnvironmentVariableCredentialConfig"),
+            ],
+            "description": (
+                "Body of `POST /v1beta/credentials`, discriminated by `type`."
+            ),
+        },
+        "CredentialUpdateRequest": {
+            "oneOf": [
+                _ref("HttpBearerCredentialUpdate"),
+                _ref("OAuth2CredentialUpdate"),
+                _ref("EnvironmentVariableCredentialUpdate"),
+            ],
+            "description": (
+                "Body of `PATCH /v1beta/credentials/{id}`, discriminated by "
+                "`type`. Same shapes as the create variants with every field "
+                "optional."
+            ),
+        },
+        "HttpBearerCredentialConfig": {
+            "type": "object",
+            "description": "HTTP Bearer token credential (create).",
+            "properties": {
+                "type": {"const": "bearer_token"},
+                "id": {
+                    "type": "string",
+                    "description": "Identifier for the credential.",
+                },
+                "token": {
+                    "type": "string",
+                    "description": (
+                        "Input only. The static bearer token. Write-only; never "
+                        "returned in responses."
+                    ),
+                },
+                "header_name": {
+                    "type": "string",
+                    "description": "Header name to inject the token into.",
+                },
+                "prefix": {
+                    "type": "string",
+                    "description": (
+                        "Prefix prepended to the token. Defaults to `Bearer`."
+                    ),
+                },
+            },
+            "required": ["type", "id", "token"],
+            "additionalProperties": False,
+        },
+        "HttpBearerCredentialUpdate": {
+            "type": "object",
+            "description": "HTTP Bearer token credential (update).",
+            "properties": {
+                "type": {"const": "bearer_token"},
+                "token": {
+                    "type": "string",
+                    "description": "Input only. The static bearer token.",
+                },
+                "header_name": {"type": "string"},
+                "prefix": {"type": "string"},
+            },
+            "required": ["type"],
+            "additionalProperties": False,
+        },
+        "OAuth2CredentialConfig": {
+            "type": "object",
+            "description": "OAuth2 credential with automatic token refresh (create).",
+            "properties": {
+                "type": {"const": "oauth2"},
+                "id": {
+                    "type": "string",
+                    "description": "Identifier for the credential.",
+                },
+                "client_id": {
+                    "type": "string",
+                    "description": "OAuth2 client ID.",
+                },
+                "client_secret": {
+                    "type": "string",
+                    "description": (
+                        "Input only. OAuth2 client secret. Write-only; never "
+                        "returned in responses."
+                    ),
+                },
+                "refresh_token": {
+                    "type": "string",
+                    "description": (
+                        "Input only. OAuth2 refresh token. Write-only; never "
+                        "returned in responses."
+                    ),
+                },
+                "token_url": {
+                    "type": "string",
+                    "description": "OAuth2 token endpoint URL for refreshing access tokens.",
+                },
+                "scopes": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "List of OAuth2 scopes.",
+                },
+            },
+            "required": ["type", "id", "client_id", "client_secret", "refresh_token", "token_url"],
+            "additionalProperties": False,
+        },
+        "OAuth2CredentialUpdate": {
+            "type": "object",
+            "description": "OAuth2 credential with automatic token refresh (update).",
+            "properties": {
+                "type": {"const": "oauth2"},
+                "client_id": {"type": "string"},
+                "client_secret": {
+                    "type": "string",
+                    "description": "Input only. OAuth2 client secret.",
+                },
+                "refresh_token": {
+                    "type": "string",
+                    "description": "Input only. OAuth2 refresh token.",
+                },
+                "token_url": {"type": "string"},
+                "scopes": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                },
+            },
+            "required": ["type"],
+            "additionalProperties": False,
+        },
+        "EnvironmentVariableCredentialConfig": {
+            "type": "object",
+            "description": "Environment variable credential (create).",
+            "properties": {
+                "type": {"const": "environment_variable"},
+                "id": {
+                    "type": "string",
+                    "description": "Identifier for the credential.",
+                },
+                "injection_location": {
+                    "type": "string",
+                    "enum": ["header", "query", "body"],
+                    "description": "Locations where the value can be injected.",
+                },
+                "value": {
+                    "type": "string",
+                    "description": (
+                        "Input only. Secret value of the environment variable. "
+                        "Write-only; never returned in responses."
+                    ),
+                },
+                "trusted_domains": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": (
+                        "Domains allowed to receive this environment variable."
+                    ),
+                },
+            },
+            "required": ["type", "id", "injection_location", "value"],
+            "additionalProperties": False,
+        },
+        "EnvironmentVariableCredentialUpdate": {
+            "type": "object",
+            "description": "Environment variable credential (update).",
+            "properties": {
+                "type": {"const": "environment_variable"},
+                "injection_location": {
+                    "type": "string",
+                    "enum": ["header", "query", "body"],
+                },
+                "value": {
+                    "type": "string",
+                    "description": "Input only. Secret value of the environment variable.",
+                },
+                "trusted_domains": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                },
+            },
+            "required": ["type"],
+            "additionalProperties": False,
+        },
+        "ListCredentialsResponse": {
+            "type": "object",
+            "description": "Response for listing credentials.",
+            "properties": {
+                "credentials": {
+                    "type": "array",
+                    "items": _ref("Credential"),
+                },
+                "next_page_token": {"type": "string"},
+            },
+            "additionalProperties": False,
+        },
+        "Environment": {
+            "type": "object",
+            "description": (
+                "An execution environment for an agent (Agent Platform). Fields "
+                "are snake_case, matching the python-genai GAOS wire format."
+            ),
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Output only. The ID of the environment.",
+                },
+                "created": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Output only. Creation time (ISO 8601).",
+                },
+                "updated": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Output only. Last update time (ISO 8601).",
+                },
+                "last_accessed": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Output only. Last access time (ISO 8601).",
+                },
+                "file_count": {
+                    "type": "integer",
+                    "description": "Output only. The number of files in the environment.",
+                },
+                "size_bytes": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Output only. Total size of the environment files in bytes.",
+                },
+                "status": {
+                    "type": "string",
+                    "enum": ["active", "expired"],
+                    "description": "Output only. The status of the environment container.",
+                },
+                "network": {
+                    "description": "Network configuration for the environment.",
+                },
+            },
+            "additionalProperties": False,
+        },
+        "CreateEnvironmentRequest": {
+            "type": "object",
+            "description": "Request for creating an environment.",
+            "properties": {
+                "from_environment": {
+                    "type": "string",
+                    "description": (
+                        "The source environment to copy/fork from. When "
+                        "specified, `sources` must be empty."
+                    ),
+                },
+                "network": {
+                    "oneOf": [
+                        _ref("EnvironmentNetworkEgressAllowlist"),
+                        {"type": "string", "enum": ["disabled"]},
+                    ],
+                    "description": "Network configuration for the environment.",
+                },
+                "sources": {
+                    "type": "array",
+                    "items": _ref("EnvironmentSource"),
+                    "description": "Sources to be mounted into the environment.",
+                },
+            },
+            "additionalProperties": False,
+        },
+        "EnvironmentNetworkEgressAllowlist": {
+            "type": "object",
+            "description": "Egress allowlist for an environment's network.",
+            "properties": {
+                "allowlist": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "domain": {
+                                "type": "string",
+                                "description": "Domain requests are allowed to.",
+                            },
+                            "credential": {
+                                "type": "string",
+                                "description": "Credential applied to the domain.",
+                            },
+                        },
+                        "required": ["domain"],
+                        "additionalProperties": False,
+                    },
+                }
+            },
+            "additionalProperties": False,
+        },
+        "EnvironmentSource": {
+            "type": "object",
+            "description": "A source mounted into an execution environment.",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": ["gcs", "inline", "repository", "skill_registry"],
+                },
+                "source": {
+                    "type": "string",
+                    "description": "Location of the source (e.g. GCS prefix).",
+                },
+                "target": {
+                    "type": "string",
+                    "description": "Mount path inside the environment.",
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Inline content (for `inline` sources).",
+                },
+                "encoding": {
+                    "type": "string",
+                    "description": "Encoding of inline content.",
+                },
+            },
+            "additionalProperties": False,
+        },
+        "ListEnvironmentsResponse": {
+            "type": "object",
+            "description": "Response for listing environments.",
+            "properties": {
+                "environments": {
+                    "type": "array",
+                    "items": _ref("Environment"),
+                },
+                "next_page_token": {
+                    "type": "string",
+                    "description": "Pagination token.",
+                },
+            },
+            "additionalProperties": False,
+        },
+        "Trigger": {
+            "type": "object",
+            "description": (
+                "A trigger configuration that is scheduled to run an agent. "
+                "Fields are snake_case, matching the python-genai GAOS wire "
+                "format."
+            ),
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Output only. The ID of the trigger.",
+                },
+                "interaction": _ref("CreateAgentInteraction"),
+                "schedule": {
+                    "type": "string",
+                    "description": "The cron schedule on which the trigger runs (standard cron format).",
+                },
+                "time_zone": {
+                    "type": "string",
+                    "description": "Time zone in which the schedule is interpreted.",
+                },
+                "display_name": {"type": "string"},
+                "environment_id": {
+                    "type": "string",
+                    "description": "The environment ID for the trigger execution.",
+                },
+                "execution_timeout_seconds": {
+                    "type": "integer",
+                    "description": "The execution timeout for the triggered interaction.",
+                },
+                "max_consecutive_failures": {
+                    "type": "integer",
+                    "description": (
+                        "Maximum consecutive failures allowed before the trigger "
+                        "is automatically paused."
+                    ),
+                },
+                "consecutive_failure_count": {
+                    "type": "integer",
+                    "description": "Output only. Consecutive failures since the last success.",
+                },
+                "status": {
+                    "type": "string",
+                    "enum": ["active", "paused", "error"],
+                    "description": "Output only. The current status of the trigger.",
+                },
+                "previous_interaction_id": {
+                    "type": "string",
+                    "description": "Output only. ID of the last interaction created by this trigger.",
+                },
+                "create_time": _ref("GoogleTimestamp"),
+                "update_time": _ref("GoogleTimestamp"),
+                "last_run_time": _ref("GoogleTimestamp"),
+                "next_run_time": _ref("GoogleTimestamp"),
+                "last_pause_time": _ref("GoogleTimestamp"),
+                "last_resume_time": _ref("GoogleTimestamp"),
+            },
+            "required": ["id", "interaction", "schedule", "time_zone"],
+            "additionalProperties": False,
+        },
+        "TriggerCreateRequest": {
+            "type": "object",
+            "description": "Body of `POST /v1beta/triggers`.",
+            "properties": {
+                "interaction": _ref("CreateAgentInteraction"),
+                "schedule": {
+                    "type": "string",
+                    "description": "The cron schedule on which the trigger should run.",
+                },
+                "time_zone": {
+                    "type": "string",
+                    "description": "Time zone in which the schedule should be interpreted.",
+                },
+                "display_name": {"type": "string"},
+                "environment_id": {"type": "string"},
+                "execution_timeout_seconds": {"type": "integer"},
+                "max_consecutive_failures": {"type": "integer"},
+            },
+            "required": ["interaction", "schedule", "time_zone"],
+            "additionalProperties": False,
+        },
+        "TriggerUpdateRequest": {
+            "type": "object",
+            "description": "Body of `PATCH /v1beta/triggers/{id}`.",
+            "properties": {
+                "display_name": {"type": "string"},
+                "status": {
+                    "type": "string",
+                    "enum": ["active", "paused", "error"],
+                },
+            },
+            "additionalProperties": False,
+        },
+        "TriggerExecution": {
+            "type": "object",
+            "description": "An execution instance of a trigger.",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Output only. The ID of the trigger execution.",
+                },
+                "trigger_id": {
+                    "type": "string",
+                    "description": "Output only. The ID of the trigger that created this execution.",
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "in_progress",
+                        "completed",
+                        "failed",
+                        "skipped",
+                        "timed_out",
+                    ],
+                    "description": "Output only. The status of the execution.",
+                },
+                "environment_id": {
+                    "type": "string",
+                    "description": "Output only. The environment ID used for the execution.",
+                },
+                "interaction_id": {
+                    "type": "string",
+                    "description": "Output only. The ID of the interaction created by this execution.",
+                },
+                "error": {
+                    "type": "string",
+                    "description": "Output only. The error message if the execution failed.",
+                },
+                "scheduled_time": _ref("GoogleTimestamp"),
+                "start_time": _ref("GoogleTimestamp"),
+                "end_time": _ref("GoogleTimestamp"),
+            },
+            "required": ["id", "trigger_id"],
+            "additionalProperties": False,
+        },
+        "ListTriggersResponse": {
+            "type": "object",
+            "description": "Response for listing triggers.",
+            "properties": {
+                "triggers": {"type": "array", "items": _ref("Trigger")},
+                "next_page_token": {"type": "string"},
+            },
+            "additionalProperties": False,
+        },
+        "ListTriggerExecutionsResponse": {
+            "type": "object",
+            "description": "Response for listing executions of a trigger.",
+            "properties": {
+                "trigger_executions": {
+                    "type": "array",
+                    "items": _ref("TriggerExecution"),
+                },
+                "next_page_token": {"type": "string"},
+            },
+            "additionalProperties": False,
+        },
+        "Webhook": {
+            "type": "object",
+            "description": (
+                "A webhook resource delivering event notifications. Fields are "
+                "snake_case, matching the python-genai GAOS wire format."
+            ),
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Output only. The ID of the webhook.",
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The user-provided name of the webhook.",
+                },
+                "uri": {
+                    "type": "string",
+                    "description": "The URI to which webhook events are sent.",
+                },
+                "subscribed_events": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "batch.succeeded",
+                            "batch.expired",
+                            "batch.failed",
+                            "interaction.requires_action",
+                            "interaction.completed",
+                            "interaction.failed",
+                            "video.generated",
+                        ],
+                    },
+                    "description": "The events that the webhook is subscribed to.",
+                },
+                "state": {
+                    "type": "string",
+                    "enum": [
+                        "enabled",
+                        "disabled",
+                        "disabled_due_to_failed_deliveries",
+                    ],
+                    "description": "Output only. The state of the webhook.",
+                },
+                "new_signing_secret": {
+                    "type": "string",
+                    "description": (
+                        "Output only. The new signing secret. Only populated on "
+                        "create and rotate responses."
+                    ),
+                },
+                "signing_secrets": {
+                    "type": "array",
+                    "items": _ref("WebhookSigningSecret"),
+                    "description": "Output only. The signing secrets of the webhook.",
+                },
+                "create_time": _ref("GoogleTimestamp"),
+                "update_time": _ref("GoogleTimestamp"),
+            },
+            "required": ["subscribed_events", "uri"],
+            "additionalProperties": False,
+        },
+        "WebhookSigningSecret": {
+            "type": "object",
+            "description": (
+                "A signing secret used to verify webhook payloads (truncated "
+                "form; the full secret is only revealed once)."
+            ),
+            "properties": {
+                "truncated_secret": {
+                    "type": "string",
+                    "description": "Output only. The truncated version of the signing secret.",
+                },
+                "expire_time": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Output only. The expiration date of the signing secret.",
+                },
+            },
+            "additionalProperties": False,
+        },
+        "WebhookCreateRequest": {
+            "type": "object",
+            "description": "Body of `POST /v1beta/webhooks`.",
+            "properties": {
+                "subscribed_events": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "batch.succeeded",
+                            "batch.expired",
+                            "batch.failed",
+                            "interaction.requires_action",
+                            "interaction.completed",
+                            "interaction.failed",
+                            "video.generated",
+                        ],
+                    },
+                },
+                "uri": {
+                    "type": "string",
+                    "description": "The URI to which webhook events will be sent.",
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The user-provided name of the webhook.",
+                },
+            },
+            "required": ["subscribed_events", "uri"],
+            "additionalProperties": False,
+        },
+        "WebhookUpdateRequest": {
+            "type": "object",
+            "description": "Body of `PATCH /v1beta/webhooks/{id}`.",
+            "properties": {
+                "name": {"type": "string"},
+                "uri": {"type": "string"},
+                "state": {
+                    "type": "string",
+                    "enum": [
+                        "enabled",
+                        "disabled",
+                        "disabled_due_to_failed_deliveries",
+                    ],
+                },
+                "subscribed_events": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "batch.succeeded",
+                            "batch.expired",
+                            "batch.failed",
+                            "interaction.requires_action",
+                            "interaction.completed",
+                            "interaction.failed",
+                            "video.generated",
+                        ],
+                    },
+                },
+            },
+            "additionalProperties": False,
+        },
+        "RotateSigningSecretRequest": {
+            "type": "object",
+            "description": "Body of webhook signing-secret rotation.",
+            "properties": {
+                "revocation_behavior": {
+                    "type": "string",
+                    "enum": [
+                        "revoke_previous_secrets_after_h24",
+                        "revoke_previous_secrets_immediately",
+                    ],
+                    "description": "The revocation behavior for previous signing secrets.",
+                },
+            },
+            "additionalProperties": False,
+        },
+        "WebhookRotateSigningSecretResponse": {
+            "type": "object",
+            "description": "Response for webhook signing-secret rotation.",
+            "properties": {
+                "secret": {
+                    "type": "string",
+                    "description": "Output only. The newly generated signing secret.",
+                },
+            },
+            "additionalProperties": False,
+        },
+        "ListWebhooksResponse": {
+            "type": "object",
+            "description": "Response for listing webhooks.",
+            "properties": {
+                "webhooks": {"type": "array", "items": _ref("Webhook")},
+                "next_page_token": {"type": "string"},
+            },
+            "additionalProperties": False,
+        },
         "CountTokensRequest": {
             "type": "object",
             "properties": {
@@ -1867,6 +3261,95 @@ def build_native_components() -> dict:
             "additionalProperties": False,
         },
     }
+
+
+def _gaos_pagination_parameters(filter_: bool = False) -> list[dict]:
+    """Query parameters shared by Agent Platform (GAOS) list operations.
+
+    The GAOS surface serializes snake_case query parameters, unlike the
+    proto-JSON endpoints which use pageSize/pageToken.
+    """
+    parameters = [
+        {
+            "name": "page_size",
+            "in": "query",
+            "required": False,
+            "schema": {"type": "integer"},
+            "description": "Maximum number of items to return per page.",
+        },
+        {
+            "name": "page_token",
+            "in": "query",
+            "required": False,
+            "schema": {"type": "string"},
+            "description": "Pagination token from a previous list call.",
+        },
+    ]
+    if filter_:
+        parameters.insert(
+            0,
+            {
+                "name": "filter",
+                "in": "query",
+                "required": False,
+                "schema": {"type": "string"},
+                "description": "Filter expression (e.g., by state).",
+            },
+        )
+    return parameters
+
+
+def _gaos_update_mask_parameter() -> dict:
+    return {
+        "name": "update_mask",
+        "in": "query",
+        "required": False,
+        "schema": {"type": "string"},
+        "description": "Optional list of fields to update.",
+    }
+
+
+def _gaos_environment_files_query_parameters() -> list[dict]:
+    return [
+        {
+            "name": "page_size",
+            "in": "query",
+            "required": False,
+            "schema": {"type": "integer"},
+            "description": "Maximum number of entries to return per page (for directory listing).",
+        },
+        {
+            "name": "page_token",
+            "in": "query",
+            "required": False,
+            "schema": {"type": "string"},
+            "description": "Pagination token for directory listing.",
+        },
+        {
+            "name": "recursive",
+            "in": "query",
+            "required": False,
+            "schema": {"type": "boolean"},
+            "description": "If true and the path is a directory, recursively lists all files.",
+        },
+    ]
+
+
+def _annotate_gaos_resource_id(path_item: dict, collection: str) -> None:
+    """Rewrite the fallback description of GAOS `{id}` path parameters.
+
+    The all-methods index lists these bindings as plain `{id}` templates
+    without a `resource/*` pattern, so the generic builder falls back to
+    "Google API path binding". Give them the same guidance as the
+    pattern-derived parameters.
+    """
+    for parameter in path_item.get("parameters", []):
+        if parameter.get("name") == "id" and parameter.get("in") == "path":
+            parameter["description"] = (
+                f"ID within the `{collection}` collection. Pass just the "
+                f"resource ID, not the full resource name."
+            )
+            break
 
 
 def apply_native_operation_overrides(operation, path_item: dict) -> tuple[dict, list[tuple[str, dict]]]:
@@ -2255,6 +3738,159 @@ def apply_native_operation_overrides(operation, path_item: dict) -> tuple[dict, 
     elif key == ("v1beta.files", "register", "POST", "/v1beta/files:register"):
         request_ref = "RegisterFilesRequest"
         response_ref = "RegisterFilesResponse"
+    elif key == ("v1beta.agents", "ListAgents", "GET", "/v1beta/agents"):
+        response_ref = "ListAgentsResponse"
+        extra_parameters.extend(_gaos_pagination_parameters())
+    elif key == ("v1beta.agents", "CreateAgent", "POST", "/v1beta/agents"):
+        request_ref = "Agent"
+        response_ref = "Agent"
+    elif key == ("v1beta.agents", "GetAgent", "GET", "/v1beta/agents/{id}"):
+        response_ref = "Agent"
+        _annotate_gaos_resource_id(path_item, collection="agents")
+    elif key == ("v1beta.agents", "DeleteAgent", "DELETE", "/v1beta/agents/{id}"):
+        response_ref = "EmptyObject"
+        _annotate_gaos_resource_id(path_item, collection="agents")
+    elif key == ("v1beta.interactions", "CreateInteraction", "POST", "/v1beta/interactions"):
+        request_ref = "CreateInteractionRequest"
+        response_ref = "Interaction"
+        path_item["description"] = (
+            "Creates a new interaction with either an agent or a model. When the "
+            "body sets `stream: true`, the response is a server-sent event "
+            "stream of interaction events rather than a single JSON object."
+        )
+    elif key == ("v1beta.interactions", "getInteractionById", "GET", "/v1beta/interactions/{id}"):
+        response_ref = "Interaction"
+        _annotate_gaos_resource_id(path_item, collection="interactions")
+    elif key == ("v1beta.interactions", "deleteInteraction", "DELETE", "/v1beta/interactions/{id}"):
+        response_ref = "EmptyObject"
+        _annotate_gaos_resource_id(path_item, collection="interactions")
+    elif key == (
+        "v1beta.interactions",
+        "cancelInteractionById",
+        "POST",
+        "/v1beta/interactions/{id}/cancel",
+    ):
+        response_ref = "Interaction"
+        _annotate_gaos_resource_id(path_item, collection="interactions")
+    elif key == ("v1beta.interactions", "CreateCredential", "POST", "/v1beta/credentials"):
+        request_ref = "CredentialCreateRequest"
+        response_ref = "Credential"
+    elif key == ("v1beta.interactions", "ListCredentials", "GET", "/v1beta/credentials"):
+        response_ref = "ListCredentialsResponse"
+        extra_parameters.extend(_gaos_pagination_parameters())
+    elif key == ("v1beta.interactions", "GetCredential", "GET", "/v1beta/credentials/{id}"):
+        response_ref = "Credential"
+        _annotate_gaos_resource_id(path_item, collection="credentials")
+    elif key == ("v1beta.interactions", "UpdateCredential", "PATCH", "/v1beta/credentials/{id}"):
+        request_ref = "CredentialUpdateRequest"
+        response_ref = "Credential"
+        _annotate_gaos_resource_id(path_item, collection="credentials")
+    elif key == ("v1beta.interactions", "DeleteCredential", "DELETE", "/v1beta/credentials/{id}"):
+        response_ref = "EmptyObject"
+        _annotate_gaos_resource_id(path_item, collection="credentials")
+    elif key == ("v1beta.environments", "ListEnvironments", "GET", "/v1beta/environments"):
+        response_ref = "ListEnvironmentsResponse"
+        extra_parameters.extend(_gaos_pagination_parameters())
+    elif key == ("v1beta.environments", "CreateEnvironment", "POST", "/v1beta/environments"):
+        request_ref = "CreateEnvironmentRequest"
+        response_ref = "Environment"
+    elif key == ("v1beta.environments", "GetEnvironment", "GET", "/v1beta/environments/{id}"):
+        response_ref = "Environment"
+        _annotate_gaos_resource_id(path_item, collection="environments")
+    elif key == ("v1beta.environments", "DeleteEnvironment", "DELETE", "/v1beta/environments/{id}"):
+        response_ref = "EmptyObject"
+        _annotate_gaos_resource_id(path_item, collection="environments")
+    elif key == (
+        "v1beta.environments",
+        "GetEnvironmentFiles",
+        "GET",
+        "/v1beta/environments/{environment}/files/{path}",
+    ):
+        response_ref = "GetEnvironmentFilesResponse"
+        for parameter in path_item.get("parameters", []):
+            if parameter.get("name") == "environment":
+                parameter["description"] = (
+                    "ID within the `environments` collection. Pass just the "
+                    "resource ID, not the full resource name."
+                )
+            elif parameter.get("name") == "path":
+                parameter["description"] = (
+                    "Relative path of the file or directory within the "
+                    "environment snapshot."
+                )
+        extra_parameters.extend(_gaos_environment_files_query_parameters())
+    elif key == ("v1beta.triggers", "ListTriggers", "GET", "/v1beta/triggers"):
+        response_ref = "ListTriggersResponse"
+        extra_parameters.extend(_gaos_pagination_parameters(filter_=True))
+    elif key == ("v1beta.triggers", "CreateTrigger", "POST", "/v1beta/triggers"):
+        request_ref = "TriggerCreateRequest"
+        response_ref = "Trigger"
+    elif key == ("v1beta.triggers", "GetTrigger", "GET", "/v1beta/triggers/{id}"):
+        response_ref = "Trigger"
+        _annotate_gaos_resource_id(path_item, collection="triggers")
+    elif key == ("v1beta.triggers", "UpdateTrigger", "PATCH", "/v1beta/triggers/{id}"):
+        request_ref = "TriggerUpdateRequest"
+        response_ref = "Trigger"
+        _annotate_gaos_resource_id(path_item, collection="triggers")
+        extra_parameters.append(_gaos_update_mask_parameter())
+    elif key == ("v1beta.triggers", "DeleteTrigger", "DELETE", "/v1beta/triggers/{id}"):
+        response_ref = "EmptyObject"
+        _annotate_gaos_resource_id(path_item, collection="triggers")
+    elif key == ("v1beta.triggers", "RunTrigger", "POST", "/v1beta/triggers/{trigger_id}/executions"):
+        response_ref = "TriggerExecution"
+        for parameter in path_item.get("parameters", []):
+            if parameter.get("name") == "trigger_id":
+                parameter["description"] = (
+                    "ID within the `triggers` collection. Pass just the "
+                    "resource ID, not the full resource name."
+                )
+    elif key == (
+        "v1beta.triggers",
+        "ListTriggerExecutions",
+        "GET",
+        "/v1beta/triggers/{trigger_id}/executions",
+    ):
+        response_ref = "ListTriggerExecutionsResponse"
+        for parameter in path_item.get("parameters", []):
+            if parameter.get("name") == "trigger_id":
+                parameter["description"] = (
+                    "ID within the `triggers` collection. Pass just the "
+                    "resource ID, not the full resource name."
+                )
+        extra_parameters.extend(_gaos_pagination_parameters())
+    elif key == ("v1beta.webhooks", "ListWebhooks", "GET", "/v1beta/webhooks"):
+        response_ref = "ListWebhooksResponse"
+        extra_parameters.extend(_gaos_pagination_parameters())
+    elif key == ("v1beta.webhooks", "CreateWebhook", "POST", "/v1beta/webhooks"):
+        request_ref = "WebhookCreateRequest"
+        response_ref = "Webhook"
+    elif key == ("v1beta.webhooks", "GetWebhook", "GET", "/v1beta/webhooks/{id}"):
+        response_ref = "Webhook"
+        _annotate_gaos_resource_id(path_item, collection="webhooks")
+    elif key == ("v1beta.webhooks", "UpdateWebhook", "PATCH", "/v1beta/webhooks/{id}"):
+        request_ref = "WebhookUpdateRequest"
+        response_ref = "Webhook"
+        _annotate_gaos_resource_id(path_item, collection="webhooks")
+        extra_parameters.append(_gaos_update_mask_parameter())
+    elif key == ("v1beta.webhooks", "DeleteWebhook", "DELETE", "/v1beta/webhooks/{id}"):
+        response_ref = "EmptyObject"
+        _annotate_gaos_resource_id(path_item, collection="webhooks")
+    elif key == ("v1beta.webhooks", "PingWebhook", "POST", "/v1beta/webhooks/{id}:ping"):
+        response_ref = "EmptyObject"
+        _annotate_gaos_resource_id(path_item, collection="webhooks")
+        path_item["description"] = (
+            "Sends a ping event to a webhook. The response body is empty; "
+            "delivery confirmation arrives asynchronously at the webhook URI."
+        )
+    elif key == (
+        "v1beta.webhooks",
+        "RotateSigningSecret",
+        "POST",
+        "/v1beta/webhooks/{id}:rotateSigningSecret",
+    ):
+        request_ref = "RotateSigningSecretRequest"
+        response_ref = "WebhookRotateSigningSecretResponse"
+        _annotate_gaos_resource_id(path_item, collection="webhooks")
 
     if request_ref:
         path_item["requestBody"] = {
@@ -2280,6 +3916,18 @@ def apply_native_operation_overrides(operation, path_item: dict) -> tuple[dict, 
         path_item["parameters"] = [*path_item.get("parameters", []), *extra_parameters]
 
     if key == ("v1beta.batches", "cancel", "POST", "/v1beta/{name=batches/*}:cancel"):
+        path_item.pop("requestBody", None)
+
+    if key in {
+        (
+            "v1beta.interactions",
+            "cancelInteractionById",
+            "POST",
+            "/v1beta/interactions/{id}/cancel",
+        ),
+        ("v1beta.triggers", "RunTrigger", "POST", "/v1beta/triggers/{trigger_id}/executions"),
+        ("v1beta.webhooks", "PingWebhook", "POST", "/v1beta/webhooks/{id}:ping"),
+    }:
         path_item.pop("requestBody", None)
 
     if needs_stream_generate_content_sse:
@@ -2440,4 +4088,36 @@ def selected_native_operation_keys() -> set[tuple[str, str]]:
         ("GET", "/v1beta/files/{file}"),
         ("DELETE", "/v1beta/files/{file}"),
         ("POST", "/v1beta/files:register"),
+        ("GET", "/v1beta/agents"),
+        ("POST", "/v1beta/agents"),
+        ("GET", "/v1beta/agents/{id}"),
+        ("DELETE", "/v1beta/agents/{id}"),
+        ("POST", "/v1beta/interactions"),
+        ("GET", "/v1beta/interactions/{id}"),
+        ("DELETE", "/v1beta/interactions/{id}"),
+        ("POST", "/v1beta/interactions/{id}/cancel"),
+        ("GET", "/v1beta/credentials"),
+        ("POST", "/v1beta/credentials"),
+        ("GET", "/v1beta/credentials/{id}"),
+        ("PATCH", "/v1beta/credentials/{id}"),
+        ("DELETE", "/v1beta/credentials/{id}"),
+        ("GET", "/v1beta/environments"),
+        ("POST", "/v1beta/environments"),
+        ("GET", "/v1beta/environments/{id}"),
+        ("DELETE", "/v1beta/environments/{id}"),
+        ("GET", "/v1beta/environments/{environment}/files/{path}"),
+        ("GET", "/v1beta/triggers"),
+        ("POST", "/v1beta/triggers"),
+        ("GET", "/v1beta/triggers/{id}"),
+        ("PATCH", "/v1beta/triggers/{id}"),
+        ("DELETE", "/v1beta/triggers/{id}"),
+        ("GET", "/v1beta/triggers/{trigger_id}/executions"),
+        ("POST", "/v1beta/triggers/{trigger_id}/executions"),
+        ("GET", "/v1beta/webhooks"),
+        ("POST", "/v1beta/webhooks"),
+        ("GET", "/v1beta/webhooks/{id}"),
+        ("PATCH", "/v1beta/webhooks/{id}"),
+        ("DELETE", "/v1beta/webhooks/{id}"),
+        ("POST", "/v1beta/webhooks/{id}:ping"),
+        ("POST", "/v1beta/webhooks/{id}:rotateSigningSecret"),
     }

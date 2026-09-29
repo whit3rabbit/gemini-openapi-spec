@@ -1,5 +1,5 @@
 {
-  "operation_count": 40,
+  "operation_count": 72,
   "operations": [
     {
       "description": "Creates a token that can be used to constrain the behavior of a BidiGenerateContent session.",
@@ -408,7 +408,7 @@
       "resource": "v1beta.files"
     },
     {
-      "description": "Retrieves a file or directory from an environment's snapshot (HTTP endpoint).",
+      "description": "Retrieves file metadata or directory contents from an environment's snapshot.",
       "method": "GET",
       "name": "download",
       "normalized_path": "/v1beta/environments/{environment}/files",
@@ -628,6 +628,447 @@
       ],
       "raw_path": "/v1beta/{model=models/*}:streamGenerateContent",
       "resource": "v1beta.models"
+    },
+    {
+      "description": "Creates a credential.",
+      "method": "POST",
+      "name": "CreateCredential",
+      "normalized_path": "/v1beta/credentials",
+      "path_parameters": [],
+      "raw_path": "/v1beta/credentials",
+      "resource": "v1beta.interactions"
+    },
+    {
+      "description": "Creates a new interaction.",
+      "method": "POST",
+      "name": "CreateInteraction",
+      "normalized_path": "/v1beta/interactions",
+      "path_parameters": [],
+      "raw_path": "/v1beta/interactions",
+      "resource": "v1beta.interactions"
+    },
+    {
+      "description": "Cancels an interaction by id.",
+      "method": "POST",
+      "name": "cancelInteractionById",
+      "normalized_path": "/v1beta/interactions/{id}/cancel",
+      "path_parameters": [
+        {
+          "binding_token": "id",
+          "name": "id",
+          "openapi_name": "id",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/interactions/{id}/cancel",
+      "resource": "v1beta.interactions"
+    },
+    {
+      "description": "Lists credentials for a project.",
+      "method": "GET",
+      "name": "ListCredentials",
+      "normalized_path": "/v1beta/credentials",
+      "path_parameters": [],
+      "raw_path": "/v1beta/credentials",
+      "resource": "v1beta.interactions"
+    },
+    {
+      "description": "Gets metadata of a single credential (no secret fields).",
+      "method": "GET",
+      "name": "GetCredential",
+      "normalized_path": "/v1beta/credentials/{id}",
+      "path_parameters": [
+        {
+          "binding_token": "id",
+          "name": "id",
+          "openapi_name": "id",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/credentials/{id}",
+      "resource": "v1beta.interactions"
+    },
+    {
+      "description": "Retrieves the full details of a single interaction based on its `Interaction.id`.",
+      "method": "GET",
+      "name": "getInteractionById",
+      "normalized_path": "/v1beta/interactions/{id}",
+      "path_parameters": [
+        {
+          "binding_token": "id",
+          "name": "id",
+          "openapi_name": "id",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/interactions/{id}",
+      "resource": "v1beta.interactions"
+    },
+    {
+      "description": "Updates a credential.",
+      "method": "PATCH",
+      "name": "UpdateCredential",
+      "normalized_path": "/v1beta/credentials/{id}",
+      "path_parameters": [
+        {
+          "binding_token": "id",
+          "name": "id",
+          "openapi_name": "id",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/credentials/{id}",
+      "resource": "v1beta.interactions"
+    },
+    {
+      "description": "Deletes a credential.",
+      "method": "DELETE",
+      "name": "DeleteCredential",
+      "normalized_path": "/v1beta/credentials/{id}",
+      "path_parameters": [
+        {
+          "binding_token": "id",
+          "name": "id",
+          "openapi_name": "id",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/credentials/{id}",
+      "resource": "v1beta.interactions"
+    },
+    {
+      "description": "Deletes the interaction by id.",
+      "method": "DELETE",
+      "name": "deleteInteraction",
+      "normalized_path": "/v1beta/interactions/{id}",
+      "path_parameters": [
+        {
+          "binding_token": "id",
+          "name": "id",
+          "openapi_name": "id",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/interactions/{id}",
+      "resource": "v1beta.interactions"
+    },
+    {
+      "description": "Creates a new Agent (Typed version for SDK).",
+      "method": "POST",
+      "name": "CreateAgent",
+      "normalized_path": "/v1beta/agents",
+      "path_parameters": [],
+      "raw_path": "/v1beta/agents",
+      "resource": "v1beta.agents"
+    },
+    {
+      "description": "Lists all Agents.",
+      "method": "GET",
+      "name": "ListAgents",
+      "normalized_path": "/v1beta/agents",
+      "path_parameters": [],
+      "raw_path": "/v1beta/agents",
+      "resource": "v1beta.agents"
+    },
+    {
+      "description": "Gets a specific Agent.",
+      "method": "GET",
+      "name": "GetAgent",
+      "normalized_path": "/v1beta/agents/{id}",
+      "path_parameters": [
+        {
+          "binding_token": "id",
+          "name": "id",
+          "openapi_name": "id",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/agents/{id}",
+      "resource": "v1beta.agents"
+    },
+    {
+      "description": "Deletes an Agent.",
+      "method": "DELETE",
+      "name": "DeleteAgent",
+      "normalized_path": "/v1beta/agents/{id}",
+      "path_parameters": [
+        {
+          "binding_token": "id",
+          "name": "id",
+          "openapi_name": "id",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/agents/{id}",
+      "resource": "v1beta.agents"
+    },
+    {
+      "description": "Creates a new Webhook.",
+      "method": "POST",
+      "name": "CreateWebhook",
+      "normalized_path": "/v1beta/webhooks",
+      "path_parameters": [],
+      "raw_path": "/v1beta/webhooks",
+      "resource": "v1beta.webhooks"
+    },
+    {
+      "description": "Sends a ping event to a Webhook.",
+      "method": "POST",
+      "name": "PingWebhook",
+      "normalized_path": "/v1beta/webhooks/{id}:ping",
+      "path_parameters": [
+        {
+          "binding_token": "id",
+          "name": "id",
+          "openapi_name": "id",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/webhooks/{id}:ping",
+      "resource": "v1beta.webhooks"
+    },
+    {
+      "description": "Generates a new signing secret for a Webhook.",
+      "method": "POST",
+      "name": "RotateSigningSecret",
+      "normalized_path": "/v1beta/webhooks/{id}:rotateSigningSecret",
+      "path_parameters": [
+        {
+          "binding_token": "id",
+          "name": "id",
+          "openapi_name": "id",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/webhooks/{id}:rotateSigningSecret",
+      "resource": "v1beta.webhooks"
+    },
+    {
+      "description": "Lists all Webhooks.",
+      "method": "GET",
+      "name": "ListWebhooks",
+      "normalized_path": "/v1beta/webhooks",
+      "path_parameters": [],
+      "raw_path": "/v1beta/webhooks",
+      "resource": "v1beta.webhooks"
+    },
+    {
+      "description": "Gets a specific Webhook.",
+      "method": "GET",
+      "name": "GetWebhook",
+      "normalized_path": "/v1beta/webhooks/{id}",
+      "path_parameters": [
+        {
+          "binding_token": "id",
+          "name": "id",
+          "openapi_name": "id",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/webhooks/{id}",
+      "resource": "v1beta.webhooks"
+    },
+    {
+      "description": "Updates an existing Webhook.",
+      "method": "PATCH",
+      "name": "UpdateWebhook",
+      "normalized_path": "/v1beta/webhooks/{id}",
+      "path_parameters": [
+        {
+          "binding_token": "id",
+          "name": "id",
+          "openapi_name": "id",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/webhooks/{id}",
+      "resource": "v1beta.webhooks"
+    },
+    {
+      "description": "Deletes a Webhook.",
+      "method": "DELETE",
+      "name": "DeleteWebhook",
+      "normalized_path": "/v1beta/webhooks/{id}",
+      "path_parameters": [
+        {
+          "binding_token": "id",
+          "name": "id",
+          "openapi_name": "id",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/webhooks/{id}",
+      "resource": "v1beta.webhooks"
+    },
+    {
+      "description": "Creates a new trigger that will invoke the specified agent on the given cron schedule.",
+      "method": "POST",
+      "name": "CreateTrigger",
+      "normalized_path": "/v1beta/triggers",
+      "path_parameters": [],
+      "raw_path": "/v1beta/triggers",
+      "resource": "v1beta.triggers"
+    },
+    {
+      "description": "Runs a trigger immediately.",
+      "method": "POST",
+      "name": "RunTrigger",
+      "normalized_path": "/v1beta/triggers/{trigger_id}/executions",
+      "path_parameters": [
+        {
+          "binding_token": "trigger_id",
+          "name": "trigger_id",
+          "openapi_name": "trigger_id",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/triggers/{trigger_id}/executions",
+      "resource": "v1beta.triggers"
+    },
+    {
+      "description": "Lists triggers for a project.",
+      "method": "GET",
+      "name": "ListTriggers",
+      "normalized_path": "/v1beta/triggers",
+      "path_parameters": [],
+      "raw_path": "/v1beta/triggers",
+      "resource": "v1beta.triggers"
+    },
+    {
+      "description": "Gets details of a single trigger.",
+      "method": "GET",
+      "name": "GetTrigger",
+      "normalized_path": "/v1beta/triggers/{id}",
+      "path_parameters": [
+        {
+          "binding_token": "id",
+          "name": "id",
+          "openapi_name": "id",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/triggers/{id}",
+      "resource": "v1beta.triggers"
+    },
+    {
+      "description": "Lists executions for a trigger.",
+      "method": "GET",
+      "name": "ListTriggerExecutions",
+      "normalized_path": "/v1beta/triggers/{trigger_id}/executions",
+      "path_parameters": [
+        {
+          "binding_token": "trigger_id",
+          "name": "trigger_id",
+          "openapi_name": "trigger_id",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/triggers/{trigger_id}/executions",
+      "resource": "v1beta.triggers"
+    },
+    {
+      "description": "Updates a trigger.",
+      "method": "PATCH",
+      "name": "UpdateTrigger",
+      "normalized_path": "/v1beta/triggers/{id}",
+      "path_parameters": [
+        {
+          "binding_token": "id",
+          "name": "id",
+          "openapi_name": "id",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/triggers/{id}",
+      "resource": "v1beta.triggers"
+    },
+    {
+      "description": "Deletes a trigger.",
+      "method": "DELETE",
+      "name": "DeleteTrigger",
+      "normalized_path": "/v1beta/triggers/{id}",
+      "path_parameters": [
+        {
+          "binding_token": "id",
+          "name": "id",
+          "openapi_name": "id",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/triggers/{id}",
+      "resource": "v1beta.triggers"
+    },
+    {
+      "description": "Creates an environment.",
+      "method": "POST",
+      "name": "CreateEnvironment",
+      "normalized_path": "/v1beta/environments",
+      "path_parameters": [],
+      "raw_path": "/v1beta/environments",
+      "resource": "v1beta.environments"
+    },
+    {
+      "description": "Lists environments.",
+      "method": "GET",
+      "name": "ListEnvironments",
+      "normalized_path": "/v1beta/environments",
+      "path_parameters": [],
+      "raw_path": "/v1beta/environments",
+      "resource": "v1beta.environments"
+    },
+    {
+      "description": "Retrieves file metadata or directory contents from an environment's snapshot.",
+      "method": "GET",
+      "name": "GetEnvironmentFiles",
+      "normalized_path": "/v1beta/environments/{environment}/files/{path}",
+      "path_parameters": [
+        {
+          "binding_token": "environment",
+          "name": "environment",
+          "openapi_name": "environment",
+          "pattern": ""
+        },
+        {
+          "binding_token": "path",
+          "name": "path",
+          "openapi_name": "path",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/environments/{environment}/files/{path}",
+      "resource": "v1beta.environments"
+    },
+    {
+      "description": "Gets an environment.",
+      "method": "GET",
+      "name": "GetEnvironment",
+      "normalized_path": "/v1beta/environments/{id}",
+      "path_parameters": [
+        {
+          "binding_token": "id",
+          "name": "id",
+          "openapi_name": "id",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/environments/{id}",
+      "resource": "v1beta.environments"
+    },
+    {
+      "description": "Deletes an environment.",
+      "method": "DELETE",
+      "name": "DeleteEnvironment",
+      "normalized_path": "/v1beta/environments/{id}",
+      "path_parameters": [
+        {
+          "binding_token": "id",
+          "name": "id",
+          "openapi_name": "id",
+          "pattern": ""
+        }
+      ],
+      "raw_path": "/v1beta/environments/{id}",
+      "resource": "v1beta.environments"
     }
   ],
   "source": "https://ai.google.dev/api/all-methods"
